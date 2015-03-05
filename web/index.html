@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html ng-app>
-<head>
-    <title>Chapter One - Hello, World!</title>
-    <script src="packages/web_components/platform.js"></script>
-    <script src="packages/web_components/dart_support.js"></script>
-</head>
-<body>
-  <h3>Hello {{name}}!</h3>
-  Name: <input type="text" ng-model="name">
+  <head>
+      <title>Chapter One - Hello, World!</title>
+      <script src="packages/web_components/platform.js"></script>
+      <script src="packages/web_components/dart_support.js"></script>
+      <link rel="stylesheet" href="packages/bootjack/css/bootstrap.min.css">
+      <link rel="stylesheet" href="style.css">
+  </head>
 
-  <script type="application/dart" src="main.dart"></script>
-  <script type="text/javascript" src="packages/browser/dart.js"></script>
-</body>
+  <body>
+    <script type="application/dart" src="main.dart"></script>
+    <script type="text/javascript" src="packages/browser/dart.js"></script>
+    
+     <!--Drop down menu-->
+    <div id="right" class="btn-group">
+  
+      <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        Button
+        <span class="caret"></span>
+      </button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 2</a></li>
+          <li><a href="#">Item 3</a></li>
+        </ul>
+    </div>
+    
+   <!--  <h3>Hello {{name}}!</h3>
+    Name: <input type="text" ng-model="name"> -->
+    
+    
+    <!-- HAMBURGER ICON. not working
+        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+           <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+       </button> -->
+  
+  
+  </body>
 </html>
