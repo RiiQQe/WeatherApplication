@@ -28,7 +28,9 @@ class WeatherData{
      print(allData["referenceTime"]); 
      print(allData["timeseries"][0]["ws"]); 
      
-     querySelector("#start-lat").text = "${allData["referenceTime"]}";
+     
+     //everything we want to do with the data - DO IT HERE
+     querySelector("#start-temp").text = "${allData["timeseries"][0]["t"]} grader";
      printData();
 
 
