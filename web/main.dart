@@ -17,10 +17,12 @@ main() {
       .rootContextType(Greeter)
       .run();
   
+  //Default coordinates values
   var coordinates = [58.34, 16.00];
-  //Uncomment when compilated to JavaScript
+  //Uncomment when compilated to JavaScript to get the right coordinates
   //coordinates  = findCoords();
   
+ 
   WeatherData currentWeather = new WeatherData(coordinates[0], coordinates[1]);
   currentWeather.loadData();
   
@@ -32,9 +34,11 @@ void printError(error){
 
 //Function to set the device's geocoordinates
 findCoords(){
+  
+  //Get the location of the device
   window.navigator.geolocation.getCurrentPosition().then((Geoposition pos){
 
-  double lat = pos.coords.latitude;                    //Here the variables are set
+  double lat = pos.coords.latitude;                    
   double long = pos.coords.longitude;
    
   var coordinates = [lat, long];
