@@ -18,7 +18,7 @@ main() {
       .run();
   
   //Default coordinates values
-  var coordinates = [58.34, 16.00];
+  var coordinates = [58.00, 16.00];
   //Uncomment when compilated to JavaScript to get the right coordinates
   //coordinates  = findCoords();
   

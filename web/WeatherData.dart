@@ -25,14 +25,18 @@ class WeatherData{
      //Parse response text
      allData = JSON.decode(responseText); 
      
-     //Debug check if the right data is printed
-     print(allData["referenceTime"]); 
-     print(allData["timeseries"][0]["ws"]); 
+     DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
+     DateTime now = new DateTime.now();
      
+     //Difference in hours = timeIndex for current time in allData
+     Duration difference = now.difference(referenceTime);
+     int timeIndex = difference.inHours;
+     
+     double currentTemp = allData["timeseries"][timeIndex]["t"];
      
      //Everything we want to do with the data ---- DO IT HERE ----
-     querySelector("#start-temp").text = "${allData["timeseries"][0]["t"]} grader";
-     printData();
+     querySelector("#start-temp").text = "$currentTemp grader";
+     //printData();
 
 
   }, onError: (error) => printError(error));
