@@ -5,21 +5,21 @@
     <script src="packages/web_components/platform.js"></script>
     <script src="packages/web_components/dart_support.js"></script>
     <link rel="stylesheet" href="stylesheet.css">
+    <script type="text/javascript" src="graph.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
        
 </head>
-<body>
+<body onload="onload()">
   <div id="content_1" class="container" >
     <h3>Hello {{name}}!</h3>
     
     <h1>WeatherApp</h1>
 
-      <p id = 'text_id'> {{name}} </p>
+     <p id = 'text_id'> {{name}} </p>
       
-      Name: <input type="text" ng-model="name">
-
-    
-      <script type="application/dart" src="main.dart"></script>
-      <script type="text/javascript" src="packages/browser/dart.js"></script>
+     Name: <input type="text" ng-model="name">
+   
+     <button onclick="transition()">Click me</button>
      <br/>
      Aktuell temperatur: <span id="start-temp">0</span> <br/>
      <span id="start-cloud">0</span><br/>
@@ -27,6 +27,10 @@
      <span id="start-wind">0</span>
      
      <p id="demo"></p>
+     
+     
+     <script type="application/dart" src="main.dart"></script>
+     <script type="text/javascript" src="packages/browser/dart.js"></script>     
   </div>
 </body>
 </html>
