@@ -1,4 +1,4 @@
-# WheaterApplication
+# WeaterApplication
 
 Bachelor Project in Media Technology 
 at Linköping University
