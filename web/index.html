@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app xmlns:svg="http://www.w3.org/2000/svg">
 
 <head>
     <title>WeatherApplication</title>
@@ -13,8 +13,7 @@
     <script type="text/javascript" src="packages/browser/dart.js"></script>      
 </head>
 
-<body onload="onload()">
-    
+<body> <!--onload="onload()"-->
   <div id="content_1" class="container" >
   
     <!--Drop down menu-->
@@ -35,16 +34,20 @@
     
     <h1>WeatherApp</h1>
 
-     <p id = 'text_id'> {{name}} </p>
+     <p id='text_id'> {{name}} </p>
       
      Name: <input type="text" ng-model="name">
    
-     <button onclick="transition()">Click me</button>
      <br/>
      Aktuell temperatur: <span id="start-temp">0</span> <br/>
      <span id="start-cloud">0</span><br/>
      <span id="start-rain">0</span><br/>
-     <span id="start-wind">0</span>
+     <span id="start-wind">0</span><br/>
+     
+     <h1></h1>
+     <canvas id="myCanvas" width="2000" height="1000">
+     </canvas>
+     
      
      <p id="demo"></p>
        

@@ -1,16 +1,16 @@
 
-var layers1, layers0;
+var layers0, layers1;
 
 function onload(){
 
-        var n = 20, // number of layers
+        var n = 1, // number of layers
             m = 200, // number of samples per layer
             stack = d3.layout.stack().offset("wiggle");
-            layers0 = stack(d3.range(n).map(function() { return bumpLayer(m); }));
-            layers1 = stack(d3.range(n).map(function() { return bumpLayer(m); }));
-        
-        var width = 960,
-            height = 500;
+            layers0 = stack(d3.range(n).map(function() { return bumpLayer(m); })), 
+            layers1 = stack(d3.range(n).map(function() { return bumpLayer(m); }));;
+
+        var width = 500,
+            height = 960;
         
         var x = d3.scale.linear()
             .domain([0, m - 1])
@@ -55,7 +55,7 @@ function transition() {
 function bumpLayer(n) {
 
   function bump(a) {
-    var x = 1 / (.1 + Math.random()),
+    var x = 100 +  1 / (.1 + Math.random()),
         y = 2 * Math.random() - .5,
         z = 10 / (.1 + Math.random());
     for (var i = 0; i < n; i++) {
@@ -67,5 +67,5 @@ function bumpLayer(n) {
   var a = [], i;
   for (i = 0; i < n; ++i) a[i] = 0;
   for (i = 0; i < 5; ++i) bump(a);
-  return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+  return a.map(function(d, i) { return {x: Math.max(0,d), y: i }; });
 }

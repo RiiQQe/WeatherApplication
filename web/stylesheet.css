@@ -2,7 +2,7 @@
 /* CSS Document */
 
 body{
-  background-color: #F8F8F8;
+  background-color: yellow;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: normal;
@@ -10,7 +10,12 @@ body{
   margin: 0%;
 }
 
-h1, p{
+h1{
+  font-size: 20px;
+  border-bottom: 1px solid #000; 
+}
+
+p{
   color: #333;
 }
 
@@ -25,13 +30,6 @@ h1, p{
   font-size: 24pt;
   text-align: center;
   margin-top: 140px;
-}
-
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: auto;
-  position: relative;
-  width: 960px;
 }
 
 button {

@@ -1,9 +1,10 @@
-name: tutorial
+name: weatherapp
 version: 1.0.0
 dependencies:
   angular: any
   bootjack: any
   browser: '>=0.10.0+2 <0.11.0'
+  image: any
   web_components: '>=0.8.0 <0.9.0'
 transformers:
 - angular
