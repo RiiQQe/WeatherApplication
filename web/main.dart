@@ -1,10 +1,12 @@
 import 'package:angular/application_factory.dart';
 import 'package:di/annotations.dart';
+
 import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
-
+import 'package:bootjack/bootjack.dart';
 import 'WeatherData.dart';
+
 
 @Injectable()
 class Greeter {
@@ -16,7 +18,7 @@ main() {
   applicationFactory()
       .rootContextType(Greeter)
       .run();
-  
+ 
   //Default coordinates values
   var coordinates = [58.00, 16.00];
   //Uncomment when compilated to JavaScript to get the right coordinates
@@ -25,6 +27,9 @@ main() {
  
   WeatherData currentWeather = new WeatherData(coordinates[0], coordinates[1]);
   currentWeather.loadData();
+
+  //dropdown
+   Dropdown.use();
   
 }
 
