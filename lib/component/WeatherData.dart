@@ -64,13 +64,15 @@ class WeatherDataComponent{
   
   void setWeatherParameters(timeIndex){
      String cloud, rain, wind;
+     int cloudIndex, rainIndex;
+     double windIndex;
          
      for(int i=0; i < 10; i++){
        //Get parameters or parameter index
        currentTemp = allData["timeseries"][timeIndex+i]["t"];
-       int cloudIndex = allData["timeseries"][timeIndex+i]["tcc"];
-       int rainIndex = allData["timeseries"][timeIndex+i]["pcat"];
-       double windIndex = allData["timeseries"][timeIndex+i]["gust"];
+       cloudIndex = allData["timeseries"][timeIndex+i]["tcc"];
+       rainIndex = allData["timeseries"][timeIndex+i]["pcat"];
+       windIndex = allData["timeseries"][timeIndex+i]["gust"];
        
        //Get description of parameters from parameter index
        cloud = getCloud(cloudIndex);
