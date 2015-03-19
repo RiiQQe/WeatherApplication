@@ -177,7 +177,7 @@ class WeatherDataComponent{
     String min;
     
     //Just so 17:9 -> 17:09 
-    min = (minute < 10 ? "0"+minute.toString() : minute.toString());
+    min = (minute < 10 ? "0" + minute.toString() : minute.toString());
     
     CanvasElement can = querySelector("#myCanvas");
     var ctx = can.getContext("2d");
@@ -187,15 +187,18 @@ class WeatherDataComponent{
     
     
     ctx.beginPath();
-        ctx.moveTo(100,0);
+        ctx.moveTo(100,85);
         ctx.lineTo(100, 1000);
         ctx.lineWidth = 10;
         ctx.stroke();
-        
-     ctx.fillText("$hour:$min", 10,0);
-       
+    ctx.font = "15px serif";
+    ctx.fillText("$hour:$min", 85,40);
+    
+    ImageElement img = new ImageElement(src: 'http://www.i2symbol.com/images/symbols/weather/white_sun_with_rays_u263C_icon_256x256.png');
+    
+    img.onLoad.listen( (value) => /*ctx.drawImage(img, 0, 0)*/ ctx.drawImageScaled(img, 0, 0, 100, 100) );
         for(int i=1; i < 10; i++){
-              ctx.font = "15px serif";
+              
               
               hour++;;
               
@@ -205,8 +208,7 @@ class WeatherDataComponent{
               //ctx.drawImage(img, 0,i * 50);
              
               
-              ctx.fillText("${weatherSets[i].temp} grader", 150,i *  100);
-              
+              ctx.fillText("${weatherSets[i].temp} °C", 150,i *  100);
               
         }
     
