@@ -1,22 +1,22 @@
+library main;
+
 import 'package:angular/application_factory.dart';
-import 'package:di/annotations.dart';
-
+import 'package:angular/angular.dart';
 import 'dart:html';
-import 'dart:convert';
-import 'dart:async';
 import 'package:bootjack/bootjack.dart';
-import 'WeatherData.dart';
 
+import 'package:weatherapplication/component/WeatherData.dart';
 
-@Injectable()
-class Greeter {
-  String name;
+class WeatherAppModule extends Module {
+  WeatherAppModule() {
+    bind(WeatherDataComponent);
+  }
 }
 
 main() {
  
   applicationFactory()
-      .rootContextType(Greeter)
+    .addModule(new WeatherAppModule())
       .run();
  
   //Default coordinates values
@@ -25,7 +25,7 @@ main() {
   //coordinates  = findCoords();
   
  
-  WeatherData currentWeather = new WeatherData(coordinates[0], coordinates[1]);
+  WeatherDataComponent currentWeather = new WeatherDataComponent(coordinates[0], coordinates[1]);
   currentWeather.loadData();
 
   //dropdown

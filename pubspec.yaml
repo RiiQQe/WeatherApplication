@@ -1,4 +1,4 @@
-name: tutorial
+name: weatherapplication
 version: 1.0.0
 dependencies:
   angular: any
