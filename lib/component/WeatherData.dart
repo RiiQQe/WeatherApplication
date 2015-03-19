@@ -16,7 +16,6 @@ class WeatherDataComponent{
   
   Map allData;
   double latitude, longitude, currentTemp;
-  int timeIndex;
   List<WeatherSet> weatherSets = [];
   
   
@@ -26,11 +25,11 @@ class WeatherDataComponent{
     List<double> coord = [58.0, 16.0];
     latitude = coord[0];
     longitude = coord[1];
-    loadData();
+    _loadData();
   }
   
   //Load data and call all other functions that does anything with the data
- void loadData() {
+ void _loadData() {
     print("Loading data");
     
     //Create URL to SMHI-API with longitude and latitude values
@@ -42,15 +41,30 @@ class WeatherDataComponent{
      //Parse response text
      allData = JSON.decode(responseText); 
      
+     int timeIndex = getTimeIndex();
+     
+     setWeatherParameters(timeIndex);
+     
+  }, onError: (error) => printError(error));
+
+  }
+  
+  void printError(error){
+    print("It doesn't work, too bad! Hej code: ${error.code}");
+  }
+  
+  int getTimeIndex(){
      DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
      DateTime now = new DateTime.now();
      
      //Difference in hours = timeIndex for current time in allData
      Duration difference = now.difference(referenceTime);
-     timeIndex = difference.inHours;
-     
+     return difference.inHours;
+  }
+  
+  void setWeatherParameters(timeIndex){
      String cloud, rain, wind;
-     
+         
      for(int i=0; i < 10; i++){
        //Get parameters or parameter index
        currentTemp = allData["timeseries"][timeIndex+i]["t"];
@@ -65,12 +79,6 @@ class WeatherDataComponent{
        
        weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind));
      }
-  }, onError: (error) => printError(error));
-
-  }
-  
-  void printError(error){
-    print("It doesn't work, too bad! Hej code: ${error.code}");
   }
   
   String getCloud(int cloudIndex){
