@@ -24,7 +24,7 @@ class WeatherData{
     HttpRequest.getString(url).then((String responseText){
      
      //Parse response text
-     allData = JSON.decode(responseText); 
+     Map allData = JSON.decode(responseText); 
      
      DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
      DateTime now = new DateTime.now();
@@ -49,13 +49,14 @@ class WeatherData{
      querySelector("#start-cloud").text = cloud;
      querySelector("#start-rain").text = rain;
      querySelector("#start-wind").text = wind;
+     
 
   }, onError: (error) => printError(error));
-
+   
   }
   
   void printError(error){
-    print("It doesn't work, too bad! Error code: ${error.code}");
+    window.alert("It doesn't work, too bad! Error code: ${error.code}");
   }
   
   String getCloud(int cloudIndex){
@@ -124,9 +125,10 @@ class WeatherData{
     return wind;
   }
   
- 
-  
-  
+  int getTime(){
+    return timeIndex;
+  }
+   
 }
 
 
