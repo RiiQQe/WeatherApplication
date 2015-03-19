@@ -3,24 +3,34 @@ library WeatherData_component;
 import 'package:angular/application_factory.dart';
 import 'package:angular/angular.dart';
 import 'package:di/annotations.dart';
+import 'package:collection/collection.dart';
 import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
 
 @Component(
-  selector: 'weather-data'
+  selector: 'weather-data',
+  templateUrl: 'packages/weatherapplication/component/WeatherData.html'
 )
 class WeatherDataComponent{
   
   Map allData;
-  double latitude, longitude;
+  double latitude, longitude, currentTemp;
   int timeIndex;
+  List<WeatherSet> weatherSets = [];
+  
   
   //Constructor saves coorinates to member variables
-  WeatherDataComponent(this.latitude, this.longitude);
+  WeatherDataComponent(){
+    //var coord = findCoords();
+    List<double> coord = [58.0, 16.0];
+    latitude = coord[0];
+    longitude = coord[1];
+    loadData();
+  }
   
   //Load data and call all other functions that does anything with the data
-  loadData() {
+ void loadData() {
     print("Loading data");
     
     //Create URL to SMHI-API with longitude and latitude values
@@ -39,29 +49,28 @@ class WeatherDataComponent{
      Duration difference = now.difference(referenceTime);
      timeIndex = difference.inHours;
      
-     //Get parameters or parameter index
-     double currentTemp = allData["timeseries"][timeIndex]["t"];
-     int cloudIndex = allData["timeseries"][timeIndex]["tcc"];
-     int rainIndex = allData["timeseries"][timeIndex]["pcat"];
-     double windIndex = allData["timeseries"][timeIndex]["gust"];
+     String cloud, rain, wind;
      
-     //Get description of parameters from parameter index
-     String cloud = getCloud(cloudIndex);
-     String rain = getRain(rainIndex);
-     String wind = getWind(windIndex);
-     
-     //Everything we want to do with the data ---- DO IT HERE ----
-     querySelector("#start-temp").text = "$currentTemp grader";
-     querySelector("#start-cloud").text = cloud;
-     querySelector("#start-rain").text = rain;
-     querySelector("#start-wind").text = wind;
-
+     for(int i=0; i < 10; i++){
+       //Get parameters or parameter index
+       currentTemp = allData["timeseries"][timeIndex+i]["t"];
+       int cloudIndex = allData["timeseries"][timeIndex+i]["tcc"];
+       int rainIndex = allData["timeseries"][timeIndex+i]["pcat"];
+       double windIndex = allData["timeseries"][timeIndex+i]["gust"];
+       
+       //Get description of parameters from parameter index
+       cloud = getCloud(cloudIndex);
+       rain = getRain(rainIndex);
+       wind = getWind(windIndex);
+       
+       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind));
+     }
   }, onError: (error) => printError(error));
 
   }
   
   void printError(error){
-    print("It doesn't work, too bad! Error code: ${error.code}");
+    print("It doesn't work, too bad! Hej code: ${error.code}");
   }
   
   String getCloud(int cloudIndex){
@@ -130,8 +139,33 @@ class WeatherDataComponent{
     return wind;
   }
   
+  //Function to set the device's geocoordinates
+  findCoords(){
+  
+    //Get the location of the device
+    window.navigator.geolocation.getCurrentPosition().then((Geoposition pos){
+    
+    double lat = pos.coords.latitude;                    
+    double long = pos.coords.longitude;
+     
+    var coordinates = [lat, long];
+    return coordinates;
+      
+    }, onError: (error) => printError(error));
+  
+  }
+}
+
+class WeatherSet {
+  double temp;
+  String cloud;
+  String rain;
+  String wind;
+  
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind);
   
 }
+
 
 
 

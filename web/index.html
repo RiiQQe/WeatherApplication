@@ -6,15 +6,10 @@
     <link rel="stylesheet" href="stylesheet.css">
     <link rel="stylesheet" href="packages/bootjack/css/bootstrap.min.css">
     <script src="packages/web_components/platform.js"></script>
-    <script src="packages/web_components/dart_support.js"></script>
-    <script type="text/javascript" src="graph.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script type="application/dart" src="main.dart"></script>
-    <script type="text/javascript" src="packages/browser/dart.js"></script>      
+    <script src="packages/web_components/dart_support.js"></script>    
 </head>
 
-<body onload="onload()">
-  <weather-data></weather-data>
+<body>
   <div id="content_1" class="container" >
   
     <!--Drop down menu-->
@@ -30,18 +25,13 @@
         <li><a href="#">Item 3</a></li>
       </ul>
     </div>
-    
-    <h1>WeatherApp</h1>
-   
-     <button onclick="transition()">Click me</button>
-     <br/>
-     Aktuell temperatur: <span id="start-temp">0</span> <br/>
-     <span id="start-cloud">0</span><br/>
-     <span id="start-rain">0</span><br/>
-     <span id="start-wind">0</span>
-     
-     <p id="demo"></p>
-       
   </div>
+  
+  <weather-data></weather-data>
+  
+
+  <script type="application/dart" src="main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>  
+  
 </body>
 </html>
