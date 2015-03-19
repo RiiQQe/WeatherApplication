@@ -182,23 +182,32 @@ class WeatherDataComponent{
     CanvasElement can = querySelector("#myCanvas");
     var ctx = can.getContext("2d");
     
+    double height = can.getBoundingClientRect().height;
+    double width = can.getBoundingClientRect().width;
+    
+    
     ctx.beginPath();
         ctx.moveTo(100,0);
         ctx.lineTo(100, 1000);
         ctx.lineWidth = 10;
         ctx.stroke();
         
-      ctx.fillText("$hour:$min", 10,0);
+     ctx.fillText("$hour:$min", 10,0);
        
         for(int i=1; i < 10; i++){
               ctx.font = "15px serif";
+              
+              hour++;;
               
               if(hour > 24) hour = 0;
           
               ctx.fillText("$hour:$min", 10,i * 100);
               //ctx.drawImage(img, 0,i * 50);
+             
               
-              hour++;;
+              ctx.fillText("${weatherSets[i].temp} grader", 150,i *  100);
+              
+              
         }
     
   }
