@@ -45,6 +45,8 @@ class WeatherDataComponent{
      
      setWeatherParameters(timeIndex);
      
+     drawCanvas();
+     
   }, onError: (error) => printError(error));
 
   }
@@ -163,6 +165,42 @@ class WeatherDataComponent{
       
     }, onError: (error) => printError(error));
   
+  }
+  
+  void drawCanvas(){
+    
+    DateTime now = new DateTime.now();
+    
+    int hour = now.hour;
+    int minute = now.minute;
+    
+    String min;
+    
+    //Just so 17:9 -> 17:09 
+    min = (minute < 10 ? "0"+minute.toString() : minute.toString());
+    
+    CanvasElement can = querySelector("#myCanvas");
+    var ctx = can.getContext("2d");
+    
+    ctx.beginPath();
+        ctx.moveTo(100,0);
+        ctx.lineTo(100, 1000);
+        ctx.lineWidth = 10;
+        ctx.stroke();
+        
+      ctx.fillText("$hour:$min", 10,0);
+       
+        for(int i=1; i < 10; i++){
+              ctx.font = "15px serif";
+              
+              if(hour > 24) hour = 0;
+          
+              ctx.fillText("$hour:$min", 10,i * 100);
+              //ctx.drawImage(img, 0,i * 50);
+              
+              hour++;;
+        }
+    
   }
 }
 
