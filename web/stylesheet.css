@@ -21,6 +21,10 @@ h1, p{
   background-color: #fff;
 }
 
+#container_1{
+  margin-top: 5%;
+}
+
 #text_id{
   font-size: 24pt;
   text-align: center;
@@ -34,17 +38,11 @@ body {
   width: 960px;
 }
 
-button {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
 #right
 {
   float:right;
-  margin-right:20px;
-  margin-top:5px;
+  margin-right:2%;
+  margin-top:2%;
   
 }
 

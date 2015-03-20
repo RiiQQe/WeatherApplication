@@ -10,24 +10,51 @@
 </head>
 
 <body>
-  <div id="content_1" class="container" >
-  
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+   
     <!--Drop down menu-->
-    <div id="right" class="btn-group">
+    <div id="right" class="btn-group" ng-controller="ScrollController">
   
       <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
         Button
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu pull-right">
-        <li><a href="#">Item 1</a></li>
-        <li><a href="#">Item 2</a></li>
-        <li><a href="#">Item 3</a></li>
+        <li><a href="#content_1" ng-click="goto()">Content1</a></li>
+        <li><a href="#content_2">Content2</a></li>
+        <li><a href="#content_3">Content3</a></li>
       </ul>
     </div>
-  </div>
+    </div>
+  </nav>
   
-  <weather-data></weather-data>
+  <div my-controller>
+    <p>{{ctrl.text}}</p>
+  </div>
+     
+  <div class="container" id="container_1">
+   <h1>Dagen idag</h1>
+   <weather-data></weather-data>
+  </div> <!--end container 1-->
+  
+  <div class="container" id="container_2">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Column 1</h3>
+      <p>text</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 2</h3>
+      <p>text</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 3</h3>        
+      <p>text</p>
+    </div>
+  </div>
+</div> <!--end container 2-->
+
   
 
   <script type="application/dart" src="main.dart"></script>
@@ -35,3 +62,4 @@
   
 </body>
 </html>
+
