@@ -68,6 +68,7 @@ class WeatherDataComponent{
      String cloud, rain, wind;
      int cloudIndex, rainIndex;
      double windIndex;
+     
          
      for(int i=0; i < 10; i++){
        //Get parameters or parameter index
@@ -78,7 +79,7 @@ class WeatherDataComponent{
        
        //Get description of parameters from parameter index
        cloud = getCloud(cloudIndex);
-       rain = getRain(rainIndex);
+       rain = getRain(rainIndex, timeIndex);
        wind = getWind(windIndex);
        
        weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind));
@@ -98,7 +99,7 @@ class WeatherDataComponent{
     return cloud;
   }
   
-  String getRain(int rainIndex){
+  String getRain(int rainIndex, timeIndex){
     String rain;
     double howMuch;
 
@@ -185,7 +186,6 @@ class WeatherDataComponent{
     double height = can.getBoundingClientRect().height;
     double width = can.getBoundingClientRect().width;
     
-    
     ctx.beginPath();
         ctx.moveTo(100,85);
         ctx.lineTo(100, 1000);
@@ -199,7 +199,6 @@ class WeatherDataComponent{
     img.onLoad.listen( (value) => /*ctx.drawImage(img, 0, 0)*/ ctx.drawImageScaled(img, 0, 0, 100, 100) );
         for(int i=1; i < 10; i++){
               
-              
               hour++;;
               
               if(hour > 24) hour = 0;
@@ -207,7 +206,6 @@ class WeatherDataComponent{
               ctx.fillText("$hour:$min", 10,i * 100);
               //ctx.drawImage(img, 0,i * 50);
              
-              
               ctx.fillText("${weatherSets[i].temp} °C", 150,i *  100);
               
         }
