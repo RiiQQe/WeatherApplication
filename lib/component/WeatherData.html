@@ -1,7 +1,12 @@
 <br/>
+<div> <!-- Print current weather-->
+  {{currentWeatherSet.temp}} grader </br>
+  {{currentWeatherSet.wind}} </br>
+  {{currentWeatherSet.rain}} </br>
+  {{currentWeatherSet.cloud}} 
+</div>
 
-
-<div>
+<div> <!-- Print checkboxes-->
   Filtrera väder:
   <span ng-repeat="category in categories">
     <label>
@@ -10,11 +15,9 @@
   </span>
 </div>
 
-
-
-<ul>
+<ul> <!-- Print timeline parameters-->
   <li ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap"">
     <span>{{WeatherSet.temp}} grader </br>
     {{WeatherSet.time}}</span>
-  </li>
+  </li>s
 </ul>

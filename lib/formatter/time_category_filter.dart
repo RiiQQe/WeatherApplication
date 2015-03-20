@@ -4,6 +4,7 @@ import 'package:angular/angular.dart';
 
 
 @Formatter(name: 'categoryfilter')
+//Filter WeatherSets depending on categories checked in the checkboxes
 class CategoryFilter {
   List call(weatherSets, categoryFilterMap) {
     if (weatherSets is Iterable && categoryFilterMap is Map) {

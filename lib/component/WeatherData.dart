@@ -20,6 +20,7 @@ class WeatherDataComponent {
   List<WeatherSet> weatherSets = [];
   List<String> categories = ["Idag", "Imorgon", "Kommande veckan"];
   Map<String, bool> categoryFilterMap;
+  WeatherSet currentWeatherSet; 
 
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
@@ -43,11 +44,13 @@ class WeatherDataComponent {
 
       //Parse response text
       allData = JSON.decode(responseText);
-
-      int timeIndex = getTimeIndex();
  
       setWeatherParameters();
+      
+      int timeIndex = getTimeIndex();
+      currentWeatherSet = weatherSets[timeIndex];
      
+      //Initilize categoryFilterMap with keys:categories and values:bools
       List<bool> defaultBools = [false, false, false];
       categoryFilterMap = new Map.fromIterables(categories, defaultBools);
 
@@ -59,15 +62,6 @@ class WeatherDataComponent {
     print("It doesn't work, too bad! Hej code: ${error.code}");
   }
 
-  int getTimeIndex() {
-    DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
-    DateTime now = new DateTime.now();
-
-    //Difference in hours = timeIndex for current time in allData
-    Duration difference = now.difference(referenceTime);
-    return difference.inHours;
-  }
-
   void setWeatherParameters() {
     String cloud, rain, wind, category;
     int cloudIndex, rainIndex;
@@ -75,7 +69,7 @@ class WeatherDataComponent {
     DateTime currentTime;
 
     for (int i = 0; i < allData["timeseries"].length; i++) {
-      //Get parameters or parameter index
+      //Get all parameters to initialize a new WeatherSet
       currentTemp = allData["timeseries"][i]["t"];
       currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
       category = getCategory(currentTime);
@@ -83,15 +77,26 @@ class WeatherDataComponent {
       cloudIndex = allData["timeseries"][i]["tcc"];
       rainIndex = allData["timeseries"][i]["pcat"];
       windIndex = allData["timeseries"][i]["gust"];
-      
+     
 
       //Get description of parameters from parameter index
       cloud = getCloud(cloudIndex);
       rain = getRain(rainIndex, i);
       wind = getWind(windIndex);
 
+      //Add new WeatherSet to the list weatherSets
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, currentTime, category));
     }
+    
+  }
+  
+  int getTimeIndex(){
+     DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
+     DateTime now = new DateTime.now();
+     
+     //Difference in hours = timeIndex for current time in allData
+     Duration difference = now.difference(referenceTime);
+     return difference.inHours;
   }
 
   String getCloud(int cloudIndex) {
@@ -171,14 +176,14 @@ class WeatherDataComponent {
 
   }
   
+  
   String getCategory(DateTime currentTime){
     String category;
     DateTime now = new DateTime.now();
-
-    //Difference in days
     Duration difference = currentTime.difference(now);
     
-    if(difference.inDays == 0 && difference.inHours > 0)
+    //Set category so that the data can be filterd
+    if(difference.inDays == 0)
       category = categories[0];     //Idag
     else if(difference.inDays == 1)
       category = categories[1];     //Imorgon
