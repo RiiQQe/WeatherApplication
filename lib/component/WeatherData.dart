@@ -1,3 +1,10 @@
+/*  Handles reading from SMHI, and storing the weatherparams in the class WeatherSet
+ * WeatherData contains a list of WeatherSets.
+ * Right now it also draws the timeline.
+ */
+
+
+
 library WeatherData_component;
 
 import 'package:angular/application_factory.dart';
@@ -54,14 +61,17 @@ class WeatherDataComponent {
       List<bool> defaultBools = [false, false, false];
       categoryFilterMap = new Map.fromIterables(categories, defaultBools);
 
-    }, onError: (error) => printError(error));
+       drawCanvas();
+     
+  }, onError: (error) => printError(error));
+
 
   }
 
   void printError(error) {
     print("It doesn't work, too bad! Hej code: ${error.code}");
   }
-
+  
   void setWeatherParameters() {
     String cloud, rain, wind, category;
     int cloudIndex, rainIndex;
@@ -98,16 +108,20 @@ class WeatherDataComponent {
      Duration difference = now.difference(referenceTime);
      return difference.inHours;
   }
-
+  //Primitive way of translating parameters from numbers to Strings
   String getCloud(int cloudIndex) {
     String cloud;
 
-    if (cloudIndex < 3) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; else cloud = "Mulet";
+    if (cloudIndex < 3) cloud = "Lite moln"; 
+    else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; 
+    else cloud = "Mulet";
 
     return cloud;
   }
 
-  String getRain(int rainIndex, int timeIndex) {
+
+    String getRain(int rainIndex, int timeIndex) {
+
     String rain;
     double howMuch;
 
@@ -176,7 +190,7 @@ class WeatherDataComponent {
 
   }
   
-  
+  //Used by the filtering function
   String getCategory(DateTime currentTime){
     String category;
     DateTime now = new DateTime.now();
@@ -191,6 +205,52 @@ class WeatherDataComponent {
       category = categories[2];     //Resterande vecka
     
     return category;
+  }
+  //Primitive way of displaying lower Timeline.
+  void drawCanvas(){
+    
+    DateTime now = new DateTime.now();
+    
+    int hour = now.hour;
+    int minute = now.minute;
+    
+    String min;
+    
+    //Just so 17:9 -> 17:09 
+    min = (minute < 10 ? "0" + minute.toString() : minute.toString());
+    
+    CanvasElement can = querySelector("#myCanvas");
+    var ctx = can.getContext("2d");
+    
+    double height = can.getBoundingClientRect().height;
+    double width = can.getBoundingClientRect().width;
+    
+    //Draw timeline
+    ctx.beginPath();
+        ctx.moveTo(100,85);
+        ctx.lineTo(100, 1000);
+        ctx.lineWidth = 10;
+        ctx.stroke();
+    ctx.font = "15px serif";
+    ctx.fillText("$hour:$min", 85,40);
+    
+    ImageElement img = new ImageElement(src: 'http://www.i2symbol.com/images/symbols/weather/white_sun_with_rays_u263C_icon_256x256.png');
+    
+    img.onLoad.listen( (value) => /*ctx.drawImage(img, 0, 0)*/ ctx.drawImageScaled(img, 0, 0, 100, 100) );
+        for(int i=1; i < 10; i++){
+              
+              hour++;;
+              
+              if(hour > 24) hour = 0;
+              //Set text on canvas to hour:min at pos x,y
+              //fillText("String", pos x, pos y)
+              ctx.fillText("$hour:$min", 10, i * 100);
+              //ctx.drawImage(img, 0,i * 50);
+             
+              ctx.fillText("${weatherSets[i].temp} °C", 150,i *  100);
+              
+        }
+    
   }
 }
 
