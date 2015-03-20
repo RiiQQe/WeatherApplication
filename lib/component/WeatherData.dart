@@ -9,18 +9,20 @@ import 'dart:convert';
 import 'dart:async';
 
 @Component(
-  selector: 'weather-data',
-  templateUrl: 'packages/weatherapplication/component/WeatherData.html'
-)
-class WeatherDataComponent{
+    selector: 'weather-data', 
+    templateUrl: 'packages/weatherapplication/component/WeatherData.html')
   
+    
+class WeatherDataComponent {
+
   Map allData;
   double latitude, longitude, currentTemp;
   List<WeatherSet> weatherSets = [];
-  
-  
+  List<String> categories = ["Idag", "Imorgon", "Kommande veckan"];
+  Map<String, bool> categoryFilterMap;
+
   //Constructor saves coorinates to member variables
-  WeatherDataComponent(){
+  WeatherDataComponent() {
     //var coord = findCoords();
     List<double> coord = [58.0, 16.0];
     latitude = coord[0];
@@ -28,75 +30,79 @@ class WeatherDataComponent{
     _loadData();
   }
   
+
   //Load data and call all other functions that does anything with the data
- void _loadData() {
+  void _loadData() {
     print("Loading data");
-    
+
     //Create URL to SMHI-API with longitude and latitude values
     var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitude/lon/$longitude/data.json';
 
-    //Call SMHI-API 
-    HttpRequest.getString(url).then((String responseText){
+    //Call SMHI-API
+    HttpRequest.getString(url).then((String responseText) {
+
+      //Parse response text
+      allData = JSON.decode(responseText);
+
+      int timeIndex = getTimeIndex();
+ 
+      setWeatherParameters();
      
-     //Parse response text
-     allData = JSON.decode(responseText); 
-     
-     int timeIndex = getTimeIndex();
-     
-     setWeatherParameters(timeIndex);
-     
-  }, onError: (error) => printError(error));
+      List<bool> defaultBools = [false, false, false];
+      categoryFilterMap = new Map.fromIterables(categories, defaultBools);
+
+    }, onError: (error) => printError(error));
 
   }
-  
-  void printError(error){
+
+  void printError(error) {
     print("It doesn't work, too bad! Hej code: ${error.code}");
   }
-  
-  int getTimeIndex(){
-     DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
-     DateTime now = new DateTime.now();
-     
-     //Difference in hours = timeIndex for current time in allData
-     Duration difference = now.difference(referenceTime);
-     return difference.inHours;
+
+  int getTimeIndex() {
+    DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
+    DateTime now = new DateTime.now();
+
+    //Difference in hours = timeIndex for current time in allData
+    Duration difference = now.difference(referenceTime);
+    return difference.inHours;
   }
-  
-  void setWeatherParameters(timeIndex){
-     String cloud, rain, wind;
-     int cloudIndex, rainIndex;
-     double windIndex;
-         
-     for(int i=0; i < 10; i++){
-       //Get parameters or parameter index
-       currentTemp = allData["timeseries"][timeIndex+i]["t"];
-       cloudIndex = allData["timeseries"][timeIndex+i]["tcc"];
-       rainIndex = allData["timeseries"][timeIndex+i]["pcat"];
-       windIndex = allData["timeseries"][timeIndex+i]["gust"];
-       
-       //Get description of parameters from parameter index
-       cloud = getCloud(cloudIndex);
-       rain = getRain(rainIndex);
-       wind = getWind(windIndex);
-       
-       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind));
-     }
+
+  void setWeatherParameters() {
+    String cloud, rain, wind, category;
+    int cloudIndex, rainIndex;
+    double windIndex, currentTemp;
+    DateTime currentTime;
+
+    for (int i = 0; i < allData["timeseries"].length; i++) {
+      //Get parameters or parameter index
+      currentTemp = allData["timeseries"][i]["t"];
+      currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
+      category = getCategory(currentTime);
+      
+      cloudIndex = allData["timeseries"][i]["tcc"];
+      rainIndex = allData["timeseries"][i]["pcat"];
+      windIndex = allData["timeseries"][i]["gust"];
+      
+
+      //Get description of parameters from parameter index
+      cloud = getCloud(cloudIndex);
+      rain = getRain(rainIndex, i);
+      wind = getWind(windIndex);
+
+      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, currentTime, category));
+    }
   }
-  
-  String getCloud(int cloudIndex){
-     String cloud;
-     
-     if(cloudIndex < 3)
-       cloud = "Lite moln";
-     else if(cloudIndex < 6 && cloudIndex > 2)
-       cloud = "Växlande molnighet";
-     else
-       cloud = "Mulet";
-       
+
+  String getCloud(int cloudIndex) {
+    String cloud;
+
+    if (cloudIndex < 3) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; else cloud = "Mulet";
+
     return cloud;
   }
-  
-  String getRain(int rainIndex){
+
+  String getRain(int rainIndex, int timeIndex) {
     String rain;
     double howMuch;
 
@@ -128,52 +134,67 @@ class WeatherDataComponent{
       default:
         rain = "";
     }
-    
+
     return rain;
   }
-  
-  String getWind(double windIndex){
+
+  String getWind(double windIndex) {
     String wind = "";
-    
-    if(windIndex <= 0.3)
-      wind = "Vindstilla";
-    else if(windIndex > 0.3 && windIndex <= 3.3)
-      wind = "Svag vind";
-    else if(windIndex > 3.3 && windIndex <= 13.8)
-          wind = "Blåsigt";
-    else if(windIndex > 13.8 && windIndex <= 24.4)
-          wind = "Mycket blåsigt";
-    else if(windIndex > 24.4 && windIndex < 60)
-          wind = "Storm";
-    
+
+    if (windIndex <= 0.3)
+      wind = "Vindstilla"; 
+    else if (windIndex > 0.3 && windIndex <= 3.3) 
+      wind = "Svag vind"; 
+    else if (windIndex > 3.3 && windIndex <= 13.8) 
+      wind = "Blåsigt"; 
+    else if (windIndex > 13.8 && windIndex <= 24.4) 
+      wind = "Mycket blåsigt"; 
+    else if (windIndex > 24.4 && windIndex < 60) 
+      wind = "Storm";
+
     return wind;
   }
-  
+
   //Function to set the device's geocoordinates
-  findCoords(){
-  
+  findCoords() {
+
     //Get the location of the device
-    window.navigator.geolocation.getCurrentPosition().then((Geoposition pos){
-    
-    double lat = pos.coords.latitude;                    
-    double long = pos.coords.longitude;
-     
-    var coordinates = [lat, long];
-    return coordinates;
-      
+    window.navigator.geolocation.getCurrentPosition().then((Geoposition pos) {
+
+      double lat = pos.coords.latitude;
+      double long = pos.coords.longitude;
+
+      var coordinates = [lat, long];
+      return coordinates;
+
     }, onError: (error) => printError(error));
+
+  }
   
+  String getCategory(DateTime currentTime){
+    String category;
+    DateTime now = new DateTime.now();
+
+    //Difference in days
+    Duration difference = currentTime.difference(now);
+    
+    if(difference.inDays == 0 && difference.inHours > 0)
+      category = categories[0];     //Idag
+    else if(difference.inDays == 1)
+      category = categories[1];     //Imorgon
+    else if(difference.inDays >= 1)
+      category = categories[2];     //Resterande vecka
+    
+    return category;
   }
 }
 
 class WeatherSet {
   double temp;
-  String cloud;
-  String rain;
-  String wind;
-  
-  WeatherSet(this.temp, this.cloud, this.rain, this.wind);
-  
+  String cloud, rain, wind, category;
+  DateTime time;
+
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.category);
 }
 
 

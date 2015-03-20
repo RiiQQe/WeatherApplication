@@ -1,13 +1,21 @@
 <h1>WeatherApp</h1>
 <br/>
-<!--Aktuell temperatur: {{currentTemp}} grader <br/>
- <span id="start-cloud">0</span><br/>
-<span id="start-rain">0</span><br/>
-<span id="start-wind">0</span> 
--->
+
+
+<div>
+  Filtrera väder:
+  <span ng-repeat="category in categories">
+    <label>
+      <input type="checkbox"  ng-model="categoryFilterMap[category]">{{category}}
+    </label>
+  </span>
+</div>
+
+
 
 <ul>
-  <li ng-repeat="WeatherSet in weatherSets">
-    <span>{{WeatherSet.temp}} grader</span>
+  <li ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap"">
+    <span>{{WeatherSet.temp}} grader </br>
+    {{WeatherSet.time}}</span>
   </li>
 </ul>
