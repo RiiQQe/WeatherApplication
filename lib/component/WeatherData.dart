@@ -29,7 +29,7 @@ class WeatherDataComponent {
   List<String> categories = ["Idag", "Imorgon", "Kommande veckan"];
   Map<String, bool> categoryFilterMap;
   WeatherSet currentWeatherSet; 
-  final DateFormat formatter = new DateFormat('HH:mm M/d');
+  final DateFormat formatter = new DateFormat('HH:mm d/M');
 
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
