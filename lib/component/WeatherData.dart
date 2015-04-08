@@ -14,6 +14,7 @@ import 'package:collection/collection.dart';
 import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 @Component(
     selector: 'weather-data', 
@@ -28,6 +29,7 @@ class WeatherDataComponent {
   List<String> categories = ["Idag", "Imorgon", "Kommande veckan"];
   Map<String, bool> categoryFilterMap;
   WeatherSet currentWeatherSet; 
+  final DateFormat formatter = new DateFormat('HH:mm M/d');
 
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
@@ -73,7 +75,7 @@ class WeatherDataComponent {
   }
   
   void setWeatherParameters() {
-    String cloud, rain, wind, category;
+    String cloud, rain, wind, category, timeFormatted;
     int cloudIndex, rainIndex;
     double windIndex, currentTemp;
     DateTime currentTime;
@@ -83,6 +85,7 @@ class WeatherDataComponent {
       currentTemp = allData["timeseries"][i]["t"];
       currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
       category = getCategory(currentTime);
+      timeFormatted = formatter.format(currentTime);
       
       cloudIndex = allData["timeseries"][i]["tcc"];
       rainIndex = allData["timeseries"][i]["pcat"];
@@ -95,7 +98,7 @@ class WeatherDataComponent {
       wind = getWind(windIndex);
 
       //Add new WeatherSet to the list weatherSets
-      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, currentTime, category));
+      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, category));
     }
     
   }
@@ -256,8 +259,7 @@ class WeatherDataComponent {
 
 class WeatherSet {
   double temp;
-  String cloud, rain, wind, category;
-  DateTime time;
+  String cloud, rain, wind, category, time;
 
   WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.category);
 }
