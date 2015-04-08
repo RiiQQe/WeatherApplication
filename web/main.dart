@@ -5,7 +5,7 @@ import 'package:angular/angular.dart';
 import 'dart:html';
 import 'package:bootjack/bootjack.dart';
 
-import 'package:weatherapplication/component/WeatherData.dart';
+import 'package:weatherapplication/component/weather_data_component.dart';
 import 'package:weatherapplication/formatter/time_category_filter.dart';
 
 class WeatherAppModule extends Module {
