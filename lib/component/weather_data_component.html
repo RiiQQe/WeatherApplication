@@ -1,0 +1,31 @@
+<!-- Draw everythin in a weather-data tag -->
+
+
+<br/>
+<div> <!-- Print current weather-->
+  {{currentWeatherSet.temp}} grader </br>
+  {{currentWeatherSet.wind}} </br>
+  {{currentWeatherSet.rain}} </br>
+  {{currentWeatherSet.cloud}} 
+</div>
+
+<div> <!-- Print checkboxes-->
+  Filtrera väder:
+  <span ng-repeat="category in categories">
+    <label>
+      <input type="checkbox"  ng-model="categoryFilterMap[category]">{{category}}
+    </label>
+  </span>
+</div>
+
+ <!-- Print timeline parameters-->
+ <div ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap"">
+   <span>{{WeatherSet.temp}} grader - {{WeatherSet.time}}</span>
+</div>
+<!--=======
+<ul>
+  <li ng-repeat="WeatherSet in weatherSets">
+    <span>{{WeatherSet.temp}} grader</span>
+  </li>
+</ul>
+>>>>>>> Rickard_canvas-->
