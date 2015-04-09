@@ -15,6 +15,8 @@ import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:weatherapplication/decorators/image_decorator.dart' show ImageModel;
+
 @Component(
     selector: 'weather-data', 
     templateUrl: 'packages/weatherapplication/component/WeatherData.html')
@@ -27,8 +29,9 @@ class WeatherDataComponent {
   List<WeatherSet> weatherSets = [];
   List<String> categories = ["Idag", "Imorgon", "Kommande veckan"];
   Map<String, bool> categoryFilterMap;
-  WeatherSet currentWeatherSet; 
-
+  WeatherSet currentWeatherSet;
+  static final imageDec = new Expando<ImageModel>();
+  
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
     //var coord = findCoords();
@@ -38,6 +41,15 @@ class WeatherDataComponent {
     _loadData();
   }
   
+  ImageModel ImageDecoratorForWeatherData(WeatherSet ws){
+    if(imageDec[ws] == null){
+      imageDec[ws] = new ImageModel('http://www.i2symbol.com/images/symbols/weather/white_sun_with_rays_u263C_icon_256x256.png',
+                    "I don't have a picture of these recipes, "
+                    "so here's one of my cat instead!",
+                    100);
+    }
+    return imageDec[ws];
+  }
 
   //Load data and call all other functions that does anything with the data
   void _loadData() {
@@ -258,8 +270,17 @@ class WeatherSet {
   double temp;
   String cloud, rain, wind, category;
   DateTime time;
-
+  
   WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.category);
+  
+  String draw(){
+    
+      CanvasElement can = new CanvasElement();
+      can.height = 200;
+      can.width = 2000;
+    
+     return temp.toString();
+  }
 }
 
 

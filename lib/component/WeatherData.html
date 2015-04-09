@@ -3,9 +3,9 @@
 
 <br/>
 <div> <!-- Print current weather-->
-  {{currentWeatherSet.temp}} grader </br>
-  {{currentWeatherSet.wind}} </br>
-  {{currentWeatherSet.rain}} </br>
+  {{currentWeatherSet.temp}} grader <br/>
+  {{currentWeatherSet.wind}} <br/>
+  {{currentWeatherSet.rain}} <br/>
   {{currentWeatherSet.cloud}} 
 </div>
 
@@ -17,17 +17,15 @@
     </label>
   </span>
 </div>
+<div ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap">
+<span imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
+  <div>{{WeatherSet.draw()}} grader</div>
+</span>
+</div>
 
-<ul> <!-- Print timeline parameters-->
-  <li ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap"">
-    <span>{{WeatherSet.temp}} grader </br>
-    {{WeatherSet.time}}</span>
-  </li>s
-</ul>
-<!--=======
-<ul>
-  <li ng-repeat="WeatherSet in weatherSets">
-    <span>{{WeatherSet.temp}} grader</span>
-  </li>
-</ul>
->>>>>>> Rickard_canvas-->
+<canvas></canvas>
+
+<div ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap" ng-cloak>
+  <p>{{WeatherSet.temp}}</p>  
+</div>
+
