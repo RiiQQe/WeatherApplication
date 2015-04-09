@@ -15,13 +15,14 @@ class ImageDecorator{
   ImageDecorator(this.element){
     element..onMouseEnter.listen((_) => _createTemplate())
            ..onMouseLeave.listen((_) => _destroyTemplate());
+    element..onMouseDown.listen((_) => _createTemplate())
+           ..onMouseUp.listen((_) => _destroyTemplate());
   }
   
   void _createTemplate() {
       assert(displayModel != null);
 
       imagedecElem = new dom.DivElement();
-      print("width=" + displayModel.imgWidth.toString());
       dom.ImageElement imgElem = new dom.ImageElement()
           ..width = displayModel.imgWidth
           ..src = displayModel.imgUrl;
