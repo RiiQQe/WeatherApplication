@@ -14,12 +14,15 @@ import 'package:collection/collection.dart';
 import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 import 'package:weatherapplication/decorators/image_decorator.dart' show ImageModel;
 
 @Component(
     selector: 'weather-data', 
-    templateUrl: 'packages/weatherapplication/component/weather_data.html')
+    templateUrl: 'packages/weatherapplication/component/weather_data.html',
+    cssUrl: 'packages/weatherapplication/component/weather_data.css'    
+)
   
     
 class WeatherDataComponent {
@@ -30,6 +33,7 @@ class WeatherDataComponent {
   List<String> categories = ["Idag", "Imorgon", "Kommande veckan"];
   Map<String, bool> categoryFilterMap;
   WeatherSet currentWeatherSet;
+  final DateFormat formatter = new DateFormat('HH:mm d/M');
   static final imageDec = new Expando<ImageModel>();
   
   //Constructor saves coorinates to member variables
@@ -85,7 +89,7 @@ class WeatherDataComponent {
   }
   
   void setWeatherParameters() {
-    String cloud, rain, wind, category;
+    String cloud, rain, wind, category, timeFormatted;
     int cloudIndex, rainIndex;
     double windIndex, currentTemp;
     DateTime currentTime;
@@ -95,6 +99,7 @@ class WeatherDataComponent {
       currentTemp = allData["timeseries"][i]["t"];
       currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
       category = getCategory(currentTime);
+      timeFormatted = formatter.format(currentTime);
       
       cloudIndex = allData["timeseries"][i]["tcc"];
       rainIndex = allData["timeseries"][i]["pcat"];
@@ -107,7 +112,7 @@ class WeatherDataComponent {
       wind = getWind(windIndex);
 
       //Add new WeatherSet to the list weatherSets
-      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, currentTime, category));
+      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, category));
     }
     
   }
@@ -268,11 +273,12 @@ class WeatherDataComponent {
 
 class WeatherSet {
   double temp;
-  String cloud, rain, wind, category;
-  DateTime time;
+  String cloud, rain, wind, category, time;
   
   WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.category);
   
+  
+  //Can be return a string to ng-repeat in weather_data.html
   String draw(){
     
       CanvasElement can = new CanvasElement();

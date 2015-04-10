@@ -1,0 +1,19 @@
+.right{
+  width:33%;
+  float:right;
+  text-align:right;
+}
+.left{
+  width:33%;
+  float:left;
+  
+}
+.timeline{
+  width:33%;
+  float:center;
+}
+
+.outter{
+  width:100%;
+  height:100%;
+}

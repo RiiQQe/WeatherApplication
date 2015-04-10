@@ -13,8 +13,6 @@ class ImageDecorator{
   dom.Element imagedecElem;
   
   ImageDecorator(this.element){
-    element..onMouseEnter.listen((_) => _createTemplate())
-           ..onMouseLeave.listen((_) => _destroyTemplate());
     element..onMouseDown.listen((_) => _createTemplate())
            ..onMouseUp.listen((_) => _destroyTemplate());
   }
@@ -31,7 +29,7 @@ class ImageDecorator{
       if (displayModel.text != null) {
         dom.DivElement textSpan = new dom.DivElement()
             ..appendText(displayModel.text)
-            ..style.color = "white"
+            ..style.color = "black"
             ..style.fontSize = "smaller"
             ..style.paddingBottom = "5px";
 
@@ -45,12 +43,12 @@ class ImageDecorator{
               ..width = "${displayModel.imgWidth.toString()}px";
 
           // position the tooltip.
-          var elTopRight = element.offset.topRight;
+          var pos = element.offset.topRight;
 
           imagedecElem.style
               ..position = "absolute"
-              ..top = "${elTopRight.y}px"
-              ..left = "${elTopRight.x + 10}px";
+              ..top = "${pos.y}px"
+              ..left = "${pos.x - 150}px";
 
           // Add the tooltip to the document body. We add it here because we need to position it
           // absolutely, without reference to its parent element.
@@ -60,10 +58,8 @@ class ImageDecorator{
         void _destroyTemplate() {
           imagedecElem.remove();
         }
-
-  
+ 
 }
-  
   
 class ImageModel {
     final String imgUrl;

@@ -17,15 +17,15 @@
     </label>
   </span>
 </div>
+
+
 <div ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap">
-<span imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
-  <div>{{WeatherSet.draw()}} grader</div>
-</span>
-</div>
-
-<canvas></canvas>
-
-<div ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap" ng-cloak>
-  <p>{{WeatherSet.temp}}</p>  
+  <span class="inner"imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
+    <div class="left">{{WeatherSet.time}}</div>
+    <svg class="timeline">
+      <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,0);stroke-width:10" />
+    </svg>
+    <div class="right">{{WeatherSet.temp}} °C</div>
+  </span>
 </div>
 
