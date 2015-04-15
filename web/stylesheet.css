@@ -16,7 +16,6 @@ body {
   position: relative;
   width: 100%;
 }
-
 .navbar.center .navbar-inner{
   text-align:center;
 }
@@ -37,4 +36,32 @@ body {
   margin-top:2%;
   
 }
+
+.inner-addon{
+  position: relative;
+}
+
+.inner-addon .glyphicon{
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+/* align icon */
+.left-addon .glyphicon  { 
+  left:  10%;
+}
+.right-addon .glyphicon { 
+  right: 10%;
+}
+
+/* add padding  */
+.left-addon input  { 
+  margin: 5%; 
+}
+
+.right-addon input { 
+  margin: 5%; 
+}
+
+
 

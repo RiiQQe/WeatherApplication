@@ -30,7 +30,7 @@ class WeatherDataComponent {
   Map allData;
   double latitude, longitude, currentTemp;
   List<WeatherSet> weatherSets = [];
-  List<String> categories = ["Idag", "Imorgon", "Kommande veckan"];
+  List<String> categories = ["Idag", "24h", "1v"];
   Map<String, bool> categoryFilterMap;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH:mm d/M');

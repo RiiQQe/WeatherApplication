@@ -1,6 +1,7 @@
 <!-- Draw everythin in a weather-data tag -->
 
 
+
 <br/>
 <div> <!-- Print current weather-->
   {{currentWeatherSet.temp}} grader <br/>
@@ -13,14 +14,14 @@
   Filtrera väder:
   <span ng-repeat="category in categories">
     <label>
-      <input type="checkbox"  ng-model="categoryFilterMap[category]">{{category}}
+      <input type="checkbox" ng-model="categoryFilterMap[category]" >{{category}}
     </label>
   </span>
 </div>
 
 
 <div ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap">
-  <span class="inner"imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
+  <span class="inner" imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
     <div class="left">{{WeatherSet.time}}</div>
     <svg class="timeline">
       <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,0);stroke-width:10" />
