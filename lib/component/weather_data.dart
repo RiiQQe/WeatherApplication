@@ -30,11 +30,13 @@ class WeatherDataComponent {
   Map allData;
   double latitude, longitude, currentTemp;
   List<WeatherSet> weatherSets = [];
-  List<String> categories = ["Idag", "24h", "1v"];
-  Map<String, bool> categoryFilterMap;
+  List<City> allCities = [];
+  List<String> cities = ["Norrköping", "Norge", "Nässjö"];
+  Map<String, bool> cityFilterMap;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH:mm d/M');
   static final imageDec = new Expando<ImageModel>();
+  String cityName = "";
   
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
@@ -75,9 +77,16 @@ class WeatherDataComponent {
      
       //Initilize categoryFilterMap with keys:categories and values:bools
       List<bool> defaultBools = [false, false, false];
-      categoryFilterMap = new Map.fromIterables(categories, defaultBools);
-
+      cityFilterMap = new Map.fromIterables(cities, defaultBools);
+ 
+      for(int i=0; i <= 2; i++)
+             {
+               allCities.add(new City(cities[i]));
+             }
+      
        drawCanvas();
+
+       
      
   }, onError: (error) => printError(error));
 
@@ -98,7 +107,7 @@ class WeatherDataComponent {
       //Get all parameters to initialize a new WeatherSet
       currentTemp = allData["timeseries"][i]["t"];
       currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
-      category = getCategory(currentTime);
+      //category = getCategory(currentTime);
       timeFormatted = formatter.format(currentTime);
       
       cloudIndex = allData["timeseries"][i]["tcc"];
@@ -112,7 +121,7 @@ class WeatherDataComponent {
       wind = getWind(windIndex);
 
       //Add new WeatherSet to the list weatherSets
-      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, category));
+      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted));
     }
     
   }
@@ -208,20 +217,18 @@ class WeatherDataComponent {
   }
   
   //Used by the filtering function
-  String getCategory(DateTime currentTime){
-    String category;
-    DateTime now = new DateTime.now();
-    Duration difference = currentTime.difference(now);
+  String getCity(String typedCity){
+    String city;
     
     //Set category so that the data can be filterd
-    if(difference.inDays == 0)
-      category = categories[0];     //Idag
-    else if(difference.inDays == 1)
-      category = categories[1];     //Imorgon
-    else if(difference.inDays >= 1)
-      category = categories[2];     //Resterande vecka
+    if(typedCity == "Norrköping")
+      city = cities[0];     //Norrköping
+    else if(typedCity == "Rimforsa")
+      city = cities[1];     //Rimforsa
+    else if(typedCity == "Lund")
+      city = cities[2];     //Lund
     
-    return category;
+    return city;
   }
   //Primitive way of displaying lower Timeline.
   void drawCanvas(){
@@ -273,9 +280,9 @@ class WeatherDataComponent {
 
 class WeatherSet {
   double temp;
-  String cloud, rain, wind, category, time;
+  String cloud, rain, wind, time;
   
-  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.category);
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time);
   
   
   //Can be return a string to ng-repeat in weather_data.html
@@ -286,6 +293,15 @@ class WeatherSet {
       can.width = 2000;
     
      return temp.toString();
+  }
+}
+
+class City {
+  String name;
+  
+  City(String name2)
+  {
+    this.name = name2;
   }
 }
 

@@ -1,15 +1,31 @@
 <!-- Draw everythin in a weather-data tag -->
 
 <br/>
-<div>
+<div id="filters">
   <form role="search">
     <div class="inner-addon right-addon">
-      <!--sökikonen försvunnen!-->
       <i class="glyphicon glyphicon-search"></i>  
-      <input type="text" class="form-control" placeholder="Sök Stad" /> 
+      <input type="text" class="form-control" placeholder="Sök Stad" ng-model="cityName" >
     </div>
   </form>
 </div>
+
+<div>
+  <ul>
+    <li class="pointer"
+        ng-repeat="City in allCities | orderBy:'name' | filter:{name:cityName}">
+       {{City.name}}
+    </li>
+  </ul>
+</div>
+<!-- <div id="city-list">
+  <ul>
+    <li class="pointer" ng-repeat="City in allCities | orderBy:'name' | filter:{name:cityName}">
+        {{City.name}}
+    </li>
+  </ul>
+</div> -->
+
 <div> <!-- Print current weather-->
   {{currentWeatherSet.temp}} grader <br/>
   {{currentWeatherSet.wind}} <br/>
@@ -17,17 +33,7 @@
   {{currentWeatherSet.cloud}} 
 </div>
 
-<div> <!-- Print checkboxes-->
-  Filtrera väder:
-  <span ng-repeat="category in categories">
-    <label>
-      <input type="checkbox" ng-model="categoryFilterMap[category]" >{{category}}
-    </label>
-  </span>
-</div>
-
-
-<div ng-repeat="WeatherSet in weatherSets | categoryfilter:categoryFilterMap">
+<div ng-repeat="WeatherSet in weatherSets">
   <span class="inner" imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
     <div class="left">{{WeatherSet.time}}</div>
     <svg class="timeline">

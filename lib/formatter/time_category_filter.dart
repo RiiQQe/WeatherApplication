@@ -6,18 +6,20 @@ library time_category_filter;
 import 'package:angular/angular.dart';
 
 
-@Formatter(name: 'categoryfilter')
+@Formatter(name: 'cityfilter')
 
 ///Filter [WeatherSet]s depending on categories checked in the checkboxes.
-class CategoryFilter {
-  List call(weatherSets, categoryFilterMap) {
-    if (weatherSets is Iterable && categoryFilterMap is Map) {
+class CityFilter {
+  
+  List call(weatherSets, cityFilterMap) {
+    if (weatherSets is Iterable && cityFilterMap is Map) {
       //If there is nothing checked, treat it as "everything is checked".
-      bool nothingChecked = categoryFilterMap.values.every((isChecked) => !isChecked);
+      bool nothingChecked = cityFilterMap.values.every((isChecked) => !isChecked);
       return nothingChecked
           ? weatherSets.toList()
-          : weatherSets.where((i) => categoryFilterMap[i.category] == true).toList();
+          : weatherSets.where((i) => cityFilterMap[i.city] == true).toList();
     }
     return const [];
   }
+
 }
