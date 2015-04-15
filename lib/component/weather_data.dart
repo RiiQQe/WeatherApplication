@@ -44,7 +44,7 @@ class WeatherDataComponent {
     longitude = coord[1];
     _loadData();
   }
-  
+
   ImageModel ImageDecoratorForWeatherData(WeatherSet ws){
     if(imageDec[ws] == null){
       imageDec[ws] = new ImageModel('http://www.i2symbol.com/images/symbols/weather/white_sun_with_rays_u263C_icon_256x256.png',
