@@ -12,6 +12,7 @@ import 'package:angular/angular.dart';
 import 'package:di/annotations.dart';
 import 'package:collection/collection.dart';
 import 'dart:html';
+import 'dart:html' as dom;
 import 'dart:convert';
 import 'dart:async';
 import 'package:intl/intl.dart';
@@ -28,10 +29,12 @@ import 'package:weatherapplication/decorators/image_decorator.dart' show ImageMo
 class WeatherDataComponent {
 
   Map allData;
-  double latitude, longitude, currentTemp;
+  double latitude, longitude;
+  double currentTemp;
+  City currentCity;
   List<WeatherSet> weatherSets = [];
   List<City> allCities = [];
-  List<String> cities = ["Norrköping", "Norge", "Nässjö"];
+  List<String> cities = ["Norrköping", "Norge", "Rimforsa"];
   Map<String, bool> cityFilterMap;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH:mm d/M');
@@ -41,9 +44,11 @@ class WeatherDataComponent {
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
     //var coord = findCoords();
-    List<double> coord = [58.0, 16.0];
+    List<double> coord = [58.1378296, 15.6762024];
     latitude = coord[0];
     longitude = coord[1];
+    
+    
     _loadData();
   }
 
@@ -56,14 +61,49 @@ class WeatherDataComponent {
     }
     return imageDec[ws];
   }
+  
+  void name2Coords(String cityName){
+      
+      cityName = cityName.toLowerCase();
+      
+      var url = 'http://nominatim.openstreetmap.org/search?q=$cityName&format=json';
+      
+      currentCity.name = cityName;
+      
+      HttpRequest.getString(url).then((String responseText){
+          Map citySearch = JSON.decode(responseText);
+          
+          latitude = double.parse(citySearch[1]["lat"]);
+          longitude = double.parse(citySearch[1]["lon"]);
+
+          _loadData();
+                  
+      });
+        
+        
+  }
 
   //Load data and call all other functions that does anything with the data
   void _loadData() {
+    
     print("Loading data");
+    
+    String latitudeString = latitude.toStringAsPrecision(6);
+    String longitudeString = longitude.toStringAsPrecision(6);
+    
+    var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
 
+    //This is used to print current city
+    HttpRequest.getString(currentCityUrl).then((String responseText) {
+      Map currentData = JSON.decode(responseText);
+      
+      currentCity = new City(currentData["address"]["village"]); 
+  
+    });
+    
     //Create URL to SMHI-API with longitude and latitude values
-    var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitude/lon/$longitude/data.json';
-
+    var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitudeString/lon/$longitudeString/data.json';
+    
     //Call SMHI-API
     HttpRequest.getString(url).then((String responseText) {
 
@@ -78,11 +118,14 @@ class WeatherDataComponent {
       //Initilize categoryFilterMap with keys:categories and values:bools
       List<bool> defaultBools = [false, false, false];
       cityFilterMap = new Map.fromIterables(cities, defaultBools);
- 
+      
+      allCities.clear();
       for(int i=0; i <= 2; i++)
-             {
-               allCities.add(new City(cities[i]));
-             }
+       {
+         allCities.add(new City(cities[i]));
+       }
+      
+       
       
        drawCanvas();
 
@@ -102,7 +145,9 @@ class WeatherDataComponent {
     int cloudIndex, rainIndex;
     double windIndex, currentTemp;
     DateTime currentTime;
-
+    
+    weatherSets.clear();
+    
     for (int i = 0; i < allData["timeseries"].length; i++) {
       //Get all parameters to initialize a new WeatherSet
       currentTemp = allData["timeseries"][i]["t"];

@@ -15,16 +15,13 @@
     <li class="pointer"
         ng-repeat="City in allCities | orderBy:'name' | filter:{name:cityName}">
        {{City.name}}
+       <input type="button" ng-click="name2Coords(City.name)">Click me!!
     </li>
   </ul>
 </div>
-<!-- <div id="city-list">
-  <ul>
-    <li class="pointer" ng-repeat="City in allCities | orderBy:'name' | filter:{name:cityName}">
-        {{City.name}}
-    </li>
-  </ul>
-</div> -->
+<div id="city-list">
+        Vald plats: {{currentCity.name}}
+</div> 
 
 <div> <!-- Print current weather-->
   {{currentWeatherSet.temp}} grader <br/>
@@ -33,7 +30,7 @@
   {{currentWeatherSet.cloud}} 
 </div>
 
-<div ng-repeat="WeatherSet in weatherSets">
+<div id="graph" ng-repeat="WeatherSet in weatherSets">
   <span class="inner" imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
     <div class="left">{{WeatherSet.time}}</div>
     <svg class="timeline">
