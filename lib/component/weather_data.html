@@ -25,11 +25,12 @@
   {{smhiData.currentWeatherSet.wind}} <br/>
   {{smhiData.currentWeatherSet.rain}} <br/>
   {{smhiData.currentWeatherSet.cloud}} 
-  
 </div>
 
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
 <div>
-    <h1>Vald plats: <!--{{currentCity.name}}--></h1>    
+    <h1>Vald plats: {{currentCity.name}}</h1>    
 </div> 
 
 <div id="graph" ng-repeat="WeatherSet in smhiData.weatherSets">

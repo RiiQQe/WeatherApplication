@@ -40,6 +40,8 @@ class WeatherDataComponent {
     longitude = coord[1];
     
     smhiData = new LoadSmhi(latitude, longitude);
+    
+    _loadData(true);
 
   }
   
@@ -57,32 +59,36 @@ class WeatherDataComponent {
       latitude = double.parse(citySearch[1]["lat"]);
       longitude = double.parse(citySearch[1]["lon"]);
 
-      //_loadData(false);
+      _loadData(false);
     });    
   }
 
   //Load data and call all other functions that does anything with the data
-  //void _loadData(bool ifFirst) {
+  void _loadData(bool ifFirst) {
     
     
-    //String latitudeString = latitude.toStringAsPrecision(6);
-    //String longitudeString = longitude.toStringAsPrecision(6);
+    String latitudeString = latitude.toStringAsPrecision(6);
+    String longitudeString = longitude.toStringAsPrecision(6);
     
-
+    
     //This is used to print current city
     //ifFirst is needed, because it's not needed to find cityName 
     //the second time
-    /*if(ifFirst){
-      var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
+    if(ifFirst){
 
+      for(int i = 0; i < 3; i++)
+        allCities.add(new City(cities[i]));
+      
+      var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
+      
       HttpRequest.getString(currentCityUrl).then((String responseText) {
         Map currentData = JSON.decode(responseText);
         
         currentCity = new City(currentData["address"]["village"]); 
       });
-
+    }
   }
-    */
+    
   
   //Function to set the device's geocoordinates
   findCoords() {
