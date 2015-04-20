@@ -27,7 +27,10 @@
   {{smhiData.currentWeatherSet.cloud}} 
 </div>
 
-<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<div>
+  <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()">
+</div>
+
 
 <div>
     <h1>Vald plats: {{currentCity.name}}</h1>    

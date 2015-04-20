@@ -7,8 +7,15 @@
 library weatherdata_component;
 
 import 'package:angular/angular.dart';
-import 'dart:html';
 import 'dart:convert';
+
+import 'dart:html' as dom hide Point, Events;
+import 'dart:html';
+
+import 'package:polymer/polymer.dart';
+
+import 'package:google_maps/google_maps.dart';
+import 'package:google_maps/google_maps_places.dart';
 
 import 'package:weatherapplication/component/load_smhi.dart';
 
@@ -20,7 +27,7 @@ import 'package:weatherapplication/component/load_smhi.dart';
   
     
 class WeatherDataComponent {
-
+  
   double latitude, longitude;
   List<WeatherSet> smhiWeatherSets = [];
   LoadSmhi smhiData;
@@ -61,11 +68,36 @@ class WeatherDataComponent {
 
       _loadData(false);
     });    
+  
+  }
+  
+  void searchDropDown(){ 
+    
+    final input = querySelector("weather-data::shadow #searchTextField") as InputElement;
+    
+    final autocomplete = new Autocomplete(input);
+    
+    final infowindow = new InfoWindow();
+
+    autocomplete.onPlaceChanged.listen((_) {
+         infowindow.close();
+         final place = autocomplete.place.formattedAddress[0];
+         var kalle = autocomplete.place.addressComponents;
+         
+          
+         nameToCoords(place);
+         
+         print("place " + place.toString());
+         
+       });
+    
+
+ 
+    
   }
 
   //Load data and call all other functions that does anything with the data
   void _loadData(bool ifFirst) {
-    
     
     String latitudeString = latitude.toStringAsPrecision(6);
     String longitudeString = longitude.toStringAsPrecision(6);
