@@ -13,30 +13,30 @@
 <div>
   <ul>
     <li class="pointer"
-        ng-repeat="City in allCities | orderBy:'name' | filter:{name:cityName}">
+        ng-repeat="City in allCities  | filter:{name:cityName}">
        {{City.name}}
-       <input type="button" ng-click="name2Coords(City.name)">Click me!!
+       <input type="button" ng-click="nameToCoords(City.name)">Click me!!
     </li>
   </ul>
 </div>
-<div id="city-list">
-        Vald plats: {{currentCity.name}}
-</div> 
 
 <div> <!-- Print current weather-->
-  {{currentWeatherSet.temp}} grader <br/>
-  {{currentWeatherSet.wind}} <br/>
-  {{currentWeatherSet.rain}} <br/>
-  {{currentWeatherSet.cloud}} 
+  {{smhiData.currentWeatherSet.temp}} grader <br/>
+  {{smhiData.currentWeatherSet.wind}} <br/>
+  {{smhiData.currentWeatherSet.rain}} <br/>
+  {{smhiData.currentWeatherSet.cloud}} 
+  
 </div>
 
-<div id="graph" ng-repeat="WeatherSet in weatherSets">
-  <span class="inner" imagedecorator="ImageDecoratorForWeatherData(WeatherSet)">
+<div>
+    <h1>Vald plats: <!--{{currentCity.name}}--></h1>    
+</div> 
+
+<div id="graph" ng-repeat="WeatherSet in smhiData.weatherSets">
     <div class="left">{{WeatherSet.time}}</div>
     <svg class="timeline">
       <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,0);stroke-width:10" />
     </svg>
     <div class="right">{{WeatherSet.temp}} °C</div>
-  </span>
 </div>
 
