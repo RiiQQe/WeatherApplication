@@ -1,11 +1,11 @@
 <!-- Draw everythin in a weather-data tag -->
-
+<!--
 <br/>
 <div id="filters">
   <form role="search">
     <div class="inner-addon right-addon">
       <i class="glyphicon glyphicon-search"></i>  
-      <input type="text" class="form-control" placeholder="Sök Stad" ng-model="cityName" >
+      <input id="searchTextField" type="text" class="form-control" placeholder="Sök Stad" ng-keydown="searchDropDown()" >
     </div>
   </form>
 </div>
@@ -19,16 +19,15 @@
     </li>
   </ul>
 </div>
-
+-->
 <div> <!-- Print current weather-->
   {{smhiData.currentWeatherSet.temp}} grader <br/>
   {{smhiData.currentWeatherSet.wind}} <br/>
   {{smhiData.currentWeatherSet.rain}} <br/>
   {{smhiData.currentWeatherSet.cloud}} 
 </div>
-
 <div>
-  <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()">
+  <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()" />
 </div>
 
 

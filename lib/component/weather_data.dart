@@ -28,6 +28,9 @@ import 'package:weatherapplication/component/load_smhi.dart';
     
 class WeatherDataComponent {
   
+  var input, options;
+  
+  
   double latitude, longitude;
   List<WeatherSet> smhiWeatherSets = [];
   LoadSmhi smhiData;
@@ -55,7 +58,6 @@ class WeatherDataComponent {
   void nameToCoords(String cityName){
   
     currentCity.name = cityName;
-  
     cityName = cityName.toLowerCase();
     
     var url = 'http://nominatim.openstreetmap.org/search?q=$cityName&format=json';
@@ -66,6 +68,7 @@ class WeatherDataComponent {
       latitude = double.parse(citySearch[1]["lat"]);
       longitude = double.parse(citySearch[1]["lon"]);
 
+      smhiData.loadData(latitude, longitude);
       _loadData(false);
     });    
   
@@ -77,20 +80,12 @@ class WeatherDataComponent {
     
     final autocomplete = new Autocomplete(input);
     
-    final infowindow = new InfoWindow();
-
     autocomplete.onPlaceChanged.listen((_) {
-         infowindow.close();
-         final place = autocomplete.place.formattedAddress[0];
-         var kalle = autocomplete.place.addressComponents;
-         
-          
-         nameToCoords(place);
-         
-         print("place " + place.toString());
-         
-       });
-    
+     
+        final place = autocomplete.place;
+        
+        nameToCoords(place.name);
+      });
 
  
     
@@ -101,7 +96,6 @@ class WeatherDataComponent {
     
     String latitudeString = latitude.toStringAsPrecision(6);
     String longitudeString = longitude.toStringAsPrecision(6);
-    
     
     //This is used to print current city
     //ifFirst is needed, because it's not needed to find cityName 

@@ -19,10 +19,10 @@ class LoadSmhi {
   final DateFormat formatter = new DateFormat('HH:mm d/M');
 
   LoadSmhi(double latitude, double longitude) {
-    _loadData(latitude, longitude);
+    loadData(latitude, longitude);
   }
 
-  _loadData(double latitude, double longitude) {
+  loadData(double latitude, double longitude) {
     print("Loading SMHI-data");
 
     String latitudeString = latitude.toStringAsPrecision(6);
