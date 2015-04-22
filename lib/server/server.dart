@@ -1,15 +1,18 @@
 
 import 'dart:io';
-import 'dart:html' hide HttpRequest;
+
+
+final String HOST = "127.0.0.1";
+final int PORT = 8085;
 
 void main(){
-  
-  window.alert("I a min!");
-  HttpServer.bind('0.0.0.0', 80).then((HttpServer server){
+  print("HEJSAN");
+  HttpServer.bind(HOST, PORT).then((HttpServer server){
     print(server);
     server.listen((HttpRequest request){
-        window.alert("Server started!!!");
-        request.response.write('Hello World');
+        print("tjenare");
+        request.response.headers.set("Access-Control-Allow-Origin", "*");
+        request.response.write('Hello2World');
         request.response.close();
     });
   });
