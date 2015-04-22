@@ -18,9 +18,11 @@ import 'package:weatherapplication/decorators/image_decorator.dart';
 ///[WeatherDataComponent] and [CityFilter]
 class WeatherAppModule extends Module {
   WeatherAppModule() {
+    
     bind(WeatherDataComponent);
     bind(CityFilter);
     bind(ImageDecorator);
+  
   }
 }
 

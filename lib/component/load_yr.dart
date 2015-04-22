@@ -6,10 +6,12 @@
 library load_yr;
 
 import 'package:xml/xml.dart' as xml;
-import 'dart:html';
+import 'dart:html' hide HttpRequest;
 //import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'dart:io';
 
+import 'dart:async';
 
 import 'package:weatherapplication/component/weather_data.dart';
 
@@ -22,6 +24,7 @@ class LoadYr {
   LoadYr(double latitude, double longitude) {
     _loadData(latitude, longitude);
   }
+  
 
   _loadData(double latitude, double longitude) {
     print("Loading YR-data");
@@ -32,12 +35,13 @@ class LoadYr {
     //Create URL to YR-API with longitude and latitude values
     var url = 'http://api.yr.no/weatherapi/locationforecast/1.9/?lat=$latitudeString;lon=$longitudeString';
 
-    var request = new HttpRequest();
-    request.open('GET', url);
-    request.setRequestHeader('Content-Type', 'text/plain');
-    request.onLoad.listen((event) => print(
-        'Request complete ${event.target.responseText}'));
-    request.send();
+    
+//    var request = new HttpRequest();
+//    request.open('GET', url);
+//    request.setRequestHeader('Content-Type', 'text/plain');
+//    request.onLoad.listen((event) => print(
+//        'Request complete ${event.target.responseText}'));
+//    request.send();
   }
 
   /*int getTimeIndex() {
