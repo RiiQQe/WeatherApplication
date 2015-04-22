@@ -11,6 +11,8 @@ import 'dart:html';
 import 'dart:convert';
 
 import 'package:weatherapplication/component/load_smhi.dart';
+import 'package:weatherapplication/component/load_yr.dart';
+
 
 @Component(
     selector: 'weather-data', 
@@ -24,6 +26,7 @@ class WeatherDataComponent {
   double latitude, longitude;
   List<WeatherSet> smhiWeatherSets = [];
   LoadSmhi smhiData;
+  LoadYr yrData;
   
   City currentCity;
   List<City> allCities = [];
@@ -40,6 +43,7 @@ class WeatherDataComponent {
     longitude = coord[1];
     
     smhiData = new LoadSmhi(latitude, longitude);
+    yrData = new LoadYr(latitude, longitude);
 
   }
   
