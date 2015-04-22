@@ -30,7 +30,11 @@ class WeatherDataComponent {
   List<String> cities = ["Norrköping", "Norge", "Rimforsa"];
   Map<String, bool> cityFilterMap;
   String cityName = "";
-  
+  //0: regn, 1: natt, 2: sol
+  List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_Z09oUHpjZGlWekU", 
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_RmJwQmFEajBZQTQ"];
+ 
   
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
@@ -40,6 +44,7 @@ class WeatherDataComponent {
     longitude = coord[1];
     
     smhiData = new LoadSmhi(latitude, longitude);
+    _loadData(true);
 
   }
   
@@ -57,32 +62,52 @@ class WeatherDataComponent {
       latitude = double.parse(citySearch[1]["lat"]);
       longitude = double.parse(citySearch[1]["lon"]);
 
-      //_loadData(false);
+      _loadData(false);
     });    
   }
 
   //Load data and call all other functions that does anything with the data
-  //void _loadData(bool ifFirst) {
+  void _loadData(bool ifFirst) {
+    
+    setHeaderImage();
+    
+    String latitudeString = latitude.toStringAsPrecision(6);
+    String longitudeString = longitude.toStringAsPrecision(6);
     
     
-    //String latitudeString = latitude.toStringAsPrecision(6);
-    //String longitudeString = longitude.toStringAsPrecision(6);
-    
-
     //This is used to print current city
     //ifFirst is needed, because it's not needed to find cityName 
     //the second time
-    /*if(ifFirst){
-      var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
+    if(ifFirst){
 
+      for(int i = 0; i < 3; i++)
+        allCities.add(new City(cities[i]));
+      
+      var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
+      
       HttpRequest.getString(currentCityUrl).then((String responseText) {
         Map currentData = JSON.decode(responseText);
         
         currentCity = new City(currentData["address"]["village"]); 
       });
-
+    }
   }
-    */
+    
+  void setHeaderImage()
+  {
+//    if(smhiData.currentWeatherSet.cloud == "Lite moln")
+//    {
+//      (querySelector('#smhiID') as ImageElement).src = headerImages[2];
+//      
+//    }
+//    else
+//    {
+//      (querySelector('#smhiID') as ImageElement).src = headerImages[0];
+//    }
+    (querySelector('#smhiID') as ImageElement).src = headerImages[2];
+    (querySelector('#yrID') as ImageElement).src = headerImages[1];
+    
+  }
   
   //Function to set the device's geocoordinates
   findCoords() {
@@ -178,7 +203,3 @@ class City {
   
   City(this.name);
 }
-
-
-
-

@@ -28,8 +28,5 @@ main() {
 
   applicationFactory().addModule(new WeatherAppModule()).run();
 
-  //dropdown
-  Dropdown.use();
-
 }
 
