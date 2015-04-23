@@ -13,6 +13,7 @@ import 'package:weatherapplication/component/weather_data.dart';
 import 'package:weatherapplication/formatter/time_category_filter.dart';
 import 'package:weatherapplication/decorators/image_decorator.dart';
 
+import 'dart:convert';
 
 ///Binds all components of the app right now it consists of
 ///[WeatherDataComponent] and [CityFilter]
@@ -28,7 +29,7 @@ class WeatherAppModule extends Module {
 
 main() {
 
-  applicationFactory().addModule(new WeatherAppModule()).run();
+    applicationFactory().addModule(new WeatherAppModule()).run();
 
   //dropdown
   Dropdown.use();

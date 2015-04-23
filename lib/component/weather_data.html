@@ -25,14 +25,13 @@
   {{smhiData.currentWeatherSet.wind}} <br/>
   {{smhiData.currentWeatherSet.rain}} <br/>
   {{smhiData.currentWeatherSet.cloud}} 
-  
 </div>
 
 <div>
     <h1>Vald plats: <!--{{currentCity.name}}--></h1>    
 </div> 
 
-<div id="graph" ng-repeat="WeatherSet in smhiData.weatherSets">
+<div id="graph" ng-repeat="WeatherSet in yrData.weatherSets">
     <div class="left">{{WeatherSet.time}}</div>
     <svg class="timeline">
       <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,0);stroke-width:10" />

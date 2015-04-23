@@ -5,19 +5,19 @@
 
 library load_yr;
 
-import 'package:xml/xml.dart' as xml;
+import 'package:xml/xml.dart';
 import 'dart:html';
 //import 'dart:convert';
 import 'package:intl/intl.dart';
 
 
-import 'dart:async';
+import 'dart:convert';
 
 import 'package:weatherapplication/component/weather_data.dart';
 
 class LoadYr {
   List<WeatherSet> weatherSets = [];
-  xml.XmlDocument allData;
+  var allData;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH:mm d/M');
 
@@ -32,15 +32,24 @@ class LoadYr {
     String latitudeString = latitude.toStringAsPrecision(4);
     String longitudeString = longitude.toStringAsPrecision(4);
     
+    
+    
     //Create URL to YR-API with longitude and latitude values
     var url = 'http://api.yr.no/weatherapi/locationforecast/1.9/?lat=$latitudeString;lon=$longitudeString';
-
-    
+    //var url = 'http://api.yr.no/weatherapi/locationforecast/1.9/?lat=16.0;lon=58.0';
+        
     var request = new HttpRequest();
+      
     request.open('GET', url);
 //    request.setRequestHeader('Content-Type', 'text/plain');
-    request.onLoad.listen((event) => print(
-        'Request complete ${event.target.responseText}'));
+    request.onLoad.listen((event) {
+      allData = parse(event.target.responseText);
+      
+      //print(allData);
+      
+      setWeatherParameters();
+      
+    });
     request.send();
   }
 
@@ -51,40 +60,65 @@ class LoadYr {
     //Difference in hours = timeIndex for current time in allData
     Duration difference = now.difference(referenceTime);
     return difference.inHours;
-  }
+  }*/
 
   void setWeatherParameters() {
-    String cloud, rain, wind, category, timeFormatted;
+    String cloud, rain, wind, timeFormatted;
     int cloudIndex, rainIndex;
     double windIndex, currentTemp;
     DateTime currentTime;
-
+    
     weatherSets.clear();
-
-    for (int i = 0; i < allData["timeseries"].length; i++) {
-      //Get all parameters to initialize a new WeatherSet
-      currentTemp = allData["timeseries"][i]["t"];
-      currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
-      //category = getCategory(currentTime);
+//    print("!!!!!!!!!!!!!!!!!!!!!!");
+//    print("!!!!!!!!!!!!!!!!!!!!!!: " + allData.findElement("temperature").single.text);
+//    
+    List<XmlNode> temperatures = allData.findAllElements('temperature');
+    List<XmlNode> times = allData.findAllElements('time');
+    //List<XmlNode> temperatures = allData.findAllElements('temperature');
+    
+    //print(total);
+    
+    for(int i=0; i < temperatures.length;i++){
+      
+      currentTemp = double.parse(temperatures.elementAt(i).attributes.elementAt(2).value);
+      currentTime = DateTime.parse(times.elementAt(i).attributes.elementAt(1).value);
+            
       timeFormatted = formatter.format(currentTime);
-
-      cloudIndex = allData["timeseries"][i]["tcc"];
-      rainIndex = allData["timeseries"][i]["pcat"];
-      windIndex = allData["timeseries"][i]["gust"];
-
-
-      //Get description of parameters from parameter index
-      cloud = getCloud(cloudIndex);
-      rain = getRain(rainIndex, i);
-      wind = getWind(windIndex);
-
-      //Add new WeatherSet to the list weatherSets
+            
+      cloudIndex = 1;
+      windIndex = 1.0;
+      rainIndex = 1;
+      //print();
+      
+      
+      
+      
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted));
     }
+    
+   
+    
+    
+    //total .map((node) => node.text) .forEach(print);
+    
+    //print("temp: " + total[0].text);
+    
+    //print("temp: " + total.toString());
+    
+/*    
+    print("Bellow");
+    for(int i = 0; i < calle.length; i++){
+      
+       var c = calle.elementAt(i);
+        print("c : "  + c.toString()); 
+    }
+  */  
+   
+    
   }
 
   //Primitive way of translating parameters from numbers to Strings
-  String getCloud(int cloudIndex) {
+  /*String getCloud(int cloudIndex) {
     String cloud;
 
     if (cloudIndex < 3) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; else cloud = "Mulet";
