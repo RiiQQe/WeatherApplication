@@ -9,6 +9,7 @@ library weatherdata_component;
 import 'package:angular/angular.dart';
 import 'dart:html';
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:weatherapplication/component/load_smhi.dart';
 
@@ -43,10 +44,18 @@ class WeatherDataComponent {
     latitude = coord[0];
     longitude = coord[1];
     
+    //Load smhi, then call _loadData
+   // LoadtheData();
+
     smhiData = new LoadSmhi(latitude, longitude);
     _loadData(true);
-
+  
   }
+  
+//    Future LoadtheData(){
+//      smhiData = new LoadSmhi(latitude, longitude);
+//      return smhiData.then(_loadData(true));
+//    }
   
   void nameToCoords(String cityName){
   
@@ -65,6 +74,7 @@ class WeatherDataComponent {
       _loadData(false);
     });    
   }
+  
 
   //Load data and call all other functions that does anything with the data
   void _loadData(bool ifFirst) {
