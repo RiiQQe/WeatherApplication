@@ -152,8 +152,8 @@ class WeatherDataComponent {
     //(querySelector('#smhiID') as ImageElement).src = headerImages[2];
     (querySelector('#yrID') as ImageElement).src = headerImages[1];
     
-    querySelector('#headerTextSmhi').text = 'smhitext';
-    querySelector('#headerTextYr').text = 'yrtext';
+    querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString();
+    querySelector('#headerTextYr').text = smhiData.currentWeatherSet.temp.toString();
     
   }
   
