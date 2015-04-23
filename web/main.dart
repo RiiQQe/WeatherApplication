@@ -91,8 +91,6 @@ main() {
     setupClickListener('changetype-establishment', ['establishment']);
     setupClickListener('changetype-geocode', ['geocode']);
     */
-  //dropdown
-  Dropdown.use();
 
 }
 

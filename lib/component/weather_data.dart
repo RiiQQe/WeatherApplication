@@ -8,6 +8,7 @@ library weatherdata_component;
 
 import 'package:angular/angular.dart';
 import 'dart:convert';
+import 'dart:async';
 
 import 'dart:html' as dom hide Point, Events;
 import 'dart:html';
@@ -40,7 +41,11 @@ class WeatherDataComponent {
   List<String> cities = ["Norrköping", "Norge", "Rimforsa"];
   Map<String, bool> cityFilterMap;
   String cityName = "";
-  
+  //0: regn, 1: natt, 2: sol
+  List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_Z09oUHpjZGlWekU", 
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_RmJwQmFEajBZQTQ"];
+ 
   
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
@@ -49,11 +54,18 @@ class WeatherDataComponent {
     latitude = coord[0];
     longitude = coord[1];
     
-    smhiData = new LoadSmhi(latitude, longitude);
-    
-    _loadData(true);
+    //Load smhi, then call _loadData
+   // LoadtheData();
 
+    smhiData = new LoadSmhi(latitude, longitude);
+    _loadData(true);
+  
   }
+  
+//    Future LoadtheData(){
+//      smhiData = new LoadSmhi(latitude, longitude);
+//      return smhiData.then(_loadData(true));
+//    }
   
   void nameToCoords(String cityName){
   
@@ -86,13 +98,12 @@ class WeatherDataComponent {
         
         nameToCoords(place.name);
       });
-
- 
     
   }
 
   //Load data and call all other functions that does anything with the data
   void _loadData(bool ifFirst) {
+    setHeaderImage();
     
     String latitudeString = latitude.toStringAsPrecision(6);
     String longitudeString = longitude.toStringAsPrecision(6);
@@ -115,6 +126,21 @@ class WeatherDataComponent {
     }
   }
     
+  void setHeaderImage()
+  {
+//    if(smhiData.currentWeatherSet.cloud == "Lite moln")
+//    {
+//      (querySelector('#smhiID') as ImageElement).src = headerImages[2];
+//      
+//    }
+//    else
+//    {
+//      (querySelector('#smhiID') as ImageElement).src = headerImages[0];
+//    }
+    (querySelector('#smhiID') as ImageElement).src = headerImages[2];
+    (querySelector('#yrID') as ImageElement).src = headerImages[1];
+    
+  }
   
   //Function to set the device's geocoordinates
   findCoords() {
@@ -210,7 +236,3 @@ class City {
   
   City(this.name);
 }
-
-
-
-

@@ -17,7 +17,7 @@ class LoadSmhi {
   Map allData;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH:mm d/M');
-
+  
   LoadSmhi(double latitude, double longitude) {
     loadData(latitude, longitude);
   }
@@ -41,6 +41,7 @@ class LoadSmhi {
 
       int timeIndex = getTimeIndex();
       currentWeatherSet = weatherSets[timeIndex];
+      
 
     }, onError: (error) => printError(error));
   }

@@ -1,3 +1,4 @@
+
 @charset "utf-8";
 /* CSS Document */
 
@@ -16,13 +17,18 @@ body {
   position: relative;
   width: 100%;
 }
+
 .navbar.center .navbar-inner{
   text-align:center;
+  height: 20vh;
+  margin: 0;
 }
 
 .navbar.center .navbar-inner .nav{
   display:inline-block;
   float: none;
+  height: 20vh;
+  margin: 0;
 }
 
 #right
@@ -36,6 +42,17 @@ body {
   margin-top:2%; 
 }
 
+div.img1 {
+    float: left;
+    width:50vw;
+    height: 20vh;
+    background-color: #32acaf;
 
+}
+div.img2 {
+    float: right;
+    width:50vw;
+    height: 20vh;
+    background-color: #e36790;
 
-
+}
