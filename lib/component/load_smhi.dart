@@ -12,6 +12,8 @@ import 'package:intl/intl.dart';
 
 import 'package:weatherapplication/component/weather_data.dart';
 
+import 'dart:async';
+
 class LoadSmhi {
   List<WeatherSet> weatherSets = [];
   Map allData;
@@ -19,12 +21,12 @@ class LoadSmhi {
   final DateFormat formatter = new DateFormat('HH:mm d/M');
   
   LoadSmhi(double latitude, double longitude) {
-    loadData(latitude, longitude);
+    //loadData(latitude, longitude);
   }
 
-  loadData(double latitude, double longitude) {
+  Future loadData(double latitude, double longitude) {
     print("Loading SMHI-data");
-
+    Completer cmp = new Completer();
     String latitudeString = latitude.toStringAsPrecision(6);
     String longitudeString = longitude.toStringAsPrecision(6);
 
@@ -32,7 +34,7 @@ class LoadSmhi {
     var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitudeString/lon/$longitudeString/data.json';
 
     //Call SMHI-API
-    HttpRequest.getString(url).then((String responseText) {
+    return HttpRequest.getString(url).then((String responseText) {
 
       //Parse response text
       allData = JSON.decode(responseText);
@@ -41,9 +43,11 @@ class LoadSmhi {
 
       int timeIndex = getTimeIndex();
       currentWeatherSet = weatherSets[timeIndex];
+        
+      print("Loading done");
       
-
     }, onError: (error) => printError(error));
+    
   }
 
   int getTimeIndex() {
