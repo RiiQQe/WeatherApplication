@@ -18,8 +18,18 @@
   height:100%;
 }
 
+#searchDiv{
+  width:100%;
+  float:center;
+}
+
+#searchTextField{
+  width:100%;
+  float:center;
+}
+
 .glyphicon:before {
-     visibility: visible;
+  visibility: visible;
 }
 .glyphicon.glyphicon-star-empty:checked:before {
     content: "\e006";
