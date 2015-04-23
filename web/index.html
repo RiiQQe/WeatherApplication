@@ -4,6 +4,7 @@
 <head>
     <title>WeatherApplication</title>
     
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="packages/bootjack/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheet.css">
     <script src="packages/web_components/platform.js"></script>
@@ -18,12 +19,13 @@
 <nav class="navbar navbar-default navbar-fixed-top center" role="navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
-       <!-- This is the image id we need to be able to change: 0ByV6jLc-sJc_d185SXd5UzNkcTA-->
       <div class="img1">
         <img id="smhiID" src="" height="100vh" width="100vw">
+        <h3 id="headerTextSmhi"></h3>
       </div>
       <div class="img2">
         <img id="yrID" src="" height="100vh" width="100vw">
+        <h3 id="headerTextYr"></h3>
       </div>
     </ul>
   </div>
@@ -50,7 +52,7 @@
 </div> <!--end container 2-->
 
 
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 
 
 <!--  <canvas id="myCanvas" width="1000px" height="2000px"></canvas>

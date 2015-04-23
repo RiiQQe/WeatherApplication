@@ -140,6 +140,9 @@ class WeatherDataComponent {
     (querySelector('#smhiID') as ImageElement).src = headerImages[2];
     (querySelector('#yrID') as ImageElement).src = headerImages[1];
     
+    querySelector('#headerTextSmhi').text = 'smhitext';
+    querySelector('#headerTextYr').text = 'yrtext';
+    
   }
   
   //Function to set the device's geocoordinates
