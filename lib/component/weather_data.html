@@ -20,13 +20,16 @@
   </ul>
 </div>
 -->
+
 <div> <!-- Print current weather-->
   {{smhiData.currentWeatherSet.temp}} grader <br/>
   {{smhiData.currentWeatherSet.wind}} <br/>
   {{smhiData.currentWeatherSet.rain}} <br/>
   {{smhiData.currentWeatherSet.cloud}} 
 </div>
+
 <div id="searchDiv">
+  <span class="glyphicon glyphicon-flash" aria-hidden="true" ng-click="sfunction()"></span> 
   <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()" />
 </div>
 

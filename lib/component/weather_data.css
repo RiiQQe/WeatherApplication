@@ -1,3 +1,6 @@
+ /*Needed to import bootstrap into weather_data.html*/
+ @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"); 
+
 .right{
   width:33%;
   float:right;
@@ -24,13 +27,26 @@
 }
 
 #searchTextField{
-  width:100%;
+  width:70%;
+  float:center;
+}
+.glyphicon:before {
+  visibility: visible;
+  height:10px;
+  width:10px;
+}
+.glyphicon:after {
+  visibility: visible;
+  height: 10px;
+  width: 10px;
   float:center;
 }
 
-.glyphicon:before {
-  visibility: visible;
+span.glyphicon.glyphicon-flash{
+  height:10px;
+  width:10px;
 }
+
 .glyphicon.glyphicon-star-empty:checked:before {
     content: "\e006";
 }

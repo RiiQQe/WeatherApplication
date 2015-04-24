@@ -62,10 +62,14 @@ class WeatherDataComponent {
   
   }
   
-//    Future LoadtheData(){
-//      smhiData = new LoadSmhi(latitude, longitude);
-//      return smhiData.then(_loadData(true));
-//    }
+  void sfunction(){
+
+    findCoords().then((msg){
+      
+      smhiData.loadData(msg[0], msg[1]);
+    });
+    
+  }
   
   void nameToCoords(String cityName){
   
@@ -143,18 +147,34 @@ class WeatherDataComponent {
   }
   
   //Function to set the device's geocoordinates
-  findCoords() {
+  Future findCoords() {
 
     //Get the location of the device
-    window.navigator.geolocation.getCurrentPosition().then((Geoposition pos) {
+    return window.navigator.geolocation.getCurrentPosition().then((Geoposition pos) {
 
       double lat = pos.coords.latitude;
       double long = pos.coords.longitude;
 
       var coordinates = [lat, long];
-      return coordinates;
 
+      var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
+      
+      HttpRequest.getString(currentCityUrl).then((String responseText) {
+        Map currentData = JSON.decode(responseText);
+        
+        currentCity.name = currentData["address"]["village"];
+        
+        print(currentCity.name );
+        
+      });
+      
+      return coordinates;
+      
     }, onError: (error) => printError(error));
+  }
+  
+  Future getCityFromCoords(){
+    
   }
   
   //Used by the filtering function
