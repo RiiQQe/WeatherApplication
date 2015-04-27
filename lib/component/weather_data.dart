@@ -67,6 +67,7 @@ class WeatherDataComponent {
     findCoords().then((msg){
       
       smhiData.loadData(msg[0], msg[1]);
+      
     });
     
   }
@@ -85,7 +86,7 @@ class WeatherDataComponent {
       longitude = double.parse(citySearch[1]["lon"]);
 
       smhiData.loadData(latitude, longitude);
-      _loadData(false);
+
     });    
   
   }
@@ -124,8 +125,19 @@ class WeatherDataComponent {
       
       HttpRequest.getString(currentCityUrl).then((String responseText) {
         Map currentData = JSON.decode(responseText);
+        String city;
+        if(currentData["address"]["city"] != null) {
+           city = currentData["address"]["city"];
+        }
+        else if(currentData["address"]["village"] != null) {
+          city = currentData["address"]["village"];  
+        }
+        else {
+          window.alert("something went wrong");
+          city = "Stockholm";
+        }
         
-        currentCity = new City(currentData["address"]["village"]); 
+        currentCity = new City(city); 
       });
     }
   }
@@ -152,19 +164,26 @@ class WeatherDataComponent {
     //Get the location of the device
     return window.navigator.geolocation.getCurrentPosition().then((Geoposition pos) {
 
-      double lat = pos.coords.latitude;
-      double long = pos.coords.longitude;
+      latitude = pos.coords.latitude;
+      longitude = pos.coords.longitude;
 
-      var coordinates = [lat, long];
+      var coordinates = [latitude, longitude];
 
       var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
       
       HttpRequest.getString(currentCityUrl).then((String responseText) {
         Map currentData = JSON.decode(responseText);
-        
-        currentCity.name = currentData["address"]["village"];
-        
-        print(currentCity.name );
+
+        if(currentData["address"]["city"] != null) {
+          currentCity.name = currentData["address"]["city"];
+        }
+        else if(currentData["address"]["village"] != null) {
+          currentCity.name = currentData["address"]["village"];  
+        }
+        else {
+          window.alert("something went wrong");
+          currentCity.name = "Stockholm";
+        }
         
       });
       
