@@ -55,11 +55,15 @@ class WeatherDataComponent {
     longitude = coord[1];
     
     //Load smhi, then call _loadData
-   // LoadtheData();
+    //LoadtheData();
 
     smhiData = new LoadSmhi(latitude, longitude);
+    smhiData.loadData(latitude, longitude).then((msg){
+      print("setting header image");
+      setHeaderImage();
+    });
     _loadData(true);
-  
+    
   }
   
   void sfunction(){
@@ -85,8 +89,17 @@ class WeatherDataComponent {
       latitude = double.parse(citySearch[1]["lat"]);
       longitude = double.parse(citySearch[1]["lon"]);
 
-      smhiData.loadData(latitude, longitude);
 
+      smhiData.loadData(latitude, longitude).then((msg){
+        print("loading done" + msg.toString()); 
+        setHeaderImage();
+         
+      });
+        /*print("hello");
+        setHeaderImage();
+        print("calling header image");
+      });*/
+      _loadData(false);
     });    
   
   }
@@ -108,7 +121,7 @@ class WeatherDataComponent {
 
   //Load data and call all other functions that does anything with the data
   void _loadData(bool ifFirst) {
-    setHeaderImage();
+   // setHeaderImage();
     
     String latitudeString = latitude.toStringAsPrecision(6);
     String longitudeString = longitude.toStringAsPrecision(6);
@@ -144,17 +157,20 @@ class WeatherDataComponent {
     
   void setHeaderImage()
   {
-//    if(smhiData.currentWeatherSet.cloud == "Lite moln")
-//    {
-//      (querySelector('#smhiID') as ImageElement).src = headerImages[2];
-//      
-//    }
-//    else
-//    {
-//      (querySelector('#smhiID') as ImageElement).src = headerImages[0];
-//    }
-    (querySelector('#smhiID') as ImageElement).src = headerImages[2];
+    if(smhiData.currentWeatherSet.cloud == "Lite moln")
+    {
+      (querySelector('#smhiID') as ImageElement).src = headerImages[2];
+      
+    }
+    else
+    {
+      (querySelector('#smhiID') as ImageElement).src = headerImages[0];
+    }
+    //(querySelector('#smhiID') as ImageElement).src = headerImages[2];
     (querySelector('#yrID') as ImageElement).src = headerImages[1];
+    
+    querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString();
+    querySelector('#headerTextYr').text = smhiData.currentWeatherSet.temp.toString();
     
   }
   
