@@ -18,7 +18,7 @@ class LoadSmhi {
   List<WeatherSet> weatherSets = [];
   Map allData;
   WeatherSet currentWeatherSet;
-  final DateFormat formatter = new DateFormat('HH:mm d/M');
+  final DateFormat formatter = new DateFormat('HH.mm');//HH:mm d/M
   
   LoadSmhi(double latitude, double longitude) {
     //loadData(latitude, longitude);
@@ -93,7 +93,7 @@ class LoadSmhi {
   String getCloud(int cloudIndex) {
     String cloud;
 
-    if (cloudIndex < 3) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; else cloud = "Mulet";
+    if (cloudIndex == 1) cloud = "Sol"; else if (cloudIndex < 3 && cloudIndex > 1) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; else cloud = "Mulet";
 
     return cloud;
   }
