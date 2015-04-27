@@ -3,11 +3,9 @@
 
 <head>
     <title>WeatherApplication</title>
-<<<<<<< HEAD
-=======
+
     
     <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
->>>>>>> master
     <link rel="stylesheet" href="packages/bootjack/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheet.css">
     <script src="packages/web_components/platform.js"></script>
@@ -19,6 +17,12 @@
 
 <body>
 
+<div id="splashscreen">
+  <div id="innersplash">
+    <button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Laddar...</button>
+  </div>
+</div>
+<div id="whenloaded"  style="display:none;">
 <nav class="navbar navbar-default navbar-fixed-top center" role="navigation">
   <div class="navbar-inner">
     <ul class="nav navbar-nav">
@@ -37,7 +41,6 @@
    <weather-data></weather-data>
   </div> <!--end container 1-->
   
-  
   <div class="container-fluid" id="container_2">
   <div class="row">
     <div class="col-sm-4">
@@ -54,14 +57,7 @@
     </div>
   </div>
 </div> <!--end container 2-->
-
-
-<<<<<<< HEAD
-=======
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
-
->>>>>>> master
-
+</div>
 <!--  <canvas id="myCanvas" width="1000px" height="2000px"></canvas>
 -->
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>

@@ -10,12 +10,8 @@ import 'package:angular/angular.dart';
 import 'dart:convert';
 import 'dart:async';
 
-import 'dart:html' as dom hide Point, Events;
 import 'dart:html';
 
-import 'package:polymer/polymer.dart';
-
-import 'package:google_maps/google_maps.dart';
 import 'package:google_maps/google_maps_places.dart';
 
 import 'package:weatherapplication/component/load_smhi.dart';
@@ -30,7 +26,6 @@ import 'package:weatherapplication/component/load_smhi.dart';
 class WeatherDataComponent {
   
   var input, options;
-  
   
   double latitude, longitude;
   List<WeatherSet> smhiWeatherSets = [];
@@ -49,20 +44,16 @@ class WeatherDataComponent {
   
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
-    //var coord = findCoords();
-    List<double> coord = [58.1378296, 15.6762024];
-    latitude = coord[0];
-    longitude = coord[1];
     
-    //Load smhi, then call _loadData
-    //LoadtheData();
-
-    smhiData = new LoadSmhi(latitude, longitude);
-    smhiData.loadData(latitude, longitude).then((msg){
-      print("setting header image");
-      setHeaderImage();
+    findCoords().then((msg) {
+      //Load smhi, then call _loadData
+        smhiData = new LoadSmhi(latitude, longitude);
+        smhiData.loadData(latitude, longitude).then((msg){
+          setHeaderImage();
+        });
+        _loadData(true);
+      
     });
-    _loadData(true);
     
   }
   
@@ -91,14 +82,8 @@ class WeatherDataComponent {
 
 
       smhiData.loadData(latitude, longitude).then((msg){
-        print("loading done" + msg.toString()); 
         setHeaderImage();
-         
       });
-        /*print("hello");
-        setHeaderImage();
-        print("calling header image");
-      });*/
       _loadData(false);
     });    
   
@@ -116,12 +101,10 @@ class WeatherDataComponent {
         
         nameToCoords(place.name);
       });
-    
   }
 
   //Load data and call all other functions that does anything with the data
   void _loadData(bool ifFirst) {
-   // setHeaderImage();
     
     String latitudeString = latitude.toStringAsPrecision(6);
     String longitudeString = longitude.toStringAsPrecision(6);
@@ -174,7 +157,7 @@ class WeatherDataComponent {
     
   }
   
-  //Function to set the device's geocoordinates
+  //Function to set the device's geocoordinates 
   Future findCoords() {
 
     //Get the location of the device
@@ -208,9 +191,6 @@ class WeatherDataComponent {
     }, onError: (error) => printError(error));
   }
   
-  Future getCityFromCoords(){
-    
-  }
   
   //Used by the filtering function
   String getCity(String typedCity){
