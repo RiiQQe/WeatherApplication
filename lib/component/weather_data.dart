@@ -40,7 +40,7 @@ class WeatherDataComponent {
   List<City> allCities = [];
   List<String> cities = ["Norrköping", "Norge", "Rimforsa"];
   Map<String, bool> cityFilterMap;
-  String cityName = "";
+  String currentParameter;
   //0: regn, 1: natt, 2: sol
   List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_Z09oUHpjZGlWekU", 
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
@@ -232,7 +232,20 @@ class WeatherDataComponent {
 //              
 //        }
 //  }
-  
+  String getCurrentParameter(WeatherSet ws){
+    
+    if(currentParameter == 'rain')
+      return ws.rain;
+    else if(currentParameter == 'temp')
+      return "${ws.temp} °C";
+    else if(currentParameter == 'wind')
+      return ws.wind;
+    else if(currentParameter == 'cloud')
+      return ws.cloud;
+    
+    return "Not found";
+      
+  }
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
   }
@@ -248,6 +261,5 @@ class WeatherSet {
 
 class City {
   String name;
-  
   City(this.name);
 }

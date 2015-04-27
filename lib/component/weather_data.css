@@ -1,3 +1,12 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
+
+/*
+Colors:
+#3c3c3c Darkgray
+
+
+*/
+
 .right{
   width:33%;
   float:right;
@@ -62,4 +71,14 @@ input[type=checkbox].glyphicon{
 
 .right-addon input { 
   margin: 5%; 
+}
+
+.parameterBtn img{
+  backround-color: #d8d7d7 !important;
+  boarder-radius: 50% !important;
+}
+
+.parameterBtn.hover{
+  boarder: 2px solid;
+  boarder-color: #3c3c3c;
 }

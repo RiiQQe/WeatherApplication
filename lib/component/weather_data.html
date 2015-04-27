@@ -1,45 +1,42 @@
 <!-- Draw everythin in a weather-data tag -->
-<!--
-<br/>
-<div id="filters">
-  <form role="search">
-    <div class="inner-addon right-addon">
-      <i class="glyphicon glyphicon-search"></i>  
-      <input id="searchTextField" type="text" class="form-control" placeholder="Sök Stad" ng-keydown="searchDropDown()" >
-    </div>
-  </form>
-</div>
-
-<div>
-  <ul>
-    <li class="pointer"
-        ng-repeat="City in allCities  | filter:{name:cityName}">
-       {{City.name}}
-       <input type="button" ng-click="nameToCoords(City.name)">Click me!!
-    </li>
-  </ul>
-</div>
--->
-<div> <!-- Print current weather-->
-  {{smhiData.currentWeatherSet.temp}} grader <br/>
-  {{smhiData.currentWeatherSet.wind}} <br/>
-  {{smhiData.currentWeatherSet.rain}} <br/>
-  {{smhiData.currentWeatherSet.cloud}} 
-</div>
-<div id="searchDiv">
-  <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()" />
-</div>
-
 
 <div>
     <h1>{{currentCity.name}}</h1>    
 </div> 
+<div id="searchDiv">
+  <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()" />
+</div>
+
+<!--Button that decides what parameter to show-->
+<ul class="list-group row">
+  <li class="list-group-item col-xs-3">
+    <div class="parameterBtn">
+      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'" ng-init="currentParameter = 'rain'"/>
+    </div>
+  </li>
+  <li class="list-group-item col-xs-3">
+    <div class="parameterBtn">
+      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkT0EyZVF2MktIeW8" ng-click="currentParameter = 'temp'" />
+    </div>
+  </li>
+  <li class="list-group-item col-xs-3">
+    <div class="parameterBtn">
+      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSTlBWFpGOUxMZUU" ng-click="currentParameter = 'wind'" />
+    </div>
+  </li>
+  <li class="list-group-item col-xs-3">
+    <div class="parameterBtn">
+      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeVFkRXh6UktsV0k" ng-click="currentParameter = 'cloud'" />
+    </div>
+  </li>
+</ul>
+
 
 <div id="graph" ng-repeat="WeatherSet in smhiData.weatherSets">
     <div class="left">{{WeatherSet.time}}</div>
     <svg class="timeline">
       <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,0);stroke-width:10" />
     </svg>
-    <div class="right">{{WeatherSet.temp}} °C</div>
+    <div class="right">{{getCurrentParameter(WeatherSet)}}</div>
 </div>
 
