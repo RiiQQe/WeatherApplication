@@ -34,13 +34,31 @@ class WeatherDataComponent {
   City currentCity;
   List<City> allCities = [];
   List<String> cities = ["Norrköping", "Norge", "Rimforsa"];
-  Map<String, bool> cityFilterMap;
+//  Map<String, bool> cityFilterMap;
   String cityName = "";
-  //0: regn, 1: natt, 2: sol
+  
+  //0: mycket regn
+  //1: natt
+  //2: sol + fåglar
+  //3: lite regn
+  //4: snö och sol
+  //5: snö
+  //6: sol + lite moln + fåglar
+  //7: sol + moln
+  //8: sol + lite moln
+  //9: moln
+  //10: åska
   List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_Z09oUHpjZGlWekU", 
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_RmJwQmFEajBZQTQ"];
- 
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_RmJwQmFEajBZQTQ",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_bmZvR3ZQc25kWXM",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_aXpOdlpnN1lva3M",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_c0x5djJmeHpLQ1E",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_NHEzX0xqSUJtMkk",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TllaS1BKeUpMUk0",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TF9fdURkZUtLUn",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_YVZadkxGckhFX3M",
+                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
   
   //Constructor saves coorinates to member variables
   WeatherDataComponent() {
@@ -49,7 +67,7 @@ class WeatherDataComponent {
       //Load smhi, then call _loadData
         smhiData = new LoadSmhi(latitude, longitude);
         smhiData.loadData(latitude, longitude).then((msg){
-          setHeaderImage();
+          setHeader();
         });
         _loadData(true);
       
@@ -82,7 +100,8 @@ class WeatherDataComponent {
 
 
       smhiData.loadData(latitude, longitude).then((msg){
-        setHeaderImage();
+        setHeader();
+
       });
       _loadData(false);
     });    
@@ -138,19 +157,53 @@ class WeatherDataComponent {
     }
   }
     
-  void setHeaderImage()
+  void setHeader()
   {
-    if(smhiData.currentWeatherSet.cloud == "Lite moln")
-    {
-      (querySelector('#smhiID') as ImageElement).src = headerImages[2];
-      
+    String temp = smhiData.currentWeatherSet.time.substring(0,2);
+    int theTime = int.parse(temp);
+    print("tid:");
+    print(theTime);
+    
+   if(theTime > 21 || theTime < 05){
+     (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
+   }
+   
+   else{
+  //TODO lägg till vindstyrka och bedöm åskväder och om det är natt
+    if(smhiData.currentWeatherSet.rain == "Inget regn"){
+      if(smhiData.currentWeatherSet.cloud == "Sol"){
+            (querySelector('#smhiID') as ImageElement).src = headerImages[2];//sol + fåglar
+          }
+      else if(smhiData.currentWeatherSet.cloud == "lite moln"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[6]; //sol + lite moln + fåglar
+      }
+      else if(smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[7];
+      }
+      else if(smhiData.currentWeatherSet.cloud == "Mulet"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[9];
+      }
     }
-    else
-    {
-      (querySelector('#smhiID') as ImageElement).src = headerImages[0];
+    
+    if(smhiData.currentWeatherSet.rain == "Duggregn"){
+      (querySelector('#smhiID') as ImageElement).src = headerImages[3]; //lite regn
     }
-    //(querySelector('#smhiID') as ImageElement).src = headerImages[2];
-    (querySelector('#yrID') as ImageElement).src = headerImages[1];
+    if(smhiData.currentWeatherSet.rain == "Regn"){
+      (querySelector('#smhiID') as ImageElement).src = headerImages[0]; //mycket regn
+    }
+    if(smhiData.currentWeatherSet.rain == "Snö"){
+      if(smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
+      }
+      else if(smhiData.currentWeatherSet.cloud == "Mulet"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö
+      }  
+    }
+  
+    
+   }
+//TODO fixa samma för YR
+  (querySelector('#yrID') as ImageElement).src = headerImages[2]; //satt till sol så länge
     
     querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString();
     querySelector('#headerTextYr').text = smhiData.currentWeatherSet.temp.toString();
