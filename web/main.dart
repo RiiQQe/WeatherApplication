@@ -28,10 +28,10 @@ main() {
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
-  sfunction();
+  removeSplash();
 }
 
-sfunction(){
+removeSplash(){
   
   var kalle2 = querySelector("#splashscreen");
   kalle2.style.display = 'none';

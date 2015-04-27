@@ -60,29 +60,29 @@ div.img1 {
     width:50vw;
     height: 20vh;
     background-color: #32acaf;
-
 }
 div.img2 {
     float: right;
     width:50vw;
     height: 20vh;
     background-color: #e36790;
-
 }
 
 #splashscreen {
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
     bottom:0;
     width:100%;
-    height:100%;
-    background: linear-gradient(90deg, #32acaf 50%, #e36790 50%);
+    height:100vh;
+    /*background: linear-gradient(90deg, #32acaf 50%, #e36790 50%);*/
+    background:#b8d7d7;
 }
 
 #innersplash{
   text-align:center;
-  margin-top:30%;
+  height:100vh;
+  margin-top:80vh;
 }
 
 .glyphicon-refresh-animate {
