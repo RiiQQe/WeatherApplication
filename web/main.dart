@@ -28,7 +28,7 @@ main() {
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
-  //removeSplash();
+  removeSplash();
 }
 
 removeSplash(){
@@ -38,5 +38,6 @@ removeSplash(){
   
   var kalle = querySelector('#whenloaded');
   kalle.style.display = 'block';
+  
 }
 
