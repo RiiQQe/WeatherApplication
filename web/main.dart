@@ -28,7 +28,7 @@ main() {
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
-  removeSplash();
+  //removeSplash();
 }
 
 removeSplash(){
