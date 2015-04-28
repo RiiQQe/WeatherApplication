@@ -35,7 +35,7 @@ class WeatherDataComponent {
   String currentParameter = "temp";
   String currentCity;
   
-  //Expenations of the List of images
+  //Explanations of the List of images
   //0: mycket regn
   //1: natt
   //2: sol + fåglar
@@ -147,13 +147,11 @@ class WeatherDataComponent {
       });
     }
   }
-    
+  //Set header image and parameters depending on currentWeatherSet
   void setHeader()
   {
-    String temp = smhiData.currentWeatherSet.time.substring(0,2);
-    int theTime = int.parse(temp);
-    print("tid:");
-    print(theTime);
+    String time = smhiData.currentWeatherSet.time.substring(0,2);
+    int theTime = int.parse(time);    
     
     if(theTime > 21 || theTime < 05){
       (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
