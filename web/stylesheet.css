@@ -69,6 +69,10 @@ div.img2 {
     background-color: #e36790;
 }
 
+#logo{
+  height: 10vh;
+}
+
 #splashscreen {
     position:fixed;
     top:0;

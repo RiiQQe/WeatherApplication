@@ -33,11 +33,11 @@ main() {
 
 removeSplash(){
   
-  var kalle2 = querySelector("#splashscreen");
-  kalle2.style.display = 'none';
+  var splashscreen = querySelector("#splashscreen");
+  splashscreen.style.display = 'none';
   
-  var kalle = querySelector('#whenloaded');
-  kalle.style.display = 'block';
+  var weatherapp = querySelector('#whenloaded');
+  weatherapp.style.display = 'block';
   
 }
 

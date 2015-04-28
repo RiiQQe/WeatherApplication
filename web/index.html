@@ -20,7 +20,7 @@
 <div id="splashscreen">
   <div id="innersplash">
     <div> 
-      <img alt="Couldn't load image" src="https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TllaS1BKeUpMUk0">
+      <img id="logo" alt="Couldn't load image" src="https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TllaS1BKeUpMUk0">
     </div>
     <div>
       <button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Laddar...</button>
@@ -28,43 +28,25 @@
   </div>
 </div>
 <div id="whenloaded"  style="display:none;">
-<nav class="navbar navbar-default navbar-fixed-top center" role="navigation">
-  <div class="navbar-inner">
-    <ul class="nav navbar-nav">
-      <div class="img1">
-        <img id="smhiID" src="" height="100vh" width="100vw">
-        <h3 id="headerTextSmhi"></h3>
-      </div>
-      <div class="img2">
-        <img id="yrID" src="" height="100vh" width="100vw">
-        <h3 id="headerTextYr"></h3>
-      </div>
-    </ul>
-  </div>
-</nav>
+  <nav class="navbar navbar-default navbar-fixed-top center" role="navigation">
+    <div class="navbar-inner">
+      <ul class="nav navbar-nav">
+        <div class="img1">
+          <img id="smhiID" src="" height="100vh" width="100vw">
+          <h3 id="headerTextSmhi"></h3>
+        </div>
+        <div class="img2">
+          <img id="yrID" src="" height="100vh" width="100vw">
+          <h3 id="headerTextYr"></h3>
+        </div>
+      </ul>
+    </div>
+  </nav>
   <div class="container-fluid" id="container_1">
-   <weather-data></weather-data>
+    <weather-data></weather-data>
   </div> <!--end container 1-->
-  
-  <div class="container-fluid" id="container_2">
-  <div class="row">
-    <div class="col-sm-4">
-      <h3>Column 1</h3>
-      <p>text</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 2</h3>
-      <p>text</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 3</h3>        
-      <p>text</p>
-    </div>
-  </div>
-</div> <!--end container 2-->
+
 </div>
-<!--  <canvas id="myCanvas" width="1000px" height="2000px"></canvas>
--->
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
   <script type="application/dart" src="main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script> 

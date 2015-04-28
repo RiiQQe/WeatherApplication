@@ -1,11 +1,11 @@
 <!-- Draw everythin in a weather-data tag -->
 
 <div>
-    <h1>{{currentCity.name}}</h1>    
+    <h1>{{currentCity}}</h1>    
 </div> 
 
 <div id="searchDiv">
-  <span class="glyphicon glyphicon-map-marker" aria-hidden="true" ng-click="sfunction()"></span> 
+  <span class="glyphicon glyphicon-map-marker" aria-hidden="true" ng-click="findDevicePosision()"></span> 
   <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()" />
 </div>
 
@@ -37,7 +37,7 @@
 <div id="graph" ng-repeat="WeatherSet in smhiData.weatherSets">
     <div class="left">{{WeatherSet.time}}</div>
     <svg class="timeline">
-      <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,0);stroke-width:10" />
+      <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:rgb(0,0,0);stroke-width:5" />
     </svg>
     <div class="right">{{getCurrentParameter(WeatherSet)}}</div>
 </div>
