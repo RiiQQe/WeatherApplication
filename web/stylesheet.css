@@ -84,11 +84,19 @@ div.img2 {
     background:#b8d7d7;
 }
 
-#innersplash{
+#splashText {
+  
+  font-size: 65px;
+  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#innersplash {
   text-align:center;
   height:100vh;
   margin-top:20vh;
 }
+
 
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
