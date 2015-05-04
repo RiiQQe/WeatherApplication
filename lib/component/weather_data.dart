@@ -147,6 +147,7 @@ class WeatherDataComponent {
       });
     }
   }
+  
   //Set header image and parameters depending on currentWeatherSet
   void setHeader()
   {
