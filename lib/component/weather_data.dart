@@ -9,6 +9,7 @@ library weatherdata_component;
 import 'package:angular/angular.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'dart:js' as js;
 
 import 'dart:html';
 
@@ -109,7 +110,14 @@ class WeatherDataComponent {
     
     final input = querySelector("weather-data::shadow #searchTextField") as InputElement;
     
-    final autocomplete = new Autocomplete(input);
+    AutocompleteOptions ao = new AutocompleteOptions();
+        
+        ao.$unsafe['ComponentRestrictions'] = new js.JsObject.jsify({
+          'country': 'se'
+        });
+        
+        
+        final autocomplete = new Autocomplete(input, ao);
     
     autocomplete.onPlaceChanged.listen((_) {
      
