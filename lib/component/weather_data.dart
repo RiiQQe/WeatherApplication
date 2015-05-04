@@ -58,7 +58,7 @@ class WeatherDataComponent {
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TF9fdURkZUtLUn",
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_YVZadkxGckhFX3M",
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
-  
+
   WeatherDataComponent() {
     
     findCoords().then((msg) {
@@ -151,7 +151,7 @@ class WeatherDataComponent {
   void setHeader()
   {
     String time = smhiData.currentWeatherSet.time.substring(0,2);
-    int theTime = int.parse(time);    
+    int theTime = int.parse(time);
     
     if(theTime > 21 || theTime < 05){
       (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
@@ -170,24 +170,23 @@ class WeatherDataComponent {
           (querySelector('#smhiID') as ImageElement).src = headerImages[7];
         }
         else if(smhiData.currentWeatherSet.cloud == "Mulet"){
-          (querySelector('#smhiID') as ImageElement).src = headerImages[9];
+          (querySelector('#smhiID') as ImageElement).src = headerImages[9]; //moln
         }
       }
     
       if(smhiData.currentWeatherSet.rain == "Duggregn"){
         (querySelector('#smhiID') as ImageElement).src = headerImages[3]; //lite regn
       }
-      if(smhiData.currentWeatherSet.rain == "Regn"){
+      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Regn"){
         (querySelector('#smhiID') as ImageElement).src = headerImages[0]; //mycket regn
       }
-      if(smhiData.currentWeatherSet.rain == "Snö"){
-        if(smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+      if(smhiData.currentWeatherSet.rain == "Snö" && smhiData.currentWeatherSet.cloud == "Mulet"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö
+      } 
+      if(smhiData.currentWeatherSet.rain == "Snö" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
           (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
-        }
-        else if(smhiData.currentWeatherSet.cloud == "Mulet"){
-          (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö
-        }  
-      }   
+      } 
+         
     }
     //TODO fixa samma för YR
     (querySelector('#yrID') as ImageElement).src = headerImages[2]; //satt till sol så länge

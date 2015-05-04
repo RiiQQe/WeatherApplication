@@ -30,6 +30,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   position: relative;
   width: 100%;
+  display: table;
 }
 
 .navbar.center .navbar-inner{
@@ -103,4 +104,19 @@ div.img2 {
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
+}
+
+#footer {
+   text-align: center;
+   position:absolute;
+   bottom:0;
+   width:100vw;
+   height:7vh;   /* Height of the footer */
+   background:#b8d7d7;
+   display: table-row;
+}
+
+#info{
+  width: 4vw;
+  height: 4vh;
 }
