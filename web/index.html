@@ -19,10 +19,15 @@
 
 <div id="splashscreen">
   <div id="innersplash">
+    <div id="splashText">
+      Kuling
+    </div>
     <div> 
-      <img id="logo" alt="Couldn't load image" src="https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TllaS1BKeUpMUk0">
+      <img id="logo" alt="Couldn't load image" src="https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TllaS1BKeUpMUk0"
+      style="width:300px;height:225px">
     </div>
     <div>
+      <!-- add a logotyp instead of a weather-image -->
       <button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Laddar...</button>
     </div>
   </div>
@@ -36,7 +41,6 @@
           <img id="smhiID" src="">
           <h3 id="headerTextSmhi"></h3>
         </div>
-        
         <div class="imgYr">
           <img class="logo" id="yrLogo" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkLU9YU01UZW1ZdzA">
           <img id="yrID" src="">
@@ -48,6 +52,20 @@
   <div class="container-fluid" id="container_1">
     <weather-data></weather-data>
   </div> <!--end container 1-->
+  
+  <div id="footer">
+    <div class="dropup">
+      <button class="btn" data-toggle="dropdown">
+        <img id="info" alt="i" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkN2RHZ0hFQk01UnM">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+       <li>Denna applikation är utvecklad för ett kandidatarbete på Linköpings Universitet.
+       Sedan kan det stå annan fakta om API:er och sådant som är viktigt!</li>
+      </ul>
+    </div>
+  </div>
+
 </div>
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
   <script type="application/dart" src="main.dart"></script>

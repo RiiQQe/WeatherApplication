@@ -5,6 +5,7 @@ library main;
 
 import 'package:angular/application_factory.dart';
 import 'package:angular/angular.dart';
+import 'package:bootjack/bootjack.dart';
 
 import 'package:weatherapplication/component/weather_data.dart';
 
@@ -29,6 +30,8 @@ main() {
   applicationFactory().addModule(new WeatherAppModule()).run();
   
   removeSplash();
+  
+  Dropdown.use();
 }
 
 removeSplash(){

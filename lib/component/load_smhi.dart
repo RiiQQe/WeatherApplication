@@ -93,7 +93,7 @@ class LoadSmhi {
   String getCloud(int cloudIndex) {
     String cloud;
 
-    if (cloudIndex == 1) cloud = "Sol"; else if (cloudIndex < 3 && cloudIndex > 1) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; else cloud = "Mulet";
+    if (cloudIndex == 1) cloud = "Sol"; else if (cloudIndex <= 3 && cloudIndex > 1) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 3) cloud = "Växlande molnighet"; else cloud = "Mulet";
 
     return cloud;
   }
