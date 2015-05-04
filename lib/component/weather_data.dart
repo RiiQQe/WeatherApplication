@@ -99,9 +99,8 @@ class WeatherDataComponent {
 
       smhiData.loadData(latitude, longitude).then((msg){
         setHeader();
-
       });
-      _loadData(false);
+      
     });    
   
   }
@@ -248,6 +247,15 @@ class WeatherDataComponent {
     return "Not found";
       
   }
+  
+  String isRainClicked(){
+    print("IsrainChecked??   " + currentParameter);
+    if(currentParameter == 'rain')
+      return 'clicked';
+    else
+      return 'notClicked';
+  }
+  
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
   }

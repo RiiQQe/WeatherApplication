@@ -1,34 +1,32 @@
 <!-- Draw everythin in a weather-data tag -->
 
-<div>
-    <h1>{{currentCity}}</h1>    
-</div> 
-
 <div id="searchDiv">
-  <span class="glyphicon glyphicon-map-marker" aria-hidden="true" ng-click="findDevicePosision()"></span> 
-  <input id="searchTextField" type="text" size="50" ng-keydown="searchDropDown()" />
+  <div  >
+      <img id="compass" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="findDevicePosision()"/>
+  </div>
+  <input id="searchTextField" type="text" size="50" placeholder="Byt stad" ng-click="searchDropDown()" />
 </div>
 
 <!--Button that decides what parameter to show-->
 <ul class="list-group row">
   <li class="list-group-item col-xs-3">
-    <div class="parameterBtn">
-      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'" ng-init="currentParameter = 'rain'"/>
+    <div class="parameterButton">
+        <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'" ng-init="currentParameter = 'rain'" />
     </div>
   </li>
   <li class="list-group-item col-xs-3">
-    <div class="parameterBtn">
-      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkT0EyZVF2MktIeW8" ng-click="currentParameter = 'temp'" />
+    <div class="parameterButton">
+      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkT0EyZVF2MktIeW8" ng-click="currentParameter = 'temp'"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3">
-    <div class="parameterBtn">
-      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSTlBWFpGOUxMZUU" ng-click="currentParameter = 'wind'" />
+    <div class="parameterButton">
+      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSTlBWFpGOUxMZUU" ng-click="currentParameter = 'wind'"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3">
-    <div class="parameterBtn">
-      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeVFkRXh6UktsV0k" ng-click="currentParameter = 'cloud'" />
+    <div class="parameterButton">
+      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeVFkRXh6UktsV0k" ng-click="currentParameter = 'cloud'"/>
     </div>
   </li>
 </ul>

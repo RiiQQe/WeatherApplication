@@ -3,8 +3,8 @@
 /* CSS Document */
 
 html, body {
-  height:100%;
-  witdh:100%;
+  height: 100%;
+  width: 100%;
 }
 
 h1, p{
@@ -56,17 +56,33 @@ body {
   margin-top:2%; 
 }
 
-div.img1 {
+div.imgSmhi {
     float: left;
     width:50vw;
     height: 20vh;
     background-color: #32acaf;
 }
-div.img2 {
+
+div.imgYr {
     float: right;
     width:50vw;
     height: 20vh;
     background-color: #e36790;
+}
+
+#yrID{
+  height: 10vh;
+}
+
+#smhiID{
+  height: 10vh;
+}
+
+.logo{
+  height: 30%;  
+  padding: 5%;
+  display: block;
+  margin: 0 auto;
 }
 
 #logo{
@@ -81,7 +97,7 @@ div.img2 {
     width:100%;
     height:100vh;
     /*background: linear-gradient(90deg, #32acaf 50%, #e36790 50%);*/
-    background:#b8d7d7;
+    background:#D8D7D7;
 }
 
 #innersplash{

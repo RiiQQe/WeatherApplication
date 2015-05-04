@@ -23,68 +23,40 @@
 
 #searchDiv{
   width:100%;
-  float:center;
 }
 
 #searchTextField{
-  width:70%;
-  float:center;
-}
-.glyphicon:before {
-  visibility: visible;
-  height:10px;
-  width:10px;
-}
-.glyphicon:after {
-  visibility: visible;
-  height: 10px;
-  width: 10px;
-  float:center;
-}
-span.glyphicon.glyphicon-map-marker{
-  height:10px;
-  width:10px;
+  width:80%;
+  float:right;
+  margin: 0 2%;
+  font-size: 30px;
+  color: #3c3c3c;
+  border-radius: 10px;
+  border-width: 0px;
+  background-color: #D8D7D7;
+  
 }
 
-.glyphicon.glyphicon-star-empty:checked:before {
-    content: "\e006";
-}
-input[type=checkbox].glyphicon{
-     visibility: hidden;        
+
+#compass{
+  float:left;
+  width: 10%;
+  marign: 1% 2%;
 }
 
-.inner-addon{
-  position: relative;
+.list-group-item{
+  border: 0px;
 }
 
-.inner-addon .glyphicon{
-  position: absolute;
-  padding: 10px;
-  pointer-events: none;
-}
-/* align icon */
-.left-addon .glyphicon  { 
-  left:  10%;
-}
-.right-addon .glyphicon { 
-  right: 10%;
+.parameterButton{
+  padding: 5%;
+  border-radius: 50%;
+  border-width: 0px;
+  background-color: #D8D7D7;
 }
 
-/* add padding  */
-.left-addon input  { 
-  margin: 5%; 
-}
-
-.right-addon input { 
-  margin: 5%; 
-}
-
-.parameterBtn img{
-  backround-color: #d8d7d7 !important;
-  boarder-radius: 50% !important;
-}
-
-.parameterBtn.hover{
+.parameterButton:active{
   boarder: 2px solid;
   boarder-color: #3c3c3c;
 }
+
