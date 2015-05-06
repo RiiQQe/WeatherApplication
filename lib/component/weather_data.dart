@@ -18,6 +18,7 @@ import 'package:google_maps/google_maps_places.dart';
 
 import 'package:weatherapplication/component/load_smhi.dart';
 
+
 @Component(
     selector: 'weather-data', 
     templateUrl: 'packages/weatherapplication/component/weather_data.html',
@@ -71,6 +72,7 @@ class WeatherDataComponent {
          smhiData.loadData(latitude, longitude).then((msg){
          setHeader();
        });
+    smhiData = new LoadSmhi(latitude, longitude);
        _loadData(true);
        createGraph();
       
@@ -212,6 +214,7 @@ class WeatherDataComponent {
   Future findCoords() {
 
     //Get the location of the device
+  
     return window.navigator.geolocation.getCurrentPosition().then((Geoposition pos) {
 
       latitude = pos.coords.latitude;
@@ -278,13 +281,13 @@ void createGraph()
         layers0 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
           js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
             //funktionen in, bumpLayer hämtar värden som ska in i grafen
-            return js.context['d3'].callMethod('bumbLayer', ['m']);
+            return js.context['d3'].callMethod('bumbLayer', [m]);
           })
           ])]),
         layers1 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
             js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
               //funktionen in, bumpLayer hämtar värden som ska in i grafen
-              return js.context['d3'].callMethod('bumbLayer', ['m']);
+              return js.context['d3'].callMethod('bumbLayer', [m]);
             })
          ])]);
 
@@ -311,7 +314,6 @@ void createGraph()
         ])
         ])
         .js.context['d3'].callMethod('range', ['[height, 0]']);
-
 
     var color = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', [])
         .js.context['d3'].callMethod('range', ['["#aad", "#556"]']);
@@ -357,32 +359,41 @@ void createGraph()
               js.context['d3'].callMethod('attr', ['"d", area']);
     });
     
-
-// Inspired by Lee Byron's test data generator.
- /* function bumpLayer(n) {
-
-     function bump(a) {
-        var x = 1 / (.1 + Math.random()),
-            y = 2 * Math.random() - .5,
-            z = 10 / (.1 + Math.random());
-        for (var i = 0; i < n; i++) {
-          var w = (i / n - y) * z;
-          a[i] += x * Math.exp(-w * w);
-        }
+  var bumpLayer = new js.JsFunction.withThis((n) {
+  
+    var bump = new js.JsFunction.withThis((a){
+      var x = 1 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('randon', [])),
+          y = 2 * js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []) - .5,
+          z = 10 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []));
+      
+      
+      for(var i = 0; i < n; i++){
+        var w = (i / n - y)*z;
+        a[i] += x* js.context['d3'].callMethod('Math').js.context['d3'].callMethod('exp', ['-w*w']);
       }
-
-      var a = [], i;
-      for (i = 0; i < n; ++i) a[i] = 0;
-      for (i = 0; i < 5; ++i) bump(a);
-      return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+    });
+    
       
-       
-      print("I bumbLayer");
+    var a = [], i;
+    for (i = 0; i < n; ++i) a[i] = 0;
+    for (i = 0; i < 5; ++i) js.context['d3'].callMethod('bump', ['a']);
+    
+    return js.context['d3'].a.js.context['d3'].callMethod(new js.JsFunction.withThis((d, i) {
+        
+        var x = i;
+        var y = js.context['d3'].callMethod('Math').js.context['d3'].callMethod('max', ['0, d']);
+        //don't return two arguments. x and y
+        return x; 
+                //y; 
+                
+        
+      }));
       
-    } */
-}
-//  var d3 = js.context['someJSOBject'];
- 
+   
+  });
+  
+  
+  }
 }
 
 class WeatherSet {
