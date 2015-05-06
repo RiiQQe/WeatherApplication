@@ -24,9 +24,7 @@ import 'package:weatherapplication/component/load_smhi.dart';
   
     
 class WeatherDataComponent {
-  
-  var input, options;
-  
+    
   double latitude, longitude;
   List<WeatherSet> smhiWeatherSets = [];
   LoadSmhi smhiData;
@@ -34,6 +32,7 @@ class WeatherDataComponent {
   Map<String, bool> cityFilterMap;
   String currentParameter = "temp";
   String currentCity;
+  var input, options;
   
   //Explanations of the List of images
   //0: mycket regn

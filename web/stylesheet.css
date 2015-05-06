@@ -44,6 +44,8 @@ body {
   float: none;
   height: 20vh;
   margin: 0;
+  border-bottom: 2px solid;
+  border-bottom-color: #3d3d3d;
 }
 
 #right
