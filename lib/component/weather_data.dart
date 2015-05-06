@@ -74,7 +74,7 @@ class WeatherDataComponent {
        });
     smhiData = new LoadSmhi(latitude, longitude);
        _loadData(true);
-       createGraph();
+      // createGraph();
       
     });
     
@@ -273,127 +273,127 @@ class WeatherDataComponent {
     print("It doesn't work, too bad! Error code: ${error.code}");
   }
   
-void createGraph()
-{
-  var n = 20, // number of layers
-        m = 200, // number of samples per layer
-        stack = js.context['d3'].callMethod('layout').callMethod('stack',[]).callMethod('offset', ['wiggle']),
-        layers0 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
-          js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
-            //funktionen in, bumpLayer hämtar värden som ska in i grafen
-            return js.context['d3'].callMethod('bumbLayer', [m]);
-          })
-          ])]),
-        layers1 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
-            js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
-              //funktionen in, bumpLayer hämtar värden som ska in i grafen
-              return js.context['d3'].callMethod('bumbLayer', [m]);
-            })
-         ])]);
-
-    var width = 960;
-    var height = 500;
-
-    var x = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', []).
-        js.context['d3'].callMethod('domain', ['[0, m -1]'])
-        .js.context['d3'].callMethod('range', ['[0, width]']);
-        
-    var y = js.context['d3'].callMethod('scale')
-        .js.context['d3'].callMethod('linear', [])
-        .js.context['d3'].callMethod('domain', ['[0', js.context['d3'].
-        callMethod('max', [js.context['d3'].layers0.js.context['d3']
-        .callMethod('concat', ['layers1'], 
-            new js.JsFunction.withThis((layer){
-              return js.context['d3'].callMethod('max', ['layer', 
-                new js.JsFunction.withThis((d){
-                    return d.y0 + d.y;  
-                })
-              ]);
-            })
-        )
-        ])
-        ])
-        .js.context['d3'].callMethod('range', ['[height, 0]']);
-
-    var color = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', [])
-        .js.context['d3'].callMethod('range', ['["#aad", "#556"]']);
-    
-    var area = js.context['d3'].callMethod('svg')
-        .js.context['d3'].callMethod('area', [])
-        .js.context['d3'].callMethod('x', [
-          new js.JsFunction.withThis((d){
-            return js.context['d3'].callMethod('x', ['d.x']);
-          })
-        ]).js.context['d3'].callMethod('y0', [
-          new js.JsFunction.withThis((d){
-            return js.context['d3'].callMethod('y', ['d.y0']);
-          })
-        ]).js.context['d3'].callMethod('y1', [
-          new js.JsFunction.withThis((d){
-            return js.context['d3'].callMethod('y', ['d.y0 + d.y']);
-          })
-        ]);
-        
-    var svg = js.context['d3'].callMethod('select', ['"body"']).
-        js.context['d3'].callMethod('append', ['"svg"']).
-        js.context['d3'].callMethod('attr', ['"width", width']).
-        js.context['d3'].callMethod('attr', ['"height", height']);
-    
-  svg.selectAll("path")
-      .data(layers0)
-    .enter().append("path")
-      .attr("d", area)
-      .style("fill", new js.JsFunction.withThis((jsThis){
-        return js.context['d3'].callMethod('color', [js.context['d3'].callMethod('Math').
-            js.context['d3'].callMethod('random', [])]); 
-      }));
-    
-    var transition = new js.JsFunction.withThis((jsThis){
-      js.context['d3'].callMethod('selectAll', ['"path"']).
-          js.context['d3'].callMethod('data', new js.JsFunction.withThis((jsThis){
-            var d = layers1;
-            layers1 = layers0;
-            return layers0 = d;
-          })).js.context['d3'].callMethod('transition', []).
-              js.context['d3'].callMethod('duration', ['2500']).
-              js.context['d3'].callMethod('attr', ['"d", area']);
-    });
-    
-  var bumpLayer = new js.JsFunction.withThis((n) {
-  
-    var bump = new js.JsFunction.withThis((a){
-      var x = 1 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('randon', [])),
-          y = 2 * js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []) - .5,
-          z = 10 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []));
-      
-      
-      for(var i = 0; i < n; i++){
-        var w = (i / n - y)*z;
-        a[i] += x* js.context['d3'].callMethod('Math').js.context['d3'].callMethod('exp', ['-w*w']);
-      }
-    });
-    
-      
-    var a = [], i;
-    for (i = 0; i < n; ++i) a[i] = 0;
-    for (i = 0; i < 5; ++i) js.context['d3'].callMethod('bump', ['a']);
-    
-    return js.context['d3'].a.js.context['d3'].callMethod(new js.JsFunction.withThis((d, i) {
-        
-        var x = i;
-        var y = js.context['d3'].callMethod('Math').js.context['d3'].callMethod('max', ['0, d']);
-        //don't return two arguments. x and y
-        return x; 
-                //y; 
-                
-        
-      }));
-      
-   
-  });
-  
-  
-  }
+//void createGraph()
+//{
+//  var n = 20, // number of layers
+//        m = 200, // number of samples per layer
+//        stack = js.context['d3'].callMethod('layout').callMethod('stack',[]).callMethod('offset', ['wiggle']),
+//        layers0 = js.context['d3'].callMethod(stack, [js.context['d3'].callMethod('range', [n]).
+//          js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
+//            //funktionen in, bumpLayer hämtar värden som ska in i grafen
+//            return js.context['d3'].callMethod('bumbLayer', [m]);
+//          })
+//          ])]),
+//        layers1 = js.context['d3'].callMethod(stack, [js.context['d3'].callMethod('range', [n]).
+//            js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
+//              //funktionen in, bumpLayer hämtar värden som ska in i grafen
+//              return js.context['d3'].callMethod('bumbLayer', [m]);
+//            })
+//         ])]);
+//
+//    var width = 960;
+//    var height = 500;
+//
+//    var x = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', []).
+//        js.context['d3'].callMethod('domain', [[0, m -1]])
+//        .js.context['d3'].callMethod('range', [[0, width]]);
+//        
+//    var y = js.context['d3'].callMethod('scale')
+//        .js.context['d3'].callMethod('linear', [])
+//        .js.context['d3'].callMethod('domain', ['0', js.context['d3'].
+//        callMethod('max', [js.context['d3'].layers0.js.context['d3']
+//        .callMethod('concat', ['layers1'], 
+//            new js.JsFunction.withThis((layer){
+//              return js.context['d3'].callMethod('max', ['layer', 
+//                new js.JsFunction.withThis((d){
+//                    return d.y0 + d.y;  
+//                })
+//              ]);
+//            })
+//        )
+//        ])
+//        ])
+//        .js.context['d3'].callMethod('range', [[height, 0]]);
+//
+//    var color = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', [])
+//        .js.context['d3'].callMethod('range', [["#aad", "#556"]]);
+//    
+//    var area = js.context['d3'].callMethod('svg')
+//        .js.context['d3'].callMethod('area', [])
+//        .js.context['d3'].callMethod(x, [
+//          new js.JsFunction.withThis((d){
+//            return js.context['d3'].callMethod(x, [d.x]);
+//          })
+//        ]).js.context['d3'].callMethod('y0', [
+//          new js.JsFunction.withThis((d){
+//            return js.context['d3'].callMethod(y, [d.y0]);
+//          })
+//        ]).js.context['d3'].callMethod('y1', [
+//          new js.JsFunction.withThis((d){
+//            return js.context['d3'].callMethod(y, [d.y0 + d.y]);
+//          })
+//        ]);
+//        
+//    var svg = js.context['d3'].callMethod('select', ['"body"']).
+//        js.context['d3'].callMethod('append', ['"svg"']).
+//        js.context['d3'].callMethod('attr', ['"width", width']).
+//        js.context['d3'].callMethod('attr', ['"height", height']);
+//    
+//  svg.selectAll("path")
+//      .data(layers0)
+//    .enter().append("path")
+//      .attr("d", area)
+//      .style("fill", new js.JsFunction.withThis((jsThis){
+//        return js.context['d3'].callMethod(color, [js.context['d3'].callMethod('Math').
+//            js.context['d3'].callMethod('random', [])]); 
+//      }));
+//    
+//    var transition = new js.JsFunction.withThis((jsThis){
+//      js.context['d3'].callMethod('selectAll', ['"path"']).
+//          js.context['d3'].callMethod('data', new js.JsFunction.withThis((jsThis){
+//            var d = layers1;
+//            layers1 = layers0;
+//            return layers0 = d;
+//          })).js.context['d3'].callMethod('transition', []).
+//              js.context['d3'].callMethod('duration', ['2500']).
+//              js.context['d3'].callMethod('attr', ['"d", area']);
+//    });
+//    
+//  var bumpLayer = new js.JsFunction.withThis((n) {
+//  
+//    var bump = new js.JsFunction.withThis((a){
+//      var x = 1 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('randon', [])),
+//          y = 2 * js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []) - .5,
+//          z = 10 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []));
+//      
+//      
+//      for(var i = 0; i < n; i++){
+//        var w = (i / n - y)*z;
+//        a[i] += x* js.context['d3'].callMethod('Math').js.context['d3'].callMethod('exp', ['-w*w']);
+//      }
+//    });
+//    
+//      
+//    var a = [], i;
+//    for (i = 0; i < n; ++i) a[i] = 0;
+//    for (i = 0; i < 5; ++i) js.context['d3'].callMethod('bump', ['a']);
+//    
+//    return js.context['d3'].a.js.context['d3'].callMethod(new js.JsFunction.withThis((d, i) {
+//        
+//        var x = i;
+//        var y = js.context['d3'].callMethod('Math').js.context['d3'].callMethod('max', ['0, d']);
+//        //don't return two arguments. x and y
+//        return x; 
+//                //y; 
+//                
+//        
+//      }));
+//      
+//   
+//  });
+//  
+//  
+//  }
 }
 
 class WeatherSet {
