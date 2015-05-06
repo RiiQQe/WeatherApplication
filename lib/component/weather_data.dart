@@ -17,6 +17,7 @@ import 'package:google_maps/google_maps_places.dart';
 
 import 'package:weatherapplication/component/load_smhi.dart';
 
+
 @Component(
     selector: 'weather-data', 
     templateUrl: 'packages/weatherapplication/component/weather_data.html',
@@ -70,6 +71,7 @@ class WeatherDataComponent {
          smhiData.loadData(latitude, longitude).then((msg){
          setHeader();
        });
+    smhiData = new LoadSmhi(latitude, longitude);
        _loadData(true);
       
     });
@@ -210,6 +212,7 @@ class WeatherDataComponent {
   Future findCoords() {
 
     //Get the location of the device
+  
     return window.navigator.geolocation.getCurrentPosition().then((Geoposition pos) {
 
       latitude = pos.coords.latitude;
@@ -267,28 +270,28 @@ class WeatherDataComponent {
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
   }
-  
-//  var d3 = js.context['someJSOBject'];
-//  var n = 20, // number of layers
-//      m = 200, // number of samples per layer
-//      stack = js.context['d3'].callMethod('layout').callMethod('stack',[]).callMethod('offset', ['wiggle']),
-//      layers0 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
-//        js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
-//          //funktionen in, bumpLayer hämtar värden som ska in i grafen
-//          print("HEJ0");
-//          //return js.context['d3'].callMethod('bumbLayer', ['m']);
-//        })
-//        ])]),
-//      layers1 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
-//          js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
-//            //funktionen in, bumpLayer hämtar värden som ska in i grafen
-//            print("HEJ1");
-//            //return js.context['d3'].callMethod('bumbLayer', ['m']);
-//          })
-//       ])]);
-//
-//  var width = 960;
-//  var height = 500;
+  /*
+  var d3 = js.context['someJSOBject'];
+  var n = 20, // number of layers
+      m = 200, // number of samples per layer
+      stack = js.context['d3'].callMethod('layout').callMethod('stack',[]).callMethod('offset', ['wiggle']),
+      layers0 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
+        js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
+          //funktionen in, bumpLayer hämtar värden som ska in i grafen
+          print("HEJ0");
+          //return js.context['d3'].callMethod('bumbLayer', ['m']);
+        })
+        ])]),
+      layers1 = js.context['d3'].callMethod('stack', [js.context['d3'].callMethod('range', ['n']).
+          js.context['d3'].callMethod('map', [new js.JsFunction.withThis((jsThis){
+            //funktionen in, bumpLayer hämtar värden som ska in i grafen
+            print("HEJ1");
+            //return js.context['d3'].callMethod('bumbLayer', ['m']);
+          })
+       ])]);
+
+  var width = 960;
+  var height = 500;*/
 //
 //  var x = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', []).
 //      js.context['d3'].callMethod('domain', ['[0, m -1]'])
@@ -303,17 +306,17 @@ class WeatherDataComponent {
 //            return js.context['d3'].callMethod('max', ['layer', 
 //              new js.JsFunction.withThis((d){
 //                  return d.y0 + d.y;  
-//              })
-//            ]);
-//          })
-//      )
-//      ])
-//      ])
-//      .js.context['d3'].callMethod('range', ['[height, 0]']);
-//
-//
-//  var color = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', [])
-//      .js.context['d3'].callMethod('range', ['["#aad", "#556"]']);
+/*              })
+            ]);
+          })
+      )
+      ])
+      ])
+      .js.context['d3'].callMethod('range', ['[height, 0]']);
+
+
+  var color = js.context['d3'].callMethod('scale').js.context['d3'].callMethod('linear', [])
+      .js.context['d3'].callMethod('range', ['["#aad", "#556"]']);*/
   
 //  var area = js.context['d3'].callMethod('svg')
 //      .js.context['d3'].callMethod('area', [])
@@ -348,28 +351,40 @@ class WeatherDataComponent {
         .attr("d", area);
   }*/
 
-// Inspired by Lee Byron's test data generator.
-//  function bumpLayer(n) {
+/*Inspired by Lee Byron's test data generator.
+var bumpLayer = new js.JsFunction.withThis((n) {
 
-   /* function bump(a) {
-      var x = 1 / (.1 + Math.random()),
-          y = 2 * Math.random() - .5,
-          z = 10 / (.1 + Math.random());
-      for (var i = 0; i < n; i++) {
-        var w = (i / n - y) * z;
-        a[i] += x * Math.exp(-w * w);
-      }
-    }
-
-    var a = [], i;
-    for (i = 0; i < n; ++i) a[i] = 0;
-    for (i = 0; i < 5; ++i) bump(a);
-    return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
-    * /
-     
-    print("I bumbLayer");
+  var bump = new js.JsFunction.withThis((a){
+    var x = 1 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('randon', [])),
+        y = 2 * js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []) - .5,
+        z = 10 / (.1 + js.context['d3'].callMethod('Math').js.context['d3'].callMethod('random', []));
     
-  }*/
+    
+    for(var i = 0; i < n; i++){
+      var w = (i / n - y)*z;
+      a[i] += x* js.context['d3'].callMethod('Math').js.context['d3'].callMethod('exp', ['-w*w']);
+    }
+  });
+  
+    
+  var a = [], i;
+  for (i = 0; i < n; ++i) a[i] = 0;
+  for (i = 0; i < 5; ++i) js.context['d3'].callMethod('bump', ['a']);
+  
+  return js.context['d3'].a.js.context['d3'].callMethod(new js.JsFunction.withThis((d, i) {
+      
+      var x = i;
+      var y = js.context['d3'].callMethod('Math').js.context['d3'].callMethod('max', ['0, d']);
+      //dan't retunr two arguments. x and y
+      return x; 
+              //y; 
+              
+      
+    }));
+    
+ 
+});*/
+
 }
 
 class WeatherSet {
