@@ -35,9 +35,10 @@ class LoadYr {
     
     
     //Create URL to YR-API with longitude and latitude values
-    var url = 'http://api.yr.no/weatherapi/locationforecast/1.9/?lat=$latitudeString;lon=$longitudeString';
+    //var url = 'http://api.yr.no/weatherapi/locationforecast/1.9/?lat=$latitudeString;lon=$longitudeString';
     //var url = 'http://api.yr.no/weatherapi/locationforecast/1.9/?lat=16.0;lon=58.0';
-        
+    var url = 'http://xn--petrahlin-47a.se/proxy.php?lon=$longitudeString&lat=$latitudeString';
+    
     var request = new HttpRequest();
       
     request.open('GET', url);
