@@ -16,6 +16,8 @@ import 'dart:html';
 import 'package:google_maps/google_maps_places.dart';
 
 import 'package:weatherapplication/component/load_smhi.dart';
+import 'package:weatherapplication/component/load_yr.dart';
+
 
 @Component(
     selector: 'weather-data', 
@@ -29,6 +31,7 @@ class WeatherDataComponent {
   double latitude, longitude;
   List<WeatherSet> smhiWeatherSets = [];
   LoadSmhi smhiData;
+  LoadYr yrData;
   
   Map<String, bool> cityFilterMap;
   String currentParameter = "temp";
@@ -63,8 +66,9 @@ class WeatherDataComponent {
     
     findCoords().then((msg) {
          //Load smhi, then call _loadData
-         smhiData = new LoadSmhi(latitude, longitude);
-         smhiData.loadData(latitude, longitude).then((msg){
+       smhiData = new LoadSmhi(latitude, longitude);
+       yrData = new LoadYr(latitude, longitude);
+       smhiData.loadData(latitude, longitude).then((msg){
          setHeader();
        });
        _loadData(true);
@@ -75,9 +79,9 @@ class WeatherDataComponent {
   
   void findDevicePosision(){
 
-    findCoords().then((msg){
-      
-      smhiData.loadData(msg[0], msg[1]);
+    findCoords().then((coords){
+
+      smhiData.loadData(coords[0], coords[1]);
       
     });
     

@@ -11,27 +11,30 @@ import 'package:weatherapplication/component/weather_data.dart';
 
 import 'dart:html';
 
-import 'package:weatherapplication/formatter/time_category_filter.dart';
-import 'package:weatherapplication/decorators/image_decorator.dart';
+//import 'package:weatherapplication/formatter/time_category_filter.dart';
+//import 'package:weatherapplication/decorators/image_decorator.dart';
 
+import 'dart:convert';
 
 ///Binds all components of the app right now it consists of
 ///[WeatherDataComponent] and [CityFilter]
 class WeatherAppModule extends Module {
   WeatherAppModule() {
+    
     bind(WeatherDataComponent);
-    bind(CityFilter);
-    bind(ImageDecorator);
+    //bind(CityFilter);
+    //bind(ImageDecorator);
+  
   }
 }
 
 main() {
+
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
   removeSplash();
   
-  Dropdown.use();
 }
 
 removeSplash(){
