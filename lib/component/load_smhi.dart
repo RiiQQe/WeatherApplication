@@ -19,14 +19,10 @@ class LoadSmhi {
   Map allData;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH.mm');//HH:mm d/M
-  
-  LoadSmhi(double latitude, double longitude) {
-    //loadData(latitude, longitude);
-  }
+ 
 
   Future loadData(double latitude, double longitude) {
     print("Loading SMHI-data");
-    Completer cmp = new Completer();
     String latitudeString = latitude.toStringAsPrecision(6);
     String longitudeString = longitude.toStringAsPrecision(6);
 
@@ -44,7 +40,7 @@ class LoadSmhi {
       int timeIndex = getTimeIndex();
       currentWeatherSet = weatherSets[timeIndex];
         
-      print("Loading done");
+      print("Loading SMHI done");
       
     }, onError: (error) => printError(error));
     
@@ -93,7 +89,10 @@ class LoadSmhi {
   String getCloud(int cloudIndex) {
     String cloud;
 
-    if (cloudIndex == 1) cloud = "Sol"; else if (cloudIndex <= 3 && cloudIndex > 1) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 3) cloud = "Växlande molnighet"; else cloud = "Mulet";
+    if (cloudIndex == 1) cloud = "Sol"; 
+    else if (cloudIndex <= 3 && cloudIndex > 1) cloud = "Lite moln"; 
+    else if (cloudIndex < 6 && cloudIndex > 3) cloud = "Växlande molnighet"; 
+    else cloud = "Mulet";
 
     return cloud;
   }

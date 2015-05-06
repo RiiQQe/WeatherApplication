@@ -66,12 +66,14 @@ class WeatherDataComponent {
     
     findCoords().then((msg) {
          //Load smhi, then call _loadData
-       smhiData = new LoadSmhi(latitude, longitude);
-       yrData = new LoadYr(latitude, longitude);
+       smhiData = new LoadSmhi();
+       yrData = new LoadYr();
        smhiData.loadData(latitude, longitude).then((msg){
-         setHeader();
+         setSmhiHeader();
        });
-       _loadData(true);
+       yrData.loadData(latitude, longitude).then((msg){
+          setYrHeader();
+       });
       
     });
     
@@ -102,9 +104,12 @@ class WeatherDataComponent {
 
 
       smhiData.loadData(latitude, longitude).then((msg){
-        setHeader();
+        setSmhiHeader();
       });
       
+      yrData.loadData(latitude, longitude).then((msg){
+        setYrHeader();
+      });
     });    
   
   }
@@ -130,36 +135,9 @@ class WeatherDataComponent {
       });
   }
 
-  //Load data and call all other functions that does anything with the data
-  void _loadData(bool ifFirst) {
-    
-    //This is used to print current city
-    //ifFirst is needed, because it's not needed to find cityName 
-    //the second time
-    if(ifFirst){
-      
-      var currentCityUrl = 'http://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
-      
-      HttpRequest.getString(currentCityUrl).then((String responseText) {
-        Map currentData = JSON.decode(responseText);
-        String city;
-        if(currentData["address"]["city"] != null) {
-           city = currentData["address"]["city"];
-        }
-        else if(currentData["address"]["village"] != null) {
-          city = currentData["address"]["village"];  
-        }
-        else {
-          window.alert("something went wrong");
-          city = "Stockholm";
-        }
- 
-      });
-    }
-  }
   
   //Set header image and parameters depending on currentWeatherSet
-  void setHeader()
+  void setSmhiHeader()
   {
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
@@ -199,13 +177,55 @@ class WeatherDataComponent {
       } 
          
     }
-    //TODO fixa samma för YR
-    (querySelector('#yrID') as ImageElement).src = headerImages[2]; //satt till sol så länge
-    
+
     querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString();
-    querySelector('#headerTextYr').text = smhiData.currentWeatherSet.temp.toString();
-    
+
   }
+  
+  //Set header image and parameters depending on currentWeatherSet
+   void setYrHeader()
+   {
+     String time = yrData.currentWeatherSet.time.substring(0,2);
+     int theTime = int.parse(time);
+     
+     if(theTime > 21 || theTime < 05){
+       (querySelector('#yrID') as ImageElement).src = headerImages[1];//natt
+     }
+    
+     else{
+       //TODO lägg till vindstyrka och bedöm åskväder och om det är natt
+       if(yrData.currentWeatherSet.rain == "Inget regn"){
+         if(yrData.currentWeatherSet.cloud == "Sol"){
+            (querySelector('#yrID') as ImageElement).src = headerImages[2];//sol + fåglar
+         }
+         else if(yrData.currentWeatherSet.cloud == "Lite moln"){
+           (querySelector('#yrID') as ImageElement).src = headerImages[6]; //sol + lite moln + fåglar
+         }
+         else if(yrData.currentWeatherSet.cloud == "Växlande molnighet"){
+           (querySelector('#yrID') as ImageElement).src = headerImages[7];
+         }
+         else if(yrData.currentWeatherSet.cloud == "Mulet"){
+           (querySelector('#yrID') as ImageElement).src = headerImages[9]; //moln
+         }
+       }
+     
+       if(yrData.currentWeatherSet.rain == "Duggregn"){
+         (querySelector('#yrID') as ImageElement).src = headerImages[3]; //lite regn
+       }
+       if(yrData.currentWeatherSet.rain.substring(0,4) == "Regn"){
+         (querySelector('#yrID') as ImageElement).src = headerImages[0]; //mycket regn
+       }
+       if(yrData.currentWeatherSet.rain == "Snö" && yrData.currentWeatherSet.cloud == "Mulet"){
+         (querySelector('#yrID') as ImageElement).src = headerImages[5];//snö
+       } 
+       if(yrData.currentWeatherSet.rain == "Snö" && yrData.currentWeatherSet.cloud == "Växlande molnighet"){
+           (querySelector('#yrID') as ImageElement).src = headerImages[4];//snö och sol 
+       } 
+          
+     }
+
+     querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString();
+   }
   
   //Function to set the device's geocoordinates 
   Future findCoords() {

@@ -8,6 +8,8 @@ library load_yr;
 import 'package:xml/xml.dart';
 import 'dart:html';
 import 'package:intl/intl.dart';
+import 'dart:async';
+
 
 import 'package:weatherapplication/component/weather_data.dart';
 
@@ -16,104 +18,101 @@ class LoadYr {
   var allData;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH:mm d/M');
-
-  LoadYr(double latitude, double longitude) {
-    _loadData(latitude, longitude);
-  }
   
 
-  _loadData(double latitude, double longitude) {
+  Future loadData(double latitude, double longitude) {
     print("Loading YR2-data");
 
     String latitudeString = latitude.toStringAsPrecision(4);
     String longitudeString = longitude.toStringAsPrecision(4);
     
-    
-    
-    //Call proxy server that calls yr API with passed parameters
+    //Url to proxy server that calls yr API with passed parameters
     var url = 'http://xn--petrahlin-47a.se/proxy.php?lon=$longitudeString&lat=$latitudeString';
+
     
-    var request = new HttpRequest();
-      
-    request.open('GET', url);
-    request.onLoad.listen((event) {
-      allData = parse(event.target.responseText);
-            
+    //Call proxy
+    return HttpRequest.getString(url).then((String responseText) {
+
+      //Parse response text
+      allData = parse(responseText);
+
       setWeatherParameters();
+
+      currentWeatherSet = weatherSets[1];
+        
+      print("Loading YR done");
       
-    });
-    request.send();
+    }, onError: (error) => printError(error));
   }
 
 
   void setWeatherParameters() {
     String cloud, rain, wind, timeFormatted;
-    double currentTemp;
+    double currentTemp, currentWind, currentCloud, currentRain;
     DateTime currentTime;
     
     weatherSets.clear();
    
     List<XmlNode> temperatures = allData.findAllElements('temperature');
     List<XmlNode> times = allData.findAllElements('time');
-    //List<XmlNode> winds = allData.findAllElements('windSpeed');
-    //List<XmlNode> clouds = allData.findAllElements('cloudiness');
+    List<XmlNode> winds = allData.findAllElements('windSpeed');
+    List<XmlNode> clouds = allData.findAllElements('cloudiness');
+    List<XmlNode> rains = allData.findAllElements('precipitation');
     
     for(int i=0; i < temperatures.length;i++){
       
+      if(i < 65)
+      {
+        currentTime = DateTime.parse(times.elementAt(i*5).attributes.elementAt(2).value);
+        currentRain = double.parse(rains.elementAt(i*4).attributes.elementAt(1).value);
+      }
+      else
+      {
+        break;
+      }
+              
       currentTemp = double.parse(temperatures.elementAt(i).attributes.elementAt(2).value);
-      currentTime = DateTime.parse(times.elementAt(i).attributes.elementAt(1).value);
-      //currentWind = DateTime.parse(times.elementAt(i).attributes.elementAt(1).value);
-      //currentCloud = DateTime.parse(times.elementAt(i).attributes.elementAt(1).value);
+      currentWind = double.parse(winds.elementAt(i).attributes.elementAt(1).value);
+      currentCloud = double.parse(clouds.elementAt(i).attributes.elementAt(1).value);
+      
+      
+      wind = getWind(currentWind);
+      cloud = getCloud(currentCloud);
+      rain = getRain(currentRain);
             
       timeFormatted = formatter.format(currentTime);      
       
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted));
-    }    
+      
+      print("Loading doneeeeeeee");
+    }  
+    
+    print("Loading YRRRRRRRRR done");
+    
   }
-
+  
   //Primitive way of translating parameters from numbers to Strings
-  /*String getCloud(int cloudIndex) {
+  String getCloud(double cloudIndex) {
     String cloud;
 
-    if (cloudIndex < 3) cloud = "Lite moln"; else if (cloudIndex < 6 && cloudIndex > 2) cloud = "Växlande molnighet"; else cloud = "Mulet";
+    if (cloudIndex == 12.5) cloud = "Sol"; 
+    else if (cloudIndex <= 37.5 && cloudIndex > 12.5) cloud = "Lite moln"; 
+    else if (cloudIndex < 75 && cloudIndex > 37.5) cloud = "Växlande molnighet"; 
+    else cloud = "Mulet";
+
 
     return cloud;
   }
 
-
-  String getRain(int rainIndex, int timeIndex) {
+  //TODO: Check if it is snow etc..
+  String getRain(double rainIndex) {
 
     String rain;
-    double howMuch;
-
-    switch (rainIndex) {
-      case 0:
-        rain = "Inget regn";
-        break;
-      case 1:
-        howMuch = allData["timeseries"][timeIndex]["pis"];
-        rain = "Snö, $howMuch mm/h";
-        break;
-      case 2:
-        howMuch = allData["timeseries"][timeIndex]["pis"] + allData["timeseries"][timeIndex]["pit"];
-        rain = "Snöblandat regn, $howMuch mm/h";
-        break;
-      case 3:
-        howMuch = allData["timeseries"][timeIndex]["pit"];
-        rain = "Regn, $howMuch mm/h";
-        break;
-      case 4:
-        rain = "Duggregn";
-        break;
-      case 5:
-        rain = "Hagel";
-        break;
-      case 6:
-        rain = "Smått hagel";
-        break;
-      default:
-        rain = "";
-    }
+    
+    if(rainIndex != 0)
+      rain = "Regn,"+ rainIndex.toString() + "mm/h"; 
+    else
+      rain = "Inget regn";
 
     return rain;
   }
@@ -121,11 +120,15 @@ class LoadYr {
   String getWind(double windIndex) {
     String wind = "";
 
-    if (windIndex <= 0.3) wind = "Vindstilla"; else if (windIndex > 0.3 && windIndex <= 3.3) wind = "Svag vind"; else if (windIndex > 3.3 && windIndex <= 13.8) wind = "Blåsigt"; else if (windIndex > 13.8 && windIndex <= 24.4) wind = "Mycket blåsigt"; else if (windIndex > 24.4 && windIndex < 60) wind = "Storm";
+    if (windIndex <= 0.3) wind = "Vindstilla"; 
+    else if (windIndex > 0.3 && windIndex <= 3.3) wind = "Svag vind"; 
+    else if (windIndex > 3.3 && windIndex <= 13.8) wind = "Blåsigt"; 
+    else if (windIndex > 13.8 && windIndex <= 24.4) wind = "Mycket blåsigt"; 
+    else if (windIndex > 24.4 && windIndex < 60) wind = "Storm";
 
     return wind;
   }
-  */
+  
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
   }
