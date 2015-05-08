@@ -50,6 +50,7 @@ class WeatherDataComponent {
   //8: sol + lite moln
   //9: moln
   //10: åska
+  
   List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_Z09oUHpjZGlWekU", 
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_RmJwQmFEajBZQTQ",
@@ -95,13 +96,10 @@ class WeatherDataComponent {
       longitude = double.parse(citySearch[1]["lon"]);
 
 
-      smhiData.loadData(latitude, longitude).then((msg){
-        setSmhiHeader();
-      });
+      smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
       
-      yrData.loadData(latitude, longitude).then((msg){
-        setYrHeader();
-      });
+      yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
+        
     });    
   
   }
@@ -122,6 +120,8 @@ class WeatherDataComponent {
     autocomplete.onPlaceChanged.listen((_) {
      
         final place = autocomplete.place;
+        input.value = "";
+        input.placeholder = place.name;
         
         nameToCoords(place.name);
       });
@@ -247,6 +247,10 @@ class WeatherDataComponent {
           window.alert("something went wrong");
           currentCity = "Stockholm";
         }
+        var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
+        window.alert("now");
+        changePlaceholder.placeholder = currentCity;
+        window.alert("update");
         
       });
       
