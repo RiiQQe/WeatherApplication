@@ -2,31 +2,31 @@
 
 <div id="searchDiv">
   <div  >
-      <img id="compass" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="findDevicePosision()"/>
+      <img id="compass" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkU0UzM3dUR3JDeEk" ng-click="findDevicePosision()"/>
   </div>
-  <input id="searchTextField" type="text" size="50" placeholder="Byt stad" ng-click="searchDropDown()" />
+  <input id="searchTextField" type="text" size="50" ng-click="searchDropDown()" />
 </div>
 
 <!--Button that decides what parameter to show-->
 <ul class="list-group row">
   <li class="list-group-item col-xs-3 col-sm-3">
-    <div class="parameterButton">
-        <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'" ng-init="currentParameter = 'rain'" />
+    <div id="rainIcon" class="parameterButton">
+        <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'" ng-init="currentParameter = 'rain'" />
     </div>
   </li>
   <li class="list-group-item col-xs-3 col-sm-3">
-    <div class="parameterButton">
-      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkT0EyZVF2MktIeW8" ng-click="currentParameter = 'temp'"/>
+    <div id="tempIcon" class="parameterButton active">
+      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkT0EyZVF2MktIeW8" ng-click="currentParameter = 'temp'"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3 col-sm-3">
-    <div class="parameterButton">
-      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSTlBWFpGOUxMZUU" ng-click="currentParameter = 'wind'"/>
+    <div id="windIcon" class="parameterButton">
+      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSTlBWFpGOUxMZUU" ng-click="currentParameter = 'wind'"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3 col-sm-3">
-    <div class="parameterButton">
-      <img src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeVFkRXh6UktsV0k" ng-click="currentParameter = 'cloud'"/>
+    <div id="cloudIcon" class="parameterButton">
+      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeVFkRXh6UktsV0k" ng-click="currentParameter = 'cloud'"/>
     </div>
   </li>
 </ul>

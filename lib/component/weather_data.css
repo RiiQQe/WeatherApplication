@@ -6,6 +6,7 @@
   float:right;
   text-align:right;
 }
+
 .left{
   width:33%;
   float:left;
@@ -30,19 +31,23 @@
   width:80%;
   float:right;
   margin: 0 2%;
-  font-size: 30px;
+  font-size: 20px;
   color: #3c3c3c;
   border-radius: 10px;
   border-width: 0px;
   background-color: #D8D7D7;
+  padding: 4px;
   
 }
-
 
 #compass{
   float:left;
   width: 10%;
   marign: 1% 2%;
+}
+
+.list-group{
+  margin: 30px;
 }
 
 .list-group-item{
@@ -51,13 +56,19 @@
 
 .parameterButton{
   padding: 5%;
+  width: 50px;
+  height: 50px;
+  magin-top: 10px;
   border-radius: 50%;
   border-width: 0px;
   background-color: #D8D7D7;
 }
 
-.parameterButton:active{
-  boarder: 2px solid;
-  boarder-color: #3c3c3c;
+.parameterButtonImg{
+  height: 40px;
 }
 
+.active{
+  border: 2px solid;
+  border-color: #3c3c3c;
+}

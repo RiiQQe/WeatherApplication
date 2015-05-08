@@ -44,8 +44,6 @@ body {
   float: none;
   height: 20vh;
   margin: 0;
-  border-bottom: 2px solid;
-  border-bottom-color: #3d3d3d;
 }
 
 #right
@@ -64,13 +62,17 @@ div.imgSmhi {
     width:50vw;
     height: 20vh;
     background-color: #32acaf;
+    border-bottom: 2px solid;
+    border-bottom-color: #3d3d3d;
 }
 
 div.imgYr {
-    float: right;
-    width:50vw;
-    height: 20vh;
-    background-color: #e36790;
+  float: right;
+  width:50vw;
+  height: 20vh;
+  background-color: #e36790;
+  border-bottom: 2px solid;
+  border-bottom-color: #3d3d3d;
 }
 
 #yrID{
@@ -81,6 +83,11 @@ div.imgYr {
   height: 10vh;
 }
 
+
+.headerText{
+  font-weight: bold; 
+}
+
 .logo{
   height: 30%;  
   padding: 5%;
@@ -89,7 +96,7 @@ div.imgYr {
 }
 
 #logo{
-  height: 10vh;
+  height: 50px;
 }
 
 #splashscreen {
@@ -103,8 +110,8 @@ div.imgYr {
 }
 
 #splashText {
-  
-  font-size: 65px;
+  color: #3d3d3d;
+  font-size: 40px;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
 }

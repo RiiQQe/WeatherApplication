@@ -84,6 +84,7 @@ class WeatherDataComponent {
     findCoords().then((coords){
 
       smhiData.loadData(coords[0], coords[1]);
+      yrData.loadData(coords[0], coords[1]);
       
     });
     
@@ -120,12 +121,12 @@ class WeatherDataComponent {
     
     AutocompleteOptions ao = new AutocompleteOptions();
         
-        ao.$unsafe['ComponentRestrictions'] = new js.JsObject.jsify({
-          'country': 'se'
-        });
+    ao.$unsafe['ComponentRestrictions'] = new js.JsObject.jsify({
+      'country': 'se'
+    });
         
         
-        final autocomplete = new Autocomplete(input, ao);
+    final autocomplete = new Autocomplete(input, ao);
     
     autocomplete.onPlaceChanged.listen((_) {
      
@@ -152,7 +153,7 @@ class WeatherDataComponent {
         if(smhiData.currentWeatherSet.cloud == "Sol"){
            (querySelector('#smhiID') as ImageElement).src = headerImages[2];//sol + fåglar
         }
-        else if(smhiData.currentWeatherSet.cloud == "lite moln"){
+        else if(smhiData.currentWeatherSet.cloud == "Lite moln"){
           (querySelector('#smhiID') as ImageElement).src = headerImages[6]; //sol + lite moln + fåglar
         }
         else if(smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
@@ -202,7 +203,7 @@ class WeatherDataComponent {
            (querySelector('#yrID') as ImageElement).src = headerImages[6]; //sol + lite moln + fåglar
          }
          else if(yrData.currentWeatherSet.cloud == "Växlande molnighet"){
-           (querySelector('#yrID') as ImageElement).src = headerImages[7];
+           (querySelector('#yrID') as ImageElement).src = headerImages[7]; 
          }
          else if(yrData.currentWeatherSet.cloud == "Mulet"){
            (querySelector('#yrID') as ImageElement).src = headerImages[9]; //moln
@@ -264,14 +265,34 @@ class WeatherDataComponent {
   //Function that changes the printed values in the timeline
   String getCurrentParameter(WeatherSet ws){
     
-    if(currentParameter == 'rain')
-      return ws.rain;
-    else if(currentParameter == 'temp')
-      return "${ws.temp} °C";
-    else if(currentParameter == 'wind')
-      return ws.wind;
-    else if(currentParameter == 'cloud')
-      return ws.cloud;
+    if(currentParameter == 'rain'){
+      (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.add('active');
+      return ws.rain; 
+    }
+    else if(currentParameter == 'temp'){
+      (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.add('active');
+      return "${ws.temp} °C"; 
+    }
+    else if(currentParameter == 'wind'){
+      (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #windIcon') as DivElement).classes.add('active');
+      return ws.wind; 
+    }
+    else if(currentParameter == 'cloud'){
+      (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.remove('active');
+      (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.add('active');
+      return ws.cloud; 
+    }
     
     return "Not found";
       
