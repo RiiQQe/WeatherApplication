@@ -64,28 +64,20 @@ class WeatherDataComponent {
 
   WeatherDataComponent() {
     
-    findCoords().then((msg) {
-         //Load smhi, then call _loadData
-       smhiData = new LoadSmhi();
-       yrData = new LoadYr();
-       smhiData.loadData(latitude, longitude).then((msg){
-         setSmhiHeader();
-       });
-       yrData.loadData(latitude, longitude).then((msg){
-          setYrHeader();
-       });
-      
-    });
+    findCoords().then((_) => createWeatherData());
     
+  }
+  
+  void createWeatherData(){
+      smhiData = new LoadSmhi();
+      yrData = new LoadYr();
+      smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
+      yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
   }
   
   void findDevicePosision(){
 
-    findCoords().then((coords){
-
-      smhiData.loadData(coords[0], coords[1]);
-      
-    });
+    findCoords().then((_) => createWeatherData());
     
   }
   
@@ -139,6 +131,8 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
   {
+    
+    
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
     
@@ -258,7 +252,17 @@ class WeatherDataComponent {
       
       return coordinates;
       
-    }, onError: (error) => printError(error));
+    }, onError: (error) {
+          longitude = 16.14752;
+          latitude = 58.58078;
+          var coordinates = [latitude, longitude];
+          
+          return coordinates;
+          
+          
+        });
+       
+
   }
   
   //Function that changes the printed values in the timeline

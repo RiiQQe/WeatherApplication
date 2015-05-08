@@ -56,7 +56,7 @@ class LoadSmhi {
   }
 
   void setWeatherParameters() {
-    String cloud, rain, wind, category, timeFormatted;
+    String cloud, rain, wind, timeFormatted;
     int cloudIndex, rainIndex;
     double windIndex, currentTemp;
     DateTime currentTime;
