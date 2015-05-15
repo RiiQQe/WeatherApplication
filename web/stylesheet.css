@@ -60,7 +60,7 @@ body {
 div.imgSmhi {
     float: left;
     width:50vw;
-    height: 20vh;
+    height: 23vh;
     background-color: #32acaf;
     border-bottom: 2px solid;
     border-bottom-color: #3d3d3d;
@@ -69,7 +69,7 @@ div.imgSmhi {
 div.imgYr {
   float: right;
   width:50vw;
-  height: 20vh;
+  height: 23vh;
   background-color: #e36790;
   border-bottom: 2px solid;
   border-bottom-color: #3d3d3d;
@@ -96,7 +96,7 @@ div.imgYr {
 }
 
 #logo{
-  height: 50px;
+  height: 30%;
 }
 
 #splashscreen {
@@ -111,7 +111,7 @@ div.imgYr {
 
 #splashText {
   color: #3d3d3d;
-  font-size: 40px;
+  font-size: 20px;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
 }

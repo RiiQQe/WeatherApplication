@@ -179,8 +179,7 @@ class WeatherDataComponent {
          
     }
 
-    querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString();
-
+    querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
   }
   
   //Set header image and parameters depending on currentWeatherSet
@@ -225,7 +224,7 @@ class WeatherDataComponent {
           
      }
 
-     querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString();
+     querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString() + "°C";
    }
   
   //Function to set the device's geocoordinates 
@@ -270,6 +269,8 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.add('active');
+      querySelector('#headerTextYr').text = yrData.currentWeatherSet.rain.toString();
+      querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.rain.toString();
       return ws.rain; 
     }
     else if(currentParameter == 'temp'){
@@ -277,6 +278,8 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.add('active');
+      querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString() + "°C";
+      querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
       return "${ws.temp} °C"; 
     }
     else if(currentParameter == 'wind'){
@@ -284,6 +287,8 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.add('active');
+      querySelector('#headerTextYr').text = yrData.currentWeatherSet.wind.toString();
+      querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.wind.toString();
       return ws.wind; 
     }
     else if(currentParameter == 'cloud'){
@@ -291,6 +296,8 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.add('active');
+      querySelector('#headerTextYr').text = yrData.currentWeatherSet.cloud.toString();
+      querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.cloud.toString();
       return ws.cloud; 
     }
     

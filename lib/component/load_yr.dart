@@ -83,12 +83,8 @@ class LoadYr {
       timeFormatted = formatter.format(currentTime);      
       
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted));
-      
-      print("Loading doneeeeeeee");
-    }  
-    
-    print("Loading YRRRRRRRRR done");
-    
+
+    }    
   }
   
   //Primitive way of translating parameters from numbers to Strings
