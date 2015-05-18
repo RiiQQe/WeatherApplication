@@ -323,36 +323,29 @@ class WeatherDataComponent {
     var ctx = canvas.getContext('2d');
     DateTime now = new DateTime.now();
     int hour = now.hour;
-    
+    int place = 100;
+    int counter = 4;
+    int index = hour;
    // String temp_smhi = smhiData.currentWeatherSet.temp.toString();
-  //  String temp_yr = yrData.currentWeatherSet.temp.toString();
+    String temp_yr = yrData.weatherSets[index].temp.toString();
+    
     
     ctx.beginPath();
         ctx.moveTo(100,0);
         ctx.lineTo(100, 1000);
         ctx.lineWidth = 3;
         ctx.stroke();
-        
-   /* ctx.beginPath();
-            ctx.moveTo(100,0);
-            ctx.lineTo(300, 0);
-            ctx.lineWidth = 3;
-            ctx.stroke();
-     */   
+          
     ctx.fillText("$hour:00", 10, 0);
-    int counter = 4;
+
         for(int i=1; i < 10; i++){
               ctx.font = "15px serif";
               
-              if(counter == 4){
-                drawCircle();
-                counter = 0;
-              }
+              String smhi = smhiData.weatherSets[index].temp.toString();
               
               if(hour > 24) hour = 0;
           
               ctx.fillText("$hour:00", 10,i * 100);
-             // ctx.fillText("$temp_smhi", 100,i * 100);
               
               ctx.beginPath();
                       ctx.moveTo(90,i * 100);
@@ -360,13 +353,20 @@ class WeatherDataComponent {
                       ctx.lineWidth = 2;
                       ctx.stroke();
               
+              
+              if(counter == 4){
+                drawCircle(place, smhi);
+                counter = 0;
+              }
               hour++;
               counter++;
+              place = i * 100;
+              index++;
         }
 
   }
   
-  void drawCircle(){
+  void drawCircle(int place, smhi){
     
     CanvasElement canvas = document.querySelector('#today');
        
@@ -376,9 +376,9 @@ class WeatherDataComponent {
           
       //change so that the circle is in the middle
       var centerX = canvas.width/2;
-      var centerY = canvas.height/2;
+      var centerY = place;
       
-      var smhi = smhiData.currentWeatherSet.temp * 5;
+     // var smhi = smhiData.currentWeatherSet.temp * 5;
       var yr = yrData.currentWeatherSet.temp * 5;
       
       //display the difference in the circle
@@ -389,13 +389,17 @@ class WeatherDataComponent {
       circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
       circle_smhi.fillStyle = '#E36790';
       circle_smhi.fill();
-      circle_smhi.stroke(); 
+      //circle_smhi.stroke(); 
       
       circle_yr.beginPath();
       circle_yr.arc(centerX + 50, centerY, yr, 0, 2 * PI, false);
       circle_yr.fillStyle = '#32ACAF';
       circle_yr.fill();
-      circle_yr.stroke();
+      circle_yr.fillText(smhi, 10 ,10);
+      //circle_yr.stroke();
+      
+      circle_smhi.fillStyle = 'black';
+      circle_yr.fillStyle = 'black';
   }
     
   
