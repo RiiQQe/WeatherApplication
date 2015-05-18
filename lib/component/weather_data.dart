@@ -71,11 +71,10 @@ class WeatherDataComponent {
        yrData = new LoadYr();
        smhiData.loadData(latitude, longitude).then((msg){
          setSmhiHeader();
-         drawCanvas();
        });
        yrData.loadData(latitude, longitude).then((msg){
           setYrHeader();
-          //drawCanvas();
+          drawCanvas();
        });
        
        //drawCanvas();
@@ -319,6 +318,7 @@ class WeatherDataComponent {
   void drawCanvas(){
     
     CanvasElement canvas = document.querySelector('#today');
+    
    // CanvasElement canvas1 = document.querySelector('#today');
     var ctx = canvas.getContext('2d');
     DateTime now = new DateTime.now();
@@ -333,16 +333,21 @@ class WeatherDataComponent {
         ctx.lineWidth = 3;
         ctx.stroke();
         
-    ctx.beginPath();
+   /* ctx.beginPath();
             ctx.moveTo(100,0);
             ctx.lineTo(300, 0);
             ctx.lineWidth = 3;
             ctx.stroke();
-        
+     */   
     ctx.fillText("$hour:00", 10, 0);
-    
+    int counter = 4;
         for(int i=1; i < 10; i++){
               ctx.font = "15px serif";
+              
+              if(counter == 4){
+                drawCircle();
+                counter = 0;
+              }
               
               if(hour > 24) hour = 0;
           
@@ -355,11 +360,45 @@ class WeatherDataComponent {
                       ctx.lineWidth = 2;
                       ctx.stroke();
               
-              hour++;;
+              hour++;
+              counter++;
         }
 
-    
   }
+  
+  void drawCircle(){
+    
+    CanvasElement canvas = document.querySelector('#today');
+       
+    CanvasElement canvas1 = document.querySelector('#today');
+      var circle_smhi = canvas.getContext('2d');
+      var circle_yr = canvas1.getContext('2d');
+          
+      //change so that the circle is in the middle
+      var centerX = canvas.width/2;
+      var centerY = canvas.height/2;
+      
+      var smhi = smhiData.currentWeatherSet.temp * 5;
+      var yr = yrData.currentWeatherSet.temp * 5;
+      
+      //display the difference in the circle
+     // var diff = yr-smhi;
+
+      
+      circle_smhi.beginPath();
+      circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
+      circle_smhi.fillStyle = '#E36790';
+      circle_smhi.fill();
+      circle_smhi.stroke(); 
+      
+      circle_yr.beginPath();
+      circle_yr.arc(centerX + 50, centerY, yr, 0, 2 * PI, false);
+      circle_yr.fillStyle = '#32ACAF';
+      circle_yr.fill();
+      circle_yr.stroke();
+  }
+    
+  
 }
 
 class WeatherSet {
