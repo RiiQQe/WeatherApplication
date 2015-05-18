@@ -10,6 +10,7 @@ import 'package:angular/angular.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:js' as js;
+import 'dart:math';
 
 import 'dart:html';
 
@@ -70,10 +71,14 @@ class WeatherDataComponent {
        yrData = new LoadYr();
        smhiData.loadData(latitude, longitude).then((msg){
          setSmhiHeader();
+         //drawCanvas();
        });
        yrData.loadData(latitude, longitude).then((msg){
           setYrHeader();
+          drawCanvas();
        });
+       
+       //drawCanvas();
       
     });
     
@@ -308,6 +313,40 @@ class WeatherDataComponent {
   
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
+  }
+  
+  
+  void drawCanvas(){
+    
+    CanvasElement canvas = document.querySelector('#today');
+    CanvasElement canvas1 = document.querySelector('#today');
+    var circle_smhi = canvas.getContext('2d');
+    var circle_yr = canvas1.getContext('2d');
+    
+    String temp_smhi = smhiData.currentWeatherSet.temp.toString();
+    String temp_yr = yrData.currentWeatherSet.temp.toString();
+    print(temp_smhi);
+    print(temp_yr);
+    
+    var centerX = canvas.width / 2;
+    var centerY = canvas.height / 2;
+    var radius = 100;
+    var radius1 = 70;
+    
+    circle_smhi.beginPath();
+    circle_smhi.arc(centerX, centerY, radius, 0, 2 * PI, false);
+    circle_smhi.fillStyle = 'green';
+    circle_smhi.fill();
+    //circle_smhi.strokeStyle = '#003300';
+    circle_smhi.stroke(); 
+    
+    circle_yr.beginPath();
+    circle_yr.arc(centerX, centerY, radius1, 0, 2 * PI, false);
+    circle_yr.fillStyle = 'red';
+    circle_yr.fill();
+    //circle_yr.strokeStyle = '#003300';
+    circle_yr.stroke(); 
+    
   }
 }
 
