@@ -75,7 +75,7 @@ class WeatherDataComponent {
        });
        yrData.loadData(latitude, longitude).then((msg){
           setYrHeader();
-          drawCanvas();
+          drawCircle();
        });
        
        //drawCanvas();
@@ -316,17 +316,22 @@ class WeatherDataComponent {
   }
   
   
-  void drawCanvas(){
+  void drawCircle(){
     
     CanvasElement canvas = document.querySelector('#today');
     CanvasElement canvas1 = document.querySelector('#today');
     var circle_smhi = canvas.getContext('2d');
     var circle_yr = canvas1.getContext('2d');
         
+    //change so that the circle is in the middle
     var centerX = canvas.width/2;
     var centerY = canvas.height/2;
-    var smhi = smhiData.currentWeatherSet.temp * 10;
-    var yr = yrData.currentWeatherSet.temp * 10;
+    
+    var smhi = smhiData.currentWeatherSet.temp * 5;
+    var yr = yrData.currentWeatherSet.temp * 5;
+    
+    //display the difference in the circle
+   // var diff = yr-smhi;
 
     
     circle_smhi.beginPath();
