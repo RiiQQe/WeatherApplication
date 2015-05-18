@@ -327,7 +327,7 @@ class WeatherDataComponent {
     int counter = 4;
     int index = hour;
    // String temp_smhi = smhiData.currentWeatherSet.temp.toString();
-    String temp_yr = yrData.weatherSets[index].temp.toString();
+   // String temp_yr = yrData.weatherSets[index].temp.toString();
     
     
     ctx.beginPath();
@@ -341,11 +341,15 @@ class WeatherDataComponent {
         for(int i=1; i < 10; i++){
               ctx.font = "15px serif";
               
-              String smhi = smhiData.weatherSets[index].temp.toString();
-              
+              var smhi = smhiData.weatherSets[index].temp;
+              var yr = yrData.weatherSets[index].temp;
+             
               if(hour > 24) hour = 0;
           
+              ctx.fillStyle = 'black';  
               ctx.fillText("$hour:00", 10,i * 100);
+              
+             // ctx.fillText("$temp_smhi", 100,i * 100);
               
               ctx.beginPath();
                       ctx.moveTo(90,i * 100);
@@ -353,53 +357,72 @@ class WeatherDataComponent {
                       ctx.lineWidth = 2;
                       ctx.stroke();
               
-              
               if(counter == 4){
-                drawCircle(place, smhi);
+                drawCircle(place, smhi, yr);
                 counter = 0;
               }
               hour++;
               counter++;
               place = i * 100;
               index++;
+
         }
 
   }
   
-  void drawCircle(int place, smhi){
+
+  void drawCircle(int place, smhi, yr){
     
-    CanvasElement canvas = document.querySelector('#today');
-       
-    CanvasElement canvas1 = document.querySelector('#today');
-      var circle_smhi = canvas.getContext('2d');
-      var circle_yr = canvas1.getContext('2d');
+    CanvasElement canvas_1 = document.querySelector('#today'); 
+    //CanvasElement canvas_2 = document.querySelector('#today');
+      var circle_smhi = canvas_1.getContext('2d');
+      var circle_yr = canvas_1.getContext('2d');
+      
+      var text = canvas_1.getContext('2d');
+      
+      //get the current Parameter
           
       //change so that the circle is in the middle
-      var centerX = canvas.width/2;
+      var centerX = canvas_1.width/2;
       var centerY = place;
       
-     // var smhi = smhiData.currentWeatherSet.temp * 5;
-      var yr = yrData.currentWeatherSet.temp * 5;
+    //  var smhiRadius = smhiData.currentWeatherSet.temp * 3;
+     // var yrRadius = yrData.currentWeatherSet.temp * 3;
       
-      //display the difference in the circle
-     // var diff = yr-smhi;
-
+      //calculate the the difference in the circle
       
-      circle_smhi.beginPath();
-      circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
-      circle_smhi.fillStyle = '#E36790';
-      circle_smhi.fill();
-      //circle_smhi.stroke(); 
       
-      circle_yr.beginPath();
-      circle_yr.arc(centerX + 50, centerY, yr, 0, 2 * PI, false);
-      circle_yr.fillStyle = '#32ACAF';
-      circle_yr.fill();
-      circle_yr.fillText(smhi, 10 ,10);
-      //circle_yr.stroke();
+      if(smhi > yr){
+        circle_smhi.beginPath();
+        circle_smhi.arc(centerX + 50, centerY, smhi+10, 0, 2 * PI, false);
+        circle_smhi.fillStyle = '#E36790';
+        circle_smhi.fill();
+        
+        circle_yr.beginPath();
+        circle_yr.arc(centerX + 50, centerY, yr, 0, 2 * PI, false);
+        circle_yr.fillStyle = '#32ACAF';
+        circle_yr.fill(); 
+        
+      }
+      else{
+        
+        circle_yr.beginPath();
+         circle_yr.arc(centerX + 50, centerY, yr+10, 0, 2 * PI, false);
+         circle_yr.fillStyle = '#32ACAF';
+         circle_yr.fill();
+        
+        circle_smhi.beginPath();
+        circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
+        circle_smhi.fillStyle = '#E36790';
+        circle_smhi.fill();
+  
+      }
       
-      circle_smhi.fillStyle = 'black';
-      circle_yr.fillStyle = 'black';
+      String difference = (smhi-yr).abs().toString();
+      text.beginPath();
+      text.fillStyle = 'black';
+      text.fillText(difference, centerX + 40, centerY);
+      
   }
     
   
