@@ -322,29 +322,23 @@ class WeatherDataComponent {
     CanvasElement canvas1 = document.querySelector('#today');
     var circle_smhi = canvas.getContext('2d');
     var circle_yr = canvas1.getContext('2d');
-    
-    String temp_smhi = smhiData.currentWeatherSet.temp.toString();
-    String temp_yr = yrData.currentWeatherSet.temp.toString();
-    print(temp_smhi);
-    print(temp_yr);
-    
-    var centerX = canvas.width / 2;
-    var centerY = canvas.height / 2;
-    var radius = 100;
-    var radius1 = 70;
+        
+    var centerX = canvas.width/2;
+    var centerY = canvas.height/2;
+    var smhi = smhiData.currentWeatherSet.temp * 10;
+    var yr = yrData.currentWeatherSet.temp * 10;
+
     
     circle_smhi.beginPath();
-    circle_smhi.arc(centerX, centerY, radius, 0, 2 * PI, false);
-    circle_smhi.fillStyle = 'green';
+    circle_smhi.arc(centerX, centerY, smhi, 0, 2 * PI, false);
+    circle_smhi.fillStyle = '#E36790';
     circle_smhi.fill();
-    //circle_smhi.strokeStyle = '#003300';
     circle_smhi.stroke(); 
     
     circle_yr.beginPath();
-    circle_yr.arc(centerX, centerY, radius1, 0, 2 * PI, false);
-    circle_yr.fillStyle = 'red';
+    circle_yr.arc(centerX, centerY, yr, 0, 2 * PI, false);
+    circle_yr.fillStyle = '#32ACAF';
     circle_yr.fill();
-    //circle_yr.strokeStyle = '#003300';
     circle_yr.stroke(); 
     
   }
