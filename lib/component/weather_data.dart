@@ -71,11 +71,11 @@ class WeatherDataComponent {
        yrData = new LoadYr();
        smhiData.loadData(latitude, longitude).then((msg){
          setSmhiHeader();
-         //drawCanvas();
+         drawCanvas();
        });
        yrData.loadData(latitude, longitude).then((msg){
           setYrHeader();
-          drawCanvas();
+          //drawCanvas();
        });
        
        //drawCanvas();
@@ -319,33 +319,45 @@ class WeatherDataComponent {
   void drawCanvas(){
     
     CanvasElement canvas = document.querySelector('#today');
-    CanvasElement canvas1 = document.querySelector('#today');
-    var circle_smhi = canvas.getContext('2d');
-    var circle_yr = canvas1.getContext('2d');
+   // CanvasElement canvas1 = document.querySelector('#today');
+    var ctx = canvas.getContext('2d');
+    DateTime now = new DateTime.now();
+    int hour = now.hour;
     
-    String temp_smhi = smhiData.currentWeatherSet.temp.toString();
-    String temp_yr = yrData.currentWeatherSet.temp.toString();
-    print(temp_smhi);
-    print(temp_yr);
+   // String temp_smhi = smhiData.currentWeatherSet.temp.toString();
+  //  String temp_yr = yrData.currentWeatherSet.temp.toString();
     
-    var centerX = canvas.width / 2;
-    var centerY = canvas.height / 2;
-    var radius = 100;
-    var radius1 = 70;
+    ctx.beginPath();
+        ctx.moveTo(100,0);
+        ctx.lineTo(100, 1000);
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        
+    ctx.beginPath();
+            ctx.moveTo(100,0);
+            ctx.lineTo(300, 0);
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        
+    ctx.fillText("$hour:00", 10, 0);
     
-    circle_smhi.beginPath();
-    circle_smhi.arc(centerX, centerY, radius, 0, 2 * PI, false);
-    circle_smhi.fillStyle = 'green';
-    circle_smhi.fill();
-    //circle_smhi.strokeStyle = '#003300';
-    circle_smhi.stroke(); 
-    
-    circle_yr.beginPath();
-    circle_yr.arc(centerX, centerY, radius1, 0, 2 * PI, false);
-    circle_yr.fillStyle = 'red';
-    circle_yr.fill();
-    //circle_yr.strokeStyle = '#003300';
-    circle_yr.stroke(); 
+        for(int i=1; i < 10; i++){
+              ctx.font = "15px serif";
+              
+              if(hour > 24) hour = 0;
+          
+              ctx.fillText("$hour:00", 10,i * 100);
+             // ctx.fillText("$temp_smhi", 100,i * 100);
+              
+              ctx.beginPath();
+                      ctx.moveTo(90,i * 100);
+                      ctx.lineTo(110, i * 100);
+                      ctx.lineWidth = 2;
+                      ctx.stroke();
+              
+              hour++;;
+        }
+
     
   }
 }
