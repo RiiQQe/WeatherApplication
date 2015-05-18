@@ -1,13 +1,15 @@
 
 var layers1, layers0;
 
-function onload(){
+//function onload(){
+function onload(temp){
+
 
         var n = 2, // number of layers
             m = 10, // number of samples per layer
-            stack = d3.layout.stack().offset("wiggle");
-            layers0 = stack(d3.range(n).map(function() { return bumpLayer(m); }));
-            layers1 = stack(d3.range(n).map(function() { return bumpLayer(m); }));
+            stack = d3.layout.stack().offset("wiggle"),
+            layers0 = stack(d3.range(n).map(function() { return bumpLayer(m, temp); })),
+            layers1 = stack(d3.range(n).map(function() { return bumpLayer(m, (temp-1)); }));
         
         var width = 960,
             height = 500;
@@ -52,21 +54,9 @@ function transition() {
 }
 
 // Inspired by Lee Byron's test data generator.
-function bumpLayer(n) {
-
-  //ta bort bump
-  var bump = function(a) {
-    var x = 1 / (.1 + Math.random()),
-        y = 2 * Math.random() - .5,
-        z = 10 / (.1 + Math.random());
-    for (var i = 0; i < n; i++) {
-      var w = (i / n - y) * z;
-      a[i] += x * Math.exp(-w * w);
-    }
-  }
-	
+function bumpLayer(n, hej) {
   var a = [], i;
-  for (i = 0; i < n; ++i) a[i] = 0;
-  for (i = 0; i < 5; ++i) bump(a); //hur långt den loopar motsvara hur utragen den är
+  for (i = 0; i < n; ++i) a[i] = hej[i+2];
   return a.map(function(d, i) { return {x: i, y: Math.max(0, d)}; });
+ 
 }
