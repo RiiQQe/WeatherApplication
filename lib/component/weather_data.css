@@ -78,6 +78,7 @@
   border-radius: 50%;
   border-width: 0px;
   background-color: #D8D7D7;
+  position: absolute;
 }
 
 .parameterButtonImg{
