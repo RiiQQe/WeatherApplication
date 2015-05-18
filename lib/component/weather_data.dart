@@ -38,6 +38,16 @@ class WeatherDataComponent {
   String currentCity;
   var input, options;
   
+  //For d3JS
+  
+  var d3 = js.context["d3"];
+  
+  var n = 20, //Number of layers
+      m = 200;//Number of samples per layer
+  
+  var width = 960,
+      height = 500;
+    
   //Explanations of the List of images
   //0: mycket regn
   //1: natt
@@ -65,15 +75,43 @@ class WeatherDataComponent {
 
   WeatherDataComponent() {
     
+    smhiData = new LoadSmhi();
+    yrData = new LoadYr();
+    
     findCoords().then((_) => createWeatherData());
     
   }
+  void updateGraph(){
+    
+    var d3 = js.context['d3'];
+    
+    js.context['d3'].callMethod('alert', ["hejsan"]);
+    
+    var data = [4, 8, 15, 16, 23, 42]; //Detta ska vara väderdata
+    print("hello");
+    
+    
+    d3.callMethod('alert', ["oflyt din sure"]);
+    
+    //d3.callMethod('select', [querySelector("weather-data::shadow .chart")]).callMethod('selectAll', ['div']).callMethod('alert', ["kuksug"]);
+    
+    /*d3.callMethod('select', [querySelector("weather-data::shadow .chart")]).callMethod('selectAll', ['div']).callMethod('data', [data])
+    .callMethod('enter', []).callMethod('append', ['div']).callMethod('style', ['width', 
+      new js.JsFunction.withThis((jsThis){
+        return /*jsThis*10+*/"px";
+    })
+      ]).callMethod('text', [new js.JsFunction.withThis((jsThis){
+        return "hello";
+      })]);
+    print("hello2");
+    */
+  }
   
   void createWeatherData(){
-      smhiData = new LoadSmhi();
-      yrData = new LoadYr();
-      smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
-      yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
+
+    smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
+    yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
+  
   }
   
   void findDevicePosision(){
@@ -95,15 +133,22 @@ class WeatherDataComponent {
       latitude = double.parse(citySearch[1]["lat"]);
       longitude = double.parse(citySearch[1]["lon"]);
 
-
-      smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
       
-      yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
-        
+
+      createWeatherData();  
     });    
   
   }
+
+  void setValues2(){
+    window.alert("fel ute");
+  }
+ 
   
+  void setValues(var s){
+    window.alert("fel ute");
+  }
+ 
   void searchDropDown(){ 
     
     final input = querySelector("weather-data::shadow #searchTextField") as InputElement;
@@ -248,9 +293,8 @@ class WeatherDataComponent {
           currentCity = "Stockholm";
         }
         var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-        window.alert("now");
+        
         changePlaceholder.placeholder = currentCity;
-        window.alert("update");
         
       });
       
@@ -271,6 +315,8 @@ class WeatherDataComponent {
   
   //Function that changes the printed values in the timeline
   String getCurrentParameter(WeatherSet ws){
+    
+    js.context.callMethod("setValues", [ ws.temp ]);
     
     if(currentParameter == 'rain')
       return ws.rain;
@@ -295,7 +341,7 @@ class WeatherDataComponent {
   
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
-  }
+  }  
 }
 
 class WeatherSet {

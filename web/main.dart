@@ -11,6 +11,8 @@ import 'package:weatherapplication/component/weather_data.dart';
 import 'dart:html';
 
 
+import 'dart:js' as js;
+
 ///Binds all components of the app right now it consists of
 ///[WeatherDataComponent] and [CityFilter]
 class WeatherAppModule extends Module {
@@ -23,9 +25,13 @@ class WeatherAppModule extends Module {
 
 main() {
   
+  var layers1, layers0;
+  
   applicationFactory().addModule(new WeatherAppModule()).run();
   
+  
   removeSplash();
+  
   
 }
 
@@ -38,4 +44,5 @@ removeSplash(){
   weatherapp.style.display = 'block';
   
 }
+
 

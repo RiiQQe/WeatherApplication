@@ -84,10 +84,9 @@ class LoadYr {
       
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted));
       
-      print("Loading doneeeeeeee");
     }  
     
-    print("Loading YRRRRRRRRR done");
+    print("Loading YR done");
     
   }
   

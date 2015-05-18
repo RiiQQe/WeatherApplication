@@ -61,3 +61,25 @@
   boarder-color: #3c3c3c;
 }
 
+.chart div {
+    font: 10px sans-serif;
+    background-color: steelblue;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    color: white;
+}
+
+.graphBody{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 960px;
+}
+
+.button{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
