@@ -339,7 +339,6 @@ class WeatherDataComponent {
         for(int i=1; i < 10; i++){
               ctx.font = "15px serif";
               
-              
               if(hour > 24) hour = 0;
           
               ctx.fillStyle = 'black';  
@@ -368,9 +367,9 @@ class WeatherDataComponent {
   void drawCircle(int place){
     
     CanvasElement canvas_1 = document.querySelector('#today'); 
-    CanvasElement canvas_2 = document.querySelector('#today');
+    //CanvasElement canvas_2 = document.querySelector('#today');
       var circle_smhi = canvas_1.getContext('2d');
-      var circle_yr = canvas_2.getContext('2d');
+      var circle_yr = canvas_1.getContext('2d');
       
       var text = canvas_1.getContext('2d');
       
@@ -383,11 +382,8 @@ class WeatherDataComponent {
       var smhi = smhiData.currentWeatherSet.temp * 3;
       var yr = yrData.currentWeatherSet.temp * 3;
       
-     // print(smhi);
-     // print(yr);
-      
       //calculate the the difference in the circle
-     // var diff = yr-smhi;
+      
       
       if(smhi > yr){
         circle_smhi.beginPath();
@@ -400,12 +396,16 @@ class WeatherDataComponent {
         circle_yr.fillStyle = '#32ACAF';
         circle_yr.fill();
         
-        /*text.fillText('KAJSA', centerX + 50, centerY);
-        text.fillStyle = 'black';*/
+        String difference = (smhi-yr).toString();
+        text.beginPath();
+        text.fillStyle = 'black';
+        text.fillText(difference, centerX + 40, centerY);
+        
         
       }
       else{
-         circle_yr.beginPath();
+        
+        circle_yr.beginPath();
          circle_yr.arc(centerX + 50, centerY, yr+10, 0, 2 * PI, false);
          circle_yr.fillStyle = '#32ACAF';
          circle_yr.fill();
@@ -414,8 +414,16 @@ class WeatherDataComponent {
         circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
         circle_smhi.fillStyle = '#E36790';
         circle_smhi.fill();
-        
+       
+        String diffen = (yr-smhi).toString();
+        text.beginPath();
+        text.fillStyle = 'black';
+        text.fillText(diffen, centerX + 40, centerY);
+  
       }
+      
+      
+      
 
       
       
