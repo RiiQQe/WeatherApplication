@@ -332,26 +332,19 @@ class WeatherDataComponent {
         ctx.lineTo(100, 1000);
         ctx.lineWidth = 3;
         ctx.stroke();
-        
-   /* ctx.beginPath();
-            ctx.moveTo(100,0);
-            ctx.lineTo(300, 0);
-            ctx.lineWidth = 3;
-            ctx.stroke();
-     */   
+          
     ctx.fillText("$hour:00", 10, 0);
     int counter = 4;
+    int place = 100;
         for(int i=1; i < 10; i++){
               ctx.font = "15px serif";
               
-              if(counter == 4){
-                drawCircle();
-                counter = 0;
-              }
               
               if(hour > 24) hour = 0;
           
+              ctx.fillStyle = 'black';  
               ctx.fillText("$hour:00", 10,i * 100);
+              
              // ctx.fillText("$temp_smhi", 100,i * 100);
               
               ctx.beginPath();
@@ -360,42 +353,72 @@ class WeatherDataComponent {
                       ctx.lineWidth = 2;
                       ctx.stroke();
               
+                      if(counter == 4){
+                drawCircle(place);
+                counter = 0;
+              }
+      
               hour++;
               counter++;
+              place = i*100;
         }
 
   }
   
-  void drawCircle(){
+  void drawCircle(int place){
     
-    CanvasElement canvas = document.querySelector('#today');
-       
-    CanvasElement canvas1 = document.querySelector('#today');
-      var circle_smhi = canvas.getContext('2d');
-      var circle_yr = canvas1.getContext('2d');
+    CanvasElement canvas_1 = document.querySelector('#today'); 
+    CanvasElement canvas_2 = document.querySelector('#today');
+      var circle_smhi = canvas_1.getContext('2d');
+      var circle_yr = canvas_2.getContext('2d');
+      
+      var text = canvas_1.getContext('2d');
+      
+      //get the current Parameter
           
       //change so that the circle is in the middle
-      var centerX = canvas.width/2;
-      var centerY = canvas.height/2;
+      var centerX = canvas_1.width/2;
+      var centerY = place;
       
-      var smhi = smhiData.currentWeatherSet.temp * 5;
-      var yr = yrData.currentWeatherSet.temp * 5;
+      var smhi = smhiData.currentWeatherSet.temp * 3;
+      var yr = yrData.currentWeatherSet.temp * 3;
       
-      //display the difference in the circle
+     // print(smhi);
+     // print(yr);
+      
+      //calculate the the difference in the circle
      // var diff = yr-smhi;
+      
+      if(smhi > yr){
+        circle_smhi.beginPath();
+        circle_smhi.arc(centerX + 50, centerY, smhi+10, 0, 2 * PI, false);
+        circle_smhi.fillStyle = '#E36790';
+        circle_smhi.fill();
+        
+        circle_yr.beginPath();
+        circle_yr.arc(centerX + 50, centerY, yr, 0, 2 * PI, false);
+        circle_yr.fillStyle = '#32ACAF';
+        circle_yr.fill();
+        
+        /*text.fillText('KAJSA', centerX + 50, centerY);
+        text.fillStyle = 'black';*/
+        
+      }
+      else{
+         circle_yr.beginPath();
+         circle_yr.arc(centerX + 50, centerY, yr+10, 0, 2 * PI, false);
+         circle_yr.fillStyle = '#32ACAF';
+         circle_yr.fill();
+        
+        circle_smhi.beginPath();
+        circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
+        circle_smhi.fillStyle = '#E36790';
+        circle_smhi.fill();
+        
+      }
 
       
-      circle_smhi.beginPath();
-      circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
-      circle_smhi.fillStyle = '#E36790';
-      circle_smhi.fill();
-      circle_smhi.stroke(); 
       
-      circle_yr.beginPath();
-      circle_yr.arc(centerX + 50, centerY, yr, 0, 2 * PI, false);
-      circle_yr.fillStyle = '#32ACAF';
-      circle_yr.fill();
-      circle_yr.stroke();
   }
     
   
