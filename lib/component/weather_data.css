@@ -58,7 +58,7 @@
 
 #compass{
   float:left;
-  width: 10%;
+  height: 40px;
   marign: 1% 2%;
 }
 
@@ -68,7 +68,9 @@
 
 .list-group-item{
   border: 0px;
+  background-color:transparent;
 }
+
 
 .parameterButton{
   padding: 5%;

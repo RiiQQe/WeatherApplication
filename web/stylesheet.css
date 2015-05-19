@@ -14,15 +14,14 @@ h1, p{
 
 h3 { 
    position: absolute; 
-   top: 50%; 
-
+   top: 45%; 
    width: 50%; 
    font-family: 'Open Sans', sans-serif;
 }
 
 #container_1{
   margin: 5%;
-  margin-top: 20vh;
+  margin-top: 24vh;
 }
 
 body {
@@ -35,15 +34,20 @@ body {
 
 .navbar.center .navbar-inner{
   text-align:center;
-  height: 20vh;
+  height: 24vh;
   margin: 0;
 }
 
 .navbar.center .navbar-inner .nav{
   display:inline-block;
   float: none;
-  height: 20vh;
+  height: 24vh;
   margin: 0;
+}
+
+.headerText{
+  font-weight: 600;
+  font-size: 3.5vh;
 }
 
 #right
@@ -60,19 +64,19 @@ body {
 div.imgSmhi {
     float: left;
     width:50vw;
-    height: 23vh;
+    height: 24vh;
     background-color: #32acaf;
     border-bottom: 2px solid;
     border-bottom-color: #3d3d3d;
 }
 
 div.imgYr {
-  float: right;
-  width:50vw;
-  height: 23vh;
-  background-color: #e36790;
-  border-bottom: 2px solid;
-  border-bottom-color: #3d3d3d;
+    float: right;
+    width: 50vw;
+    height: 24vh;
+    background-color: #e36790;
+    border-bottom: 2px solid;
+    border-bottom-color: #3d3d3d;
 }
 
 #yrID{
@@ -83,11 +87,6 @@ div.imgYr {
   height: 10vh;
 }
 
-
-.headerText{
-  font-weight: bold; 
-}
-
 .logo{
   height: 30%;  
   padding: 5%;
@@ -96,7 +95,7 @@ div.imgYr {
 }
 
 #logo{
-  height: 30%;
+  height: 10vh;
 }
 
 #splashscreen {
@@ -110,8 +109,7 @@ div.imgYr {
 }
 
 #splashText {
-  color: #3d3d3d;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
 }
@@ -121,7 +119,6 @@ div.imgYr {
   height:100vh;
   margin-top:20vh;
 }
-
 
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
