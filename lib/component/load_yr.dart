@@ -17,7 +17,7 @@ class LoadYr {
   List<WeatherSet> weatherSets = [];
   var allData;
   WeatherSet currentWeatherSet;
-  final DateFormat formatter = new DateFormat('HH:mm d/M');
+  final DateFormat formatter = new DateFormat('HH:mm');
   
 
   Future loadData(double latitude, double longitude) {
