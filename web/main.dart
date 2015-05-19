@@ -35,6 +35,7 @@ main() {
   
   removeSplash();
   
+  //activate info button in footer
   Dropdown.use();
   
 }

@@ -47,7 +47,7 @@ class LoadYr {
 
 
   void setWeatherParameters() {
-    String cloud, rain, wind, timeFormatted;
+    String cloud, rain, wind, timeFormatted, currentWeather;
     double currentTemp, currentWind, currentCloud, currentRain;
     DateTime currentTime;
     
@@ -58,6 +58,7 @@ class LoadYr {
     List<XmlNode> winds = allData.findAllElements('windSpeed');
     List<XmlNode> clouds = allData.findAllElements('cloudiness');
     List<XmlNode> rains = allData.findAllElements('precipitation');
+    List<XmlNode> weather = allData.findAllElements('symbol');
     
     for(int i=0; i < temperatures.length;i++){
       
@@ -65,6 +66,7 @@ class LoadYr {
       {
         currentTime = DateTime.parse(times.elementAt(i*5).attributes.elementAt(2).value);
         currentRain = double.parse(rains.elementAt(i*4).attributes.elementAt(1).value);
+        currentWeather = weather.elementAt(i*4).attributes.elementAt(0).value;
       }
       else
       {
@@ -78,7 +80,7 @@ class LoadYr {
       
       wind = getWind(currentWind);
       cloud = getCloud(currentCloud);
-      rain = getRain(currentRain);
+      rain = getRain(currentRain, currentWeather);
             
       timeFormatted = formatter.format(currentTime);      
       
@@ -101,15 +103,22 @@ class LoadYr {
   }
 
   //TODO: Check if it is snow etc..
-  String getRain(double rainIndex) {
+  String getRain(double rainIndex, String currentWeather) {
 
     String rain;
     
-    if(rainIndex != 0)
-      rain = "Regn,"+ rainIndex.toString() + "mm/h"; 
-    else
-      rain = "Inget regn";
+    if(currentWeather == "Sun")
+      rain = "Inget Regn, "; 
+    else if(currentWeather == "Snow")
+      rain = "Snö, " + rainIndex.toString() + "mm";
+    else if(currentWeather == "Sleet")
+          rain = "Snöblandat Regn, " + rainIndex.toString() + "mm";
+    else if(currentWeather == "Rain")
+      rain = "Regn, "+ rainIndex.toString() + "mm"; 
+    else if(currentWeather == "Drizzle")
+           rain = "Duggregn, "+ rainIndex.toString() + "mm"; 
 
+ 
     return rain;
   }
 

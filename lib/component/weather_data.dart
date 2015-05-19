@@ -115,6 +115,8 @@ class WeatherDataComponent {
   
   }
   
+  //dropdown given search results when typing in the text field 
+  //Google maps api used
   void searchDropDown(){ 
     
     final input = querySelector("weather-data::shadow #searchTextField") as InputElement;
@@ -174,9 +176,14 @@ class WeatherDataComponent {
         (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö
       } 
       if(smhiData.currentWeatherSet.rain == "Snö" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
-          (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
+        (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
       } 
-         
+      if(smhiData.currentWeatherSet.rain == "Hagel" && smhiData.currentWeatherSet.cloud == "Mulet"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö   
+      }
+      if(smhiData.currentWeatherSet.rain == "Hagel" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+        (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
+      }
     }
 
     querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
@@ -227,7 +234,7 @@ class WeatherDataComponent {
      querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString() + "°C";
    }
   
-  //Function to set the device's geocoordinates 
+  //Function to set the device's geocoordinates with the api Nominatim 
   Future findCoords() {
 
     //Get the location of the device
@@ -256,8 +263,9 @@ class WeatherDataComponent {
         
       });
       
-      var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-      changePlaceholder.placeholder = currentCity;
+      //set currentCity
+    //  var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
+     // changePlaceholder.placeholder = currentCity;
       return coordinates;
       
     }, onError: (error) => printError(error));
