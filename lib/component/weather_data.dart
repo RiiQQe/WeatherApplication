@@ -50,16 +50,16 @@ class WeatherDataComponent {
   //8: sol + lite moln
   //9: moln
   //10: åska
-  List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_Z09oUHpjZGlWekU", 
+  List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSVNjM1VzdGJxeUk", 
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_RmJwQmFEajBZQTQ",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_bmZvR3ZQc25kWXM",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_aXpOdlpnN1lva3M",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_c0x5djJmeHpLQ1E",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_NHEzX0xqSUJtMkk",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TllaS1BKeUpMUk0",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TF9fdURkZUtLUn",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_YVZadkxGckhFX3M",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQTNqLXQ2eVl1cVE",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeUk2YmJCM2FnRlk",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQUR3UXh3UTJJME0",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkS3BGbjFFRXZHaEE",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeGd0b2Jpc01UU0E",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkOHhwV3lxM2c0a2s",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkVTlXenJvVUx0ZzQ",
+                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkdVpoMlV5VDlPRHM",
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
 
   WeatherDataComponent() {
@@ -166,16 +166,16 @@ class WeatherDataComponent {
         }
       }
     
-      if(smhiData.currentWeatherSet.rain == "Duggregn"){
+      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Duggregn"){
         (querySelector('#smhiID') as ImageElement).src = headerImages[3]; //lite regn
       }
       if(smhiData.currentWeatherSet.rain.substring(0,4) == "Regn"){
         (querySelector('#smhiID') as ImageElement).src = headerImages[0]; //mycket regn
       }
-      if(smhiData.currentWeatherSet.rain == "Snö" && smhiData.currentWeatherSet.cloud == "Mulet"){
+      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Snö" && smhiData.currentWeatherSet.cloud == "Mulet"){
         (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö
       } 
-      if(smhiData.currentWeatherSet.rain == "Snö" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Snö" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
         (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
       } 
       if(smhiData.currentWeatherSet.rain == "Hagel" && smhiData.currentWeatherSet.cloud == "Mulet"){
@@ -216,16 +216,16 @@ class WeatherDataComponent {
          }
        }
      
-       if(yrData.currentWeatherSet.rain == "Duggregn"){
+       if(yrData.currentWeatherSet.rain.substring(0,4) == "Duggregn"){
          (querySelector('#yrID') as ImageElement).src = headerImages[3]; //lite regn
        }
        if(yrData.currentWeatherSet.rain.substring(0,4) == "Regn"){
          (querySelector('#yrID') as ImageElement).src = headerImages[0]; //mycket regn
        }
-       if(yrData.currentWeatherSet.rain == "Snö" && yrData.currentWeatherSet.cloud == "Mulet"){
+       if(yrData.currentWeatherSet.rain.substring(0,4) == "Snö" && yrData.currentWeatherSet.cloud == "Mulet"){
          (querySelector('#yrID') as ImageElement).src = headerImages[5];//snö
        } 
-       if(yrData.currentWeatherSet.rain == "Snö" && yrData.currentWeatherSet.cloud == "Växlande molnighet"){
+       if(yrData.currentWeatherSet.rain.substring(0,4) == "Snö" && yrData.currentWeatherSet.cloud == "Växlande molnighet"){
            (querySelector('#yrID') as ImageElement).src = headerImages[4];//snö och sol 
        } 
           
@@ -264,8 +264,8 @@ class WeatherDataComponent {
       });
       
       //set currentCity
-    //  var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-     // changePlaceholder.placeholder = currentCity;
+      var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
+      changePlaceholder.placeholder = currentCity;
       return coordinates;
       
     }, onError: (error) => printError(error));

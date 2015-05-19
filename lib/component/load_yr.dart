@@ -102,13 +102,14 @@ class LoadYr {
     return cloud;
   }
 
-  //TODO: Check if it is snow etc..
+  //TODO: Make a default alternative with a new image
   String getRain(double rainIndex, String currentWeather) {
 
     String rain;
 
-    if(currentWeather == "Sun")
-      rain = "Inget Regn, "; 
+    if(currentWeather == "Sun" || currentWeather == "LightCloud" || currentWeather == "PartlyCloud"
+        || currentWeather == "Cloud")
+      rain = "Inget regn"; 
     else if(currentWeather == "Snow")
       rain = "Snö, " + rainIndex.toString() + "mm";
     else if(currentWeather == "Sleet")

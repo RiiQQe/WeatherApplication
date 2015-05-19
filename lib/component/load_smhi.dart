@@ -120,13 +120,13 @@ class LoadSmhi {
         rain = "Regn, $howMuch mm";
         break;
       case 4:
-        rain = "Duggregn";
+        rain = "Duggregn, $howMuch mm";
         break;
       case 5:
-        rain = "Hagel";
+        rain = "Hagel, $howMuch mm";
         break;
       case 6:
-        rain = "Smått hagel";
+        rain = "Smått hagel, $howMuch mm";
         break;
       default:
         rain = "";
