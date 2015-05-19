@@ -149,3 +149,7 @@ div.imgYr {
   width: 4vw;
   height: 4vh;
 }
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #253b4f;
+}

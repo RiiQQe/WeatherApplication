@@ -35,6 +35,8 @@ main() {
   
   removeSplash();
   
+  Dropdown.use();
+  
 }
 
 removeSplash(){
