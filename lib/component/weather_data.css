@@ -36,9 +36,10 @@
   border-radius: 10px;
   border-width: 0px;
   background-color: #D8D7D7;
-  padding: 4px;
+  padding: 5px 10px;
   
 }
+
 
 ::-webkit-input-placeholder { /* WebKit browsers */
   color: #3c3c3c;
@@ -63,7 +64,7 @@
 }
 
 .list-group{
-  margin: 30px;
+  margin: 10%;
 }
 
 .list-group-item{

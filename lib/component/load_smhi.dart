@@ -109,15 +109,15 @@ class LoadSmhi {
         break;
       case 1:
         howMuch = allData["timeseries"][timeIndex]["pis"];
-        rain = "Snö, $howMuch mm/h";
+        rain = "Snö, $howMuch mm";
         break;
       case 2:
         howMuch = allData["timeseries"][timeIndex]["pis"] + allData["timeseries"][timeIndex]["pit"];
-        rain = "Snöblandat regn, $howMuch mm/h";
+        rain = "Snöblandat regn, $howMuch mm";
         break;
       case 3:
         howMuch = allData["timeseries"][timeIndex]["pit"];
-        rain = "Regn, $howMuch mm/h";
+        rain = "Regn, $howMuch mm";
         break;
       case 4:
         rain = "Duggregn";

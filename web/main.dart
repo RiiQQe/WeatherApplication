@@ -34,8 +34,7 @@ main() {
   applicationFactory().addModule(new WeatherAppModule()).run();
   
   removeSplash();
-  
-  //activate info button in footer
+ 
   Dropdown.use();
   
 }

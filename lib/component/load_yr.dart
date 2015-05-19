@@ -17,7 +17,7 @@ class LoadYr {
   List<WeatherSet> weatherSets = [];
   var allData;
   WeatherSet currentWeatherSet;
-  final DateFormat formatter = new DateFormat('HH:mm d/M');
+  final DateFormat formatter = new DateFormat('HH:mm');
   
 
   Future loadData(double latitude, double longitude) {
@@ -106,7 +106,7 @@ class LoadYr {
   String getRain(double rainIndex, String currentWeather) {
 
     String rain;
-    
+
     if(currentWeather == "Sun")
       rain = "Inget Regn, "; 
     else if(currentWeather == "Snow")
@@ -118,7 +118,6 @@ class LoadYr {
     else if(currentWeather == "Drizzle")
            rain = "Duggregn, "+ rainIndex.toString() + "mm"; 
 
- 
     return rain;
   }
 
