@@ -106,7 +106,7 @@ class LoadYr {
     String rain;
     
     if(rainIndex != 0)
-      rain = "Regn,"+ rainIndex.toString() + "mm/h"; 
+      rain = "Regn,"+ rainIndex.toString() + "mm"; 
     else
       rain = "Inget regn";
 
