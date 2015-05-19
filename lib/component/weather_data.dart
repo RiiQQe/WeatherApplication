@@ -318,17 +318,13 @@ class WeatherDataComponent {
   void drawCanvas(){
     
     CanvasElement canvas = document.querySelector('#today');
-    
-   // CanvasElement canvas1 = document.querySelector('#today');
+
     var ctx = canvas.getContext('2d');
     DateTime now = new DateTime.now();
     int hour = now.hour;
     int place = 100;
     int counter = 4;
     int index = hour;
-   // String temp_smhi = smhiData.currentWeatherSet.temp.toString();
-   // String temp_yr = yrData.weatherSets[index].temp.toString();
-    
     
     ctx.beginPath();
         ctx.moveTo(100,0);
@@ -348,8 +344,6 @@ class WeatherDataComponent {
           
               ctx.fillStyle = 'black';  
               ctx.fillText("$hour:00", 10,i * 100);
-              
-             // ctx.fillText("$temp_smhi", 100,i * 100);
               
               ctx.beginPath();
                       ctx.moveTo(90,i * 100);
@@ -371,10 +365,10 @@ class WeatherDataComponent {
   }
   
 
-  void drawCircle(int place, smhi, yr){
+  void drawCircle(int place, var smhi, var yr){
     
     CanvasElement canvas_1 = document.querySelector('#today'); 
-    //CanvasElement canvas_2 = document.querySelector('#today');
+
       var circle_smhi = canvas_1.getContext('2d');
       var circle_yr = canvas_1.getContext('2d');
       
@@ -385,12 +379,9 @@ class WeatherDataComponent {
       //change so that the circle is in the middle
       var centerX = canvas_1.width/2;
       var centerY = place;
+
       
-    //  var smhiRadius = smhiData.currentWeatherSet.temp * 3;
-     // var yrRadius = yrData.currentWeatherSet.temp * 3;
-      
-      //calculate the the difference in the circle
-      
+      //calculate the the difference in the circle      
       
       if(smhi > yr){
         circle_smhi.beginPath();
@@ -407,9 +398,9 @@ class WeatherDataComponent {
       else{
         
         circle_yr.beginPath();
-         circle_yr.arc(centerX + 50, centerY, yr+10, 0, 2 * PI, false);
-         circle_yr.fillStyle = '#32ACAF';
-         circle_yr.fill();
+        circle_yr.arc(centerX + 50, centerY, yr+10, 0, 2 * PI, false);
+        circle_yr.fillStyle = '#32ACAF';
+        circle_yr.fill();
         
         circle_smhi.beginPath();
         circle_smhi.arc(centerX + 50, centerY, smhi, 0, 2 * PI, false);
@@ -425,7 +416,6 @@ class WeatherDataComponent {
       
   }
     
-  
 }
 
 class WeatherSet {
