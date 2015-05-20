@@ -40,6 +40,12 @@
   
 }
 
+#searchIcon{
+  left: 80%;
+  margin-top: 11px;
+  font-size: 15px;
+}
+
 
 ::-webkit-input-placeholder { /* WebKit browsers */
   color: #3c3c3c;
@@ -64,7 +70,7 @@
 }
 
 .list-group{
-  margin: 10%;
+  margin: 7%;
 }
 
 .list-group-item{

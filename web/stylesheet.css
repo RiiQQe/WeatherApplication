@@ -159,7 +159,6 @@ div.imgYr {
    position:absolute;
    bottom:0;
    width:100vw;
-   height:7vh;   /* Height of the footer */
    background:#D8D7D7;
    display: table-row;
 }
