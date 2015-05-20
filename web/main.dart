@@ -33,7 +33,7 @@ main() {
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
-  removeSplash();
+  //removeSplash();
  
   Dropdown.use();
   
