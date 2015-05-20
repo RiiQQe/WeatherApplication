@@ -38,15 +38,6 @@ class WeatherDataComponent {
   String currentCity;
   var input, options;
   
-  //For d3JS
-  
-  var d3 = js.context["d3"];
-  
-  var n = 20, //Number of layers
-      m = 200;//Number of samples per layer
-  
-  var width = 960,
-      height = 500;
     
   //Explanations of the List of images
   //0: mycket regn
@@ -140,13 +131,10 @@ class WeatherDataComponent {
   
   }
 
-  void setValues2(){
-    window.alert("fel ute");
-  }
- 
-  
-  void setValues(var s){
-    window.alert("fel ute");
+  void startGraph(){
+    
+    print("from dart: " + yrData.weatherSets[1].temp.toString());
+    js.context.callMethod("chart", [yrData.weatherSets, "orange"]);
   }
  
   void searchDropDown(){ 
@@ -316,7 +304,9 @@ class WeatherDataComponent {
   //Function that changes the printed values in the timeline
   String getCurrentParameter(WeatherSet ws){
     
-    js.context.callMethod("setValues", [ ws.temp ]);
+    //js.context.callMethod("setValues", [ ws.temp ]);
+    
+    //js.context.callMethod("chart", [ws, "orange"]);
     
     if(currentParameter == 'rain')
       return ws.rain;
@@ -347,8 +337,9 @@ class WeatherDataComponent {
 class WeatherSet {
   double temp;
   String cloud, rain, wind, time;
+  DateTime date; 
   
-  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time);
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.date);
   
 }
 
