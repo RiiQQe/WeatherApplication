@@ -133,8 +133,8 @@ class WeatherDataComponent {
 
   void startGraph(){
     
-    print("from dart: " + yrData.weatherSets[1].temp.toString());
-    js.context.callMethod("chart", [yrData.weatherSets, "orange"]);
+    print("from dart: " + smhiData.weatherSets[1].temp.toString());
+    js.context.callMethod("chart", [smhiData.weatherSets, "orange"]);
   }
  
   void searchDropDown(){ 
