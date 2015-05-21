@@ -58,7 +58,7 @@ class LoadSmhi {
   void setWeatherParameters() {
     String cloud, rain, wind, category, timeFormatted;
     int cloudIndex, rainIndex;
-    double windIndex, currentTemp;
+    double windIndex, currentTemp, rainValue, cloudValue;
     DateTime currentTime;
 
     weatherSets.clear();
@@ -73,15 +73,16 @@ class LoadSmhi {
       cloudIndex = allData["timeseries"][i]["tcc"];
       rainIndex = allData["timeseries"][i]["pcat"];
       windIndex = allData["timeseries"][i]["gust"];
-
-
+      rainValue = allData["timeseries"][i]["pis"];
+      cloudValue = (cloudIndex/8)*10;
+      
       //Get description of parameters from parameter index
       cloud = getCloud(cloudIndex);
       rain = getRain(rainIndex, i);
       wind = getWind(windIndex);
 
       //Add new WeatherSet to the list weatherSets
-      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted));
+      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue));
     }
   }
 
