@@ -271,6 +271,7 @@ class WeatherDataComponent {
       //set currentCity in search field
       var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
       changePlaceholder.placeholder = currentCity;
+
       return coordinates;
       
     }, onError: (error) => printError(error));
