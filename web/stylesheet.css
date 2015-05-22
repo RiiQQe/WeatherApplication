@@ -86,7 +86,7 @@ div.imgSmhi {
     height: 24vh;
     background-color: #32acaf;
     border-bottom: 2px solid;
-    border-bottom-color: #3d3d3d;
+    border-bottom-color: #3c3c3c;
 }
 
 div.imgYr {
@@ -95,7 +95,7 @@ div.imgYr {
     height: 24vh;
     background-color: #e36790;
     border-bottom: 2px solid;
-    border-bottom-color: #3d3d3d;
+    border-bottom-color: #3c3c3c;
 }
 
 #yrID{
@@ -140,6 +140,7 @@ div.imgYr {
   height:100vh;
   margin-top:5vh;
 }
+
 /*
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;

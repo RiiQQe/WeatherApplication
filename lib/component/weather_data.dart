@@ -35,6 +35,7 @@ class WeatherDataComponent {
   
   Map<String, bool> cityFilterMap;
   String currentParameter = "temp";
+  String navigateValue = "1";
   String currentCity;
   var input, options;
   
@@ -120,13 +121,17 @@ class WeatherDataComponent {
   void searchDropDown(){ 
     
     final input = querySelector("weather-data::shadow #searchTextField") as InputElement;
-    
+
     AutocompleteOptions ao = new AutocompleteOptions();
         
     ao.$unsafe['ComponentRestrictions'] = new js.JsObject.jsify({
       'country': 'se'
-    });
-        
+    }); 
+    
+    //försök att begränsa till städerx
+//    ao.$unsafe['GeocoderComponentRestrictions'] = new js.JsObject.jsify({
+//      'locality': '(cities)'
+//    }); 
         
     final autocomplete = new Autocomplete(input, ao);
     
@@ -144,6 +149,7 @@ class WeatherDataComponent {
   {
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
+    print(smhiData.currentWeatherSet.cloud);
     
     if(theTime > 21 || theTime < 05){
       (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
@@ -263,9 +269,10 @@ class WeatherDataComponent {
         
       });
       
-      //set currentCity
-      //var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-      //changePlaceholder.placeholder = currentCity;
+      //set currentCity in search field
+      var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
+      changePlaceholder.placeholder = currentCity;
+
       return coordinates;
       
     }, onError: (error) => printError(error));
@@ -329,10 +336,10 @@ class WeatherDataComponent {
 }
 
 class WeatherSet {
-  double temp;
+  double temp, rainValue, windValue, cloudValue;
   String cloud, rain, wind, time;
   
-  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time);
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue);
   
 }
 
