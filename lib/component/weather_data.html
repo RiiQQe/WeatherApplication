@@ -1,4 +1,6 @@
 <!-- Draw everythin in a weather-data tag -->
+<script src="graph3.js"></script>
+
 
 <div id="searchDiv">
   <div  >
@@ -35,6 +37,7 @@
 -->
 
 <div id="graph" ng-repeat="WeatherSet in yrData.weatherSets">
+    <!--<div ng-if="$first"><script type="text/javascript" src="graph3.js"></script></div>--> 
     <div id="yrData" value="yrData.weatherSets"></div>
     <svg class="timeline">
       <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:#3d3d3d;stroke-width:2" />
@@ -46,5 +49,7 @@
 
 <button onclick="transition()">Update graph</button>
 
-<script src="graph3.js"></script>
+
+
+
 

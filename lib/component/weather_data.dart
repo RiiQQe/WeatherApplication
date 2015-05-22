@@ -38,6 +38,7 @@ class WeatherDataComponent {
   String currentCity;
   var input, options;
   
+  bool ifFirst = true;
     
   //Explanations of the List of images
   //0: mycket regn
@@ -65,44 +66,26 @@ class WeatherDataComponent {
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
 
   WeatherDataComponent() {
-    
+
     smhiData = new LoadSmhi();
     yrData = new LoadYr();
     
     findCoords().then((_) => createWeatherData());
     
   }
-  void updateGraph(){
-    
-    var d3 = js.context['d3'];
-    
-    js.context['d3'].callMethod('alert', ["hejsan"]);
-    
-    var data = [4, 8, 15, 16, 23, 42]; //Detta ska vara väderdata
-    print("hello");
-    
-    
-    d3.callMethod('alert', ["oflyt din sure"]);
-    
-    //d3.callMethod('select', [querySelector("weather-data::shadow .chart")]).callMethod('selectAll', ['div']).callMethod('alert', ["kuksug"]);
-    
-    /*d3.callMethod('select', [querySelector("weather-data::shadow .chart")]).callMethod('selectAll', ['div']).callMethod('data', [data])
-    .callMethod('enter', []).callMethod('append', ['div']).callMethod('style', ['width', 
-      new js.JsFunction.withThis((jsThis){
-        return /*jsThis*10+*/"px";
-    })
-      ]).callMethod('text', [new js.JsFunction.withThis((jsThis){
-        return "hello";
-      })]);
-    print("hello2");
-    */
-  }
+  
   
   void createWeatherData(){
 
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
     yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
-  
+    if(ifFirst){
+      print("before init call");
+      js.context.callMethod("init", ["orange"]);
+      print("after init call");
+      ifFirst = false;
+    }
+    
   }
   
   void findDevicePosision(){
@@ -134,7 +117,7 @@ class WeatherDataComponent {
   void startGraph(){
     
     print("from dart: " + smhiData.weatherSets[1].temp.toString());
-    js.context.callMethod("chart", [smhiData.weatherSets, "orange"]);
+    //js.context.callMethod("setParameters", [smhiData.weatherSets]);
   }
  
   void searchDropDown(){ 
@@ -164,7 +147,9 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
   {
-    
+    print("before call setParameters ");
+    js.context.callMethod("setParameters", [smhiData.weatherSets]);
+    print("after call setParameters");
     
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
@@ -306,7 +291,7 @@ class WeatherDataComponent {
     
     //js.context.callMethod("setValues", [ ws.temp ]);
     
-    //js.context.callMethod("chart", [ws, "orange"]);
+    //js.context.callMethod("init", [ws, "orange"]);
     
     if(currentParameter == 'rain')
       return ws.rain;

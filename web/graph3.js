@@ -1,31 +1,38 @@
 var datearray = [];
 var colorrange = [];
 var smhiDataR = [];
+var strokecolor;
+var format;
+
+var tooltip, 
+  x, xAxis,
+  y, yAxis,
+  z;
+
+var stack, nest, area, svg;
+
+var margin, width, height;
 
 
-color = "orange";
 
+function init(color){
+  console.log("init..");
+  format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
+  //TODO:
+  //Make these responsive
+  margin = {top: 20, right: 40, bottom: 30, left: 30};
+  width = document.body.clientWidth - margin.left - margin.right;
+  height = document.body.clientHeight - margin.top - margin.bottom;
 
-function chart(smhiData, color){
-  console.log("Called from weatherdata.dart");
 
   //TODO: 
-  //When smhiData is added, add one color.
+  //When yrData is added, add one color.
   colorrange = ["#B30000", "#E34A33"];
   strokecolor = colorrange[0];
 
-  var format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
-
-  //TODO:
-  //Make these responsive
-  var margin = {top: 20, right: 40, bottom: 30, left: 30};
-  var width = document.body.clientWidth - margin.left - margin.right;
-  var height = document.body.clientHeight - margin.top - margin.bottom;
-
   //TODO: 
   //Uncomment this part, not working right now..
-  
-  var tooltip = d3.select("body")
+  tooltip = d3.select("body")
     .append("div")
     .attr("class", "remove")
     .attr("id", "removeMe")
@@ -35,37 +42,37 @@ function chart(smhiData, color){
     .style("top", "30px")
     .style("left", "55px");
   
-  var x = d3.scale.linear()
+  x = d3.scale.linear()
           .range([0,width]);
 
-  var y = d3.time.scale()
+  y = d3.time.scale()
           .range([0, height]);
           
 
-  var z = d3.scale.ordinal()
+  z = d3.scale.ordinal()
           .range(colorrange);
 
-  var xAxis = d3.svg.axis()
+  xAxis = d3.svg.axis()
               .scale(x);
               //.orient("bottom");
 
-  var yAxis = d3.svg.axis()
+  yAxis = d3.svg.axis()
               .scale(y)
               //.orient("right")
               .ticks(d3.time.days);
 
-  var stack = d3.layout.stack()
+  stack = d3.layout.stack()
     .offset("silhouette")
     .values(function(d) { return d.values; })
     .x(function(d) { return d.value; })
     .y(function(d) { return d.date; });
 
-  var nest = d3.nest()
+  nest = d3.nest()
               .key(function(d){ return d.key ; });
   //TODO:
   //Jag tror att x(d.x0) och x(d.x0 + d.x) är de som dummar sig,
   //tror det räcker med att x0 = x0(function(d){return 0;})
-  var area = d3.svg.area()  
+  area = d3.svg.area()  
               .interpolate("cardinal")
               .x0(function(d){ return x(0.0) ; })
               .x1(function(d){  return x(d.value) ; })
@@ -73,23 +80,32 @@ function chart(smhiData, color){
   //TODO:
   //Jag är inte 100% på hur  den funkar, men slår vi våra kloka 
   //huvuden ihop kan vi säkert lösa det.. 
-  var svg = d3.select(".chart").append("svg")
+  svg = d3.select(".chart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+}
 
+function setParameters(smhiData){
+  console.log("setParameters...");
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
   //till en lista med exakt samma objekt
   var i = 0;
+  smhiDataR = [];
+  console.log("HAAAAAAR");
+  smhiDataR.forEach(function(d){
+    console.log("ifall detta kommer ut flera gånger så funkar de inte så bra... ");
+  });
+
   while(smhiData.o[i] != null){
     var singleObj = {};
 
     var time = smhiData.o[i].date.date.toISOString();
 
-    singleObj['temp'] = smhiData.o[i].temp;
+    singleObj['temp'] =+ smhiData.o[i].temp;
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
@@ -97,13 +113,19 @@ function chart(smhiData, color){
 
   }
   console.log("number of elements: " + i );
-  createGraph(smhiDataR);
-  
-  /*var graph = */function createGraph(smhiDataR){
+  updateGraph(smhiDataR);
+
+}
+
+
+function updateGraph(smhiDataR){
+  console.log("updateGraph...");
     smhiDataR.forEach(function(d){
       d.date = format.parse(d.date);
       d.value =+ d.temp;
     });
+
+    console.log(" Temperature : " + smhiDataR[1].temp);
 
     //TODO:
     //Denna ska fungera, men den gör inte riktigt det än.. Av någon anledning blir antingen d.y0 eller d.y noll
@@ -151,10 +173,10 @@ function chart(smhiData, color){
       mousex = d3.mouse(this);
       mousex = mousex[0];
       var invertedx = x.invert(mousex);
-      invertedx = invertedx.getTime();
+      //invertedx = invertedx.getTime();
       
       var selected = (d.values);
-      
+      selected = d.values;
       for (var k = 0; k < selected.length; k++) {
         datearray[k] = selected[k].date;
         datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
@@ -202,7 +224,7 @@ function chart(smhiData, color){
          mousex = mousex[0] + 5;
          vertical.style("left", mousex + "px")});
 
-
+    console.log("GRAPH SHOULD HAVE BEEN UPDATED");
     //TODO:
     //Här lägger man till om den rör sig över ".chart"-en
     //d3.select(".chart")
@@ -210,7 +232,3 @@ function chart(smhiData, color){
 
 
   }
-
-  //graph();
-
-}
