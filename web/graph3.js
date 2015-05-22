@@ -17,17 +17,19 @@ var margin, width, height;
 
 function init(color){
 
-  format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
+  format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");//"%Y-%m-%d
+  //dateformat = d3.time.format("%Y-%m-%d");
   //TODO:
   //Make these responsive
-  margin = {top: 20, right: 40, bottom: 30, left: 30};
+  //är dem inte redan det?
+  margin = {top: 20, right: 40, bottom: 30, left: 45};
   width = document.body.clientWidth - margin.left - margin.right;
   height = document.body.clientHeight - margin.top - margin.bottom;
 
 
   //TODO: 
   //When yrData is added, add one color.
-  colorrange = ["#B30000", "#E34A33"];
+  colorrange = ["#32acaf", "#353b4f"]; //smhi-color
   strokecolor = colorrange[0];
 
   //TODO: 
@@ -59,7 +61,10 @@ function init(color){
   yAxis = d3.svg.axis()
               .scale(y)
               //.orient("right")
-              .ticks(d3.time.days);
+              .ticks(d3.time.days)
+              .tickFormat(d3.time.format('%a'));
+             // console.log(d3.time.days);
+             //d.date = format.parse(d.date)
 
   stack = d3.layout.stack()
     .offset("silhouette")
@@ -81,7 +86,7 @@ function init(color){
   //Jag är inte 100% på hur  den funkar, men slår vi våra kloka 
   //huvuden ihop kan vi säkert lösa det.. 
   svg = d3.select(".chart").append("svg")
-            .attr("width", width + margin.left + margin.right)
+            .attr("width", width + margin.left + margin.right) // här kan man ändra bredden
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -143,7 +148,7 @@ function updateGraph(smhiDataR){
 
     svg.append("g")
       .attr("class", "y axis")
-      .attr("transform", "translate(" + (width) + ", 0)")
+      .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
     //TODO: 
@@ -162,10 +167,13 @@ function updateGraph(smhiDataR){
   })})
 
   .on("mousemove", function(d, i) {
-      mousex = d3.mouse(this);
-      mousex = mousex[0];
-      var invertedx = x.invert(mousex);
+      mousex = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
+      							//The coordinates are returned as a two-element array [x, y].
+      mousex = mousex[1];
+      var invertedx = y.invert(mousex); //ändrade från x till y, hände inget
       //invertedx = invertedx.getTime();
+      //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
+      //Vi vill ha input domain y i corresponding output range x
       
       var selected = (d.values);
       selected = d.values;
@@ -184,7 +192,7 @@ function updateGraph(smhiDataR){
       tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "visible");
       
     })
-    .on("mouseout", function(d, i) {
+/*    .on("mouseout", function(d, i) {
      svg.selectAll(".layer")
       .transition()
       .duration(250)
@@ -192,8 +200,21 @@ function updateGraph(smhiDataR){
       d3.select(this)
       .classed("hover", false)
       .attr("stroke-width", "0px"), tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "hidden");
-  })
+  })*/
 
+	//den nya horisontella linjen
+	var horizontal = d3.select(".chart")
+            .append("div")
+            .attr("class", "remove")
+            .style("position", "absolute")
+            .style("z-index", "19")
+            .style("width", "110px")
+            .style("height", "2px")
+            .style("top", "300px")
+            .style("bottom", "30px")
+            .style("left", "50vw")
+            .style("background", "#3c3c3c");
+            
     var vertical = d3.select(".chart")
             .append("div")
             .attr("class", "remove")
@@ -206,15 +227,16 @@ function updateGraph(smhiDataR){
             .style("left", "0px")
             .style("background", "#fff");
 
+		//ändra så att pinnen går upp och ner istället för höger och vänster
             d3.select(".chart")
       .on("mousemove", function(){ 
          mousex = d3.mouse(this);
          mousex = mousex[0] + 5;
-         vertical.style("left", mousex + "px" )})
+         horizontal.style("left", mousex + "px" )})
       .on("mouseover", function(){  
          mousex = d3.mouse(this);
          mousex = mousex[0] + 5;
-         vertical.style("left", mousex + "px")});
+         horizontal.style("left", mousex + "px")});
 
     //TODO:
     //Här lägger man till om den rör sig över ".chart"-en
