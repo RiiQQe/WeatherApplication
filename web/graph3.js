@@ -14,82 +14,86 @@ var tooltip,
 var stack, nest, area, svg;
 
 var margin, width, height;
-
+  
 var layersSmhi0, layersSmhi1, layersYr0, layersYr1;
 
 
+format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
 
 
-  format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
-  //TODO:
-  //Make these responsive
-  margin = {top: 20, right: 40, bottom: 30, left: 30};
-  width = document.body.clientWidth - margin.left - margin.right;
-  height = document.body.clientHeight - margin.top - margin.bottom;
+//TODO:
+//Make these responsive
+//är dem inte redan det?
+margin = {top: 40, right: 40, bottom: 100, left: 45};
+width = document.body.clientWidth - margin.left - margin.right;
+height = document.body.clientHeight - margin.top - margin.bottom;
 
 
-  //TODO: 
-  //When yrData is added, add one color.
-  colorrange = ["#B30000", "#E34A33"];
-  strokecolor = colorrange[0];
+//TODO: 
+//When yrData is added, add one color.
+colorrange = ["#32acaf", "#353b4f"]; //smhi-color
+strokecolor = colorrange[0];
 
-  //TODO: 
-  //Uncomment this part, not working right now..
-  tooltip = d3.select(".chart")
-    .append("div")
-    .attr("class", "remove")
-    .attr("id", "removeMe")
-    .style("position", "absolute")
-    .style("z-index", "20")
-    .style("visibility", "hidden")
-    .style("top", "30px")
-    .style("left", "55px");
-  
-  x = d3.scale.linear()
-          .range([0,width]);
+//TODO: 
+//Uncomment this part, not working right now..
+tooltip = d3.select("body")
+  .append("div")
+  .attr("class", "remove")
+  .attr("id", "removeMe")
+  .style("position", "absolute")
+  .style("z-index", "20")
+  .style("visibility", "hidden")
+  .style("top", "30px")
+  .style("left", "55px");
 
-  y = d3.time.scale()
-          .range([0, height]);
-          
+x = d3.scale.linear()
+        .range([0,width]);
 
-  z = d3.scale.ordinal()
-          .range(colorrange);
+y = d3.time.scale()
+        .range([0, height]);
+        
 
-  xAxis = d3.svg.axis()
-              .scale(x);
+z = d3.scale.ordinal()
+        .range(colorrange);
 
-  yAxis = d3.svg.axis()
-              .scale(y)
-              .ticks(d3.time.days);
+xAxis = d3.svg.axis()
+            .scale(x);
+            //.orient("bottom");
 
-  stack = d3.layout.stack()
-    .offset("silhouette")
-    .values(function(d) { return d.values; })
-    .x(function(d) { return d.value; }) // Something skumt .. 
-    .y(function(d) { return d.date; });
+yAxis = d3.svg.axis()
+            .scale(y)
+            //.orient("right")
+            .ticks(d3.time.days)
+            .tickFormat(d3.time.format('%a'));
+           // console.log(d3.time.days);
+           //d.date = format.parse(d.date)
 
-  nest = d3.nest()
-              .key(function(d){ return d.key ; });
-  //TODO:
-  //Jag tror att x(d.x0) och x(d.x0 + d.x) är de som dummar sig,
-  //tror det räcker med att x0 = x0(function(d){return 0;})
-  area = d3.svg.area()  
-              .interpolate("cardinal")
-              .x0(function(d){ console.log("inne i area"); return x(0.0) ; })
-              .x1(function(d){ console.log("x(d.value)" + x(d.value)); return x(d.value) ; })
-              .y(function(d){ return y(d.date) ; });
-  //TODO:
-  //Jag är inte 100% på hur  den funkar, men slår vi våra kloka 
-  //huvuden ihop kan vi säkert lösa det.. 
-  svg = d3.select(".chart").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+stack = d3.layout.stack()
+  .offset("silhouette")
+  .values(function(d) { return d.values; })
+  .x(function(d) { return d.value; })
+  .y(function(d) { return d.date; });
 
+nest = d3.nest()
+            .key(function(d){ return d.key ; });
+//TODO:
+//Jag tror att x(d.x0) och x(d.x0 + d.x) är de som dummar sig,
+//tror det räcker med att x0 = x0(function(d){return 0;})
+area = d3.svg.area()  
+            .interpolate("cardinal")
+            .x0(function(d){ return x(0.0) ; })
+            .x1(function(d){  return x(d.value) ; })
+            .y(function(d){ return y(d.date) ; });
+//TODO:
+//Jag är inte 100% på hur  den funkar, men slår vi våra kloka 
+//huvuden ihop kan vi säkert lösa det.. 
+svg = d3.select(".chart").append("svg")
+          .attr("width", width + margin.left + margin.right) // här kan man ändra bredden
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
-function setParameters(smhiData){
+function setParameters(smhiData, currentParameter){
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
   //till en lista med exakt samma objekt
@@ -101,22 +105,111 @@ function setParameters(smhiData){
 
     var time = smhiData.o[i].date.date.toISOString();
     
-    singleObj['temp'] =+ smhiData.o[i].temp;
+    singleObj['temp'] =+ smhiData.o[i].currentParameter;
     singleObj['date'] = time;
-
 
     smhiDataR.push(singleObj);
     i++;
 
   }
   if(ifFirst){
-    createGraph(smhiDataR);  
+    createGraph(smhiDataR);
     ifFirst = false;
   }else{
     updateGraph(smhiDataR);
   }
 
-  
+
+}
+
+
+function updateGraph(smhiDataR){
+  smhiDataR.forEach(function(d){
+    d.date = format.parse(d.date);
+    d.value =+ d.temp;
+  });
+layersSmhi1 = stack(nest.entries(smhiDataR));
+
+transition();
+
+  //TODO: 
+  //Här kan man lägga till så att tooltippen uppdateras
+  //och startas, dock måste man lägga till var tooltip först
+  //svg.selectAll(".layer")
+  //.attr("opacity", 1) osv..
+
+  svg.selectAll(".layer")
+.attr("opacity", 1)
+.on("mouseover", function(d, i) {
+  svg.selectAll(".layer").transition()
+  .duration(250)
+  .attr("opacity", function(d, j) {
+    return j != i ? 0.6 : 1;
+})})
+
+.on("mousemove", function(d, i) {
+    mousex = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
+    							//The coordinates are returned as a two-element array [x, y].
+    mousex = mousex[1];
+    var invertedx = y.invert(mousex); //ändrade från x till y, hände inget
+    //invertedx = invertedx.getTime();
+    //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
+    //Vi vill ha input domain y i corresponding output range x
+    
+    var selected = (d.values);
+    selected = d.values;
+    for (var k = 0; k < selected.length; k++) {
+      datearray[k] = selected[k].date;
+      datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
+    }
+
+    mousedate = datearray.indexOf(invertedx);
+    pro = d.values[mousedate].value;
+
+    d3.select(this)
+    .classed("hover", true)
+    .attr("stroke", strokecolor)
+    .attr("stroke-width", "0.5px"), 
+    tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "visible");
+    
+  })
+
+//den nya horisontella linjen
+var horizontal = d3.select(".chart")
+          .append("div")
+          .attr("class", "remove")
+          .style("position", "absolute")
+          .style("z-index", "19")
+          .style("width", "110px")
+          .style("height", "2px")
+          .style("top", "50vh")
+          .style("bottom", "30px")
+          .style("left", "50vw")
+          .style("background", "#3c3c3c");
+          
+  var vertical = d3.select(".chart")
+          .append("div")
+          .attr("class", "remove")
+          .style("position", "absolute")
+          .style("z-index", "19")
+          .style("width", "1px")
+          .style("height", "380px")
+          .style("top", "10px")
+          .style("bottom", "30px")
+          .style("left", "0px")
+          .style("background", "#fff");
+
+	//ändra så att pinnen går upp och ner istället för höger och vänster
+  d3.select(".chart")
+    .on("mousemove", function(){ 
+       mousex = d3.mouse(this);
+       mousex = mousex[0] + 5;
+       horizontal.style("left", mousex + "px" )})
+    .on("mouseover", function(){  
+       mousex = d3.mouse(this);
+       mousex = mousex[0] + 5;
+       horizontal.style("left", mousex + "px")});
+
 }
 
 function createGraph(smhiDataR){
@@ -152,10 +245,9 @@ function createGraph(smhiDataR){
 
     svg.append("g")
       .attr("class", "y axis")
-      .attr("transform", "translate(" + (width) + ", 0)")
+      .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
-    console.log("HEJSAN DITT FULE FAN");
 
     //TODO: 
     //Här kan man lägga till så att tooltippen uppdateras
@@ -163,18 +255,6 @@ function createGraph(smhiDataR){
     //svg.selectAll(".layer")
     //.attr("opacity", 1) osv..
   }
-
-  function updateGraph(smhiDataR){
-      smhiDataR.forEach(function(d){
-          d.date = format.parse(d.date);
-          d.value =+ d.temp;
-    });
-
-      layersSmhi1 = stack(nest.entries(smhiDataR));
-
-      transition();
-  }
-
   function transition(){
         console.log("hello");
         d3.selectAll("path")
@@ -188,6 +268,3 @@ function createGraph(smhiDataR){
         .attr("d", function(d){ return area(d.values); } );
 
   }
-
-
- 

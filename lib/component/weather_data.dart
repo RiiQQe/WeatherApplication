@@ -80,10 +80,13 @@ class WeatherDataComponent {
 
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
     yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
+/*<<<<<<< HEAD
     if(ifFirst){
       //js.context.callMethod("init", ["orange"]);
       ifFirst = false;
     }
+=======
+>>>>>>> 287bb46da703b7960ab82fb6afe0df295f84f056*/
     
   }
   
@@ -152,7 +155,7 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
   {
-    js.context.callMethod("setParameters", [smhiData.weatherSets]);
+    js.context.callMethod("setParameters", [smhiData.weatherSets, currentParameter]);
 
     
     String time = smhiData.currentWeatherSet.time.substring(0,2);
@@ -311,6 +314,7 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.add('active');
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.rain.toString();
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.rain.toString();
+      ws.currentParameter = ws.rainValue;
       return ws.rain; 
     }
     else if(currentParameter == 'temp'){
@@ -320,6 +324,7 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.add('active');
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString() + "°C";
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
+      ws.currentParameter = ws.temp;
       return "${ws.temp} °C"; 
     }
     else if(currentParameter == 'wind'){
@@ -329,6 +334,7 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.add('active');
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.wind.toString();
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.wind.toString();
+      ws.currentParameter = ws.windValue;
       return ws.wind; 
     }
     else if(currentParameter == 'cloud'){
@@ -338,6 +344,7 @@ class WeatherDataComponent {
       (querySelector('weather-data::shadow #cloudIcon') as DivElement).classes.add('active');
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.cloud.toString();
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.cloud.toString();
+      ws.currentParameter = ws.cloudValue;
       return ws.cloud; 
     }
 
@@ -359,11 +366,11 @@ class WeatherDataComponent {
 }
 
 class WeatherSet {
-  double temp, rainValue, windValue, cloudValue;
+  double temp, rainValue, windValue, cloudValue, currentParameter;
   String cloud, rain, wind, time;
   DateTime date; 
   
-  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue, this.date);
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue, this.date, this.currentParameter);
 
   
 }
