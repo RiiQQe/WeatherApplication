@@ -1,9 +1,15 @@
 <!-- Draw everythin in a weather-data tag -->
 
+<!-- Navigation buttons to be added
+<div class="navigation">
+  <div class="navigation_1"></div>
+  <div class="navigation_2"></div>
+  <div class="navigation_3"></div>
+  <div class="navigation_4"></div>
+</div>-->
+
 <div id="searchDiv">
-  <div  >
-      <img id="compass" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkU0UzM3dUR3JDeEk" ng-click="findDevicePosision()"/>
-  </div>
+  <img id="compass" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkU0UzM3dUR3JDeEk" ng-click="findDevicePosision()"/>
   <input id="searchTextField" type="text" size="50" ng-click="searchDropDown()" onfocus="this.value='';" placeholder="Ange en plats" />
     <span id="searchIcon" class="glyphicon glyphicon-search" aria-hidden="true"></span>
 </div>
@@ -12,7 +18,7 @@
 <ul class="list-group row">
   <li class="list-group-item col-xs-3 col-sm-3">
     <div id="rainIcon" class="parameterButton">
-        <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'" ng-init="currentParameter = 'rain'" />
+        <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'"  ng-init="currentParameter = 'rain'"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3 col-sm-3">

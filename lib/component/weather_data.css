@@ -69,6 +69,7 @@
   marign: 1% 2%;
 }
 
+
 .list-group{
   margin: 7%;
 }
@@ -94,7 +95,45 @@
   height: 40px;
 }
 
+.fill{
+  backround-color: #3c3c3c !important;
+}
+
+.navigation div{
+  position: fixed;
+  right: 0px;
+  background-color: #D8D7D7;
+  height: 4vh;
+  width: 5px;
+  margin: 5px;
+  border-radius: 2px;
+  border-width: 0px;
+}
+
+.navigation_1{
+  top: 48vh;
+}
+
+.navigation_2{
+  top: 53vh;
+}
+
+.navigation_3{
+  top: 58vh; 
+}
+
+.navigation_4{
+  top: 63vh;
+}
+
 .active{
   border: 2px solid;
   border-color: #3c3c3c;
 }
+
+
+/*
+.active{
+  background: #3c3c3c;
+}*/
+

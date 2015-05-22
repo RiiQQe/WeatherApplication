@@ -35,6 +35,7 @@ class WeatherDataComponent {
   
   Map<String, bool> cityFilterMap;
   String currentParameter = "temp";
+  String navigateValue = "1";
   String currentCity;
   var input, options;
   
