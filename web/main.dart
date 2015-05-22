@@ -8,6 +8,8 @@ import 'package:angular/angular.dart';
 
 import 'package:weatherapplication/component/weather_data.dart';
 
+import 'package:bootjack/bootjack.dart';
+
 import 'dart:html';
 
 
@@ -30,7 +32,7 @@ main() {
   
   removeSplash();
  
-  //Dropdown.use();
+  Dropdown.use();
   
   
 }
