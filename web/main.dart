@@ -37,7 +37,7 @@ main() {
   Dropdown.use();
   
 }
-
+//TODO: flytta till weatherData
 removeSplash(){
   
   var splashscreen = querySelector("#splashscreen");

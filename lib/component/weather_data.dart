@@ -128,9 +128,10 @@ class WeatherDataComponent {
       'country': 'se'
     }); 
     
+    //TODO: fixa städer
     //försök att begränsa till städerx
-//    ao.$unsafe['GeocoderComponentRestrictions'] = new js.JsObject.jsify({
-//      'locality': '(cities)'
+   // ao.$unsafe['GeocoderComponentRestrictions'] = new js.JsObject.jsify({
+  //    'locality': ['(cities)']
 //    }); 
         
     final autocomplete = new Autocomplete(input, ao);
