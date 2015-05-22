@@ -84,7 +84,7 @@ class LoadYr {
             
       timeFormatted = formatter.format(currentTime);      
       
-      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, currentRain, currentWind, currentCloud, currentTime));
+      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, currentRain, currentWind, currentCloud, currentTime, currentTemp));
 
     }
   }
