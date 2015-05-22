@@ -149,7 +149,6 @@ class WeatherDataComponent {
   {
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
-    print(smhiData.currentWeatherSet.cloud);
     
     if(theTime > 21 || theTime < 05){
       (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
@@ -266,6 +265,10 @@ class WeatherDataComponent {
           window.alert("something went wrong");
           currentCity = "Stockholm";
         }
+        
+    //set currentCity in search field
+    var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
+    changePlaceholder.placeholder = currentCity;
         
       });
       
