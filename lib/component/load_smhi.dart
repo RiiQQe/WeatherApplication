@@ -94,8 +94,6 @@ class LoadSmhi {
     else if (cloudIndex <= 3 && cloudIndex > 1) cloud = "Lite moln"; 
     else if (cloudIndex <= 6 && cloudIndex > 3) cloud = "Växlande molnighet"; 
     else cloud = "Mulet";
-    
-    print(cloudIndex);
 
     return cloud;
   }

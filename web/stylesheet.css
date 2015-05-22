@@ -132,7 +132,7 @@ div.imgYr {
   font-size: 75px;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
-  color: #e36790;
+  color: #3c3c3c;
 }
 
 #innersplash {
@@ -141,21 +141,6 @@ div.imgYr {
   margin-top:5vh;
 }
 
-/*
-.glyphicon-refresh-animate {
-    -animation: spin .7s infinite linear;
-    -webkit-animation: spin2 .7s infinite linear;
-}
-
-@-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
-}
-
-@keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
-}*/
 
 #footer {
    text-align: center;
@@ -187,8 +172,8 @@ div.imgYr {
     -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
     -webkit-animation-delay: 2s; /* Chrome, Safari, Opera */
     animation-name: example;
-    animation-duration: 6s;
-    animation-delay: 2s;
+    animation-duration: 15s;
+    animation-delay: 1s;
 }
 
 /* Chrome, Safari, Opera */
@@ -205,8 +190,8 @@ div.imgYr {
     position: relative;
     -webkit-animation-name: example1; /* Chrome, Safari, Opera */
     animation-name: example1;
-    animation-duration: 6s;
-    animation-delay: 2s;
+    animation-duration: 15s;
+    animation-delay: 1s;
 }
 
 /* Chrome, Safari, Opera */
@@ -224,7 +209,7 @@ div.imgYr {
     position: relative;
     -webkit-animation-name: example3; /* Chrome, Safari, Opera */
     animation-name: example3;
-    animation-duration: 5s;
+    animation-duration: 15s;
     animation-delay: 1s;
 
 }
@@ -244,7 +229,7 @@ div.imgYr {
     position: relative;
     -webkit-animation-name: example4; /* Chrome, Safari, Opera */
     animation-name: example4;
-    animation-duration: 4s;
+    animation-duration: 15s;
     animation-delay: 1s;
 }
 
