@@ -16,7 +16,7 @@ var margin, width, height;
 
 
 function init(color){
-  console.log("init..");
+
   format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
   //TODO:
   //Make these responsive
@@ -89,22 +89,17 @@ function init(color){
 }
 
 function setParameters(smhiData){
-  console.log("setParameters...");
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
   //till en lista med exakt samma objekt
   var i = 0;
   smhiDataR = [];
-  console.log("HAAAAAAR");
-  smhiDataR.forEach(function(d){
-    console.log("ifall detta kommer ut flera gånger så funkar de inte så bra... ");
-  });
 
   while(smhiData.o[i] != null){
     var singleObj = {};
 
     var time = smhiData.o[i].date.date.toISOString();
-
+    
     singleObj['temp'] =+ smhiData.o[i].temp;
     singleObj['date'] = time;
 
@@ -112,20 +107,17 @@ function setParameters(smhiData){
     i++;
 
   }
-  console.log("number of elements: " + i );
   updateGraph(smhiDataR);
 
 }
 
 
 function updateGraph(smhiDataR){
-  console.log("updateGraph...");
     smhiDataR.forEach(function(d){
       d.date = format.parse(d.date);
       d.value =+ d.temp;
     });
 
-    console.log(" Temperature : " + smhiDataR[1].temp);
 
     //TODO:
     //Denna ska fungera, men den gör inte riktigt det än.. Av någon anledning blir antingen d.y0 eller d.y noll
@@ -224,7 +216,6 @@ function updateGraph(smhiDataR){
          mousex = mousex[0] + 5;
          vertical.style("left", mousex + "px")});
 
-    console.log("GRAPH SHOULD HAVE BEEN UPDATED");
     //TODO:
     //Här lägger man till om den rör sig över ".chart"-en
     //d3.select(".chart")

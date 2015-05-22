@@ -81,9 +81,7 @@ class WeatherDataComponent {
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
     yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
     if(ifFirst){
-      print("before init call");
       js.context.callMethod("init", ["orange"]);
-      print("after init call");
       ifFirst = false;
     }
     
@@ -119,7 +117,6 @@ class WeatherDataComponent {
 
   void startGraph(){
     
-    print("from dart: " + smhiData.weatherSets[1].temp.toString());
     //js.context.callMethod("setParameters", [smhiData.weatherSets]);
   }
  
@@ -155,13 +152,11 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
   {
-    print("before call setParameters ");
     js.context.callMethod("setParameters", [smhiData.weatherSets]);
-    print("after call setParameters");
+
     
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
-    print(smhiData.currentWeatherSet.cloud);
     
     if(theTime > 21 || theTime < 05){
       (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
@@ -365,7 +360,7 @@ class WeatherSet {
   String cloud, rain, wind, time;
   DateTime date; 
   
-  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue);
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue, this.date);
 
   
 }

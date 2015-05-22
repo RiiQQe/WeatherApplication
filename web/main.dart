@@ -30,7 +30,7 @@ main() {
   
   removeSplash();
  
-  Dropdown.use();
+  //Dropdown.use();
   
   
 }
