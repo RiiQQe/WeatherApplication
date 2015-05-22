@@ -110,8 +110,10 @@ class LoadYr {
     if(currentWeather == "Sun" || currentWeather == "LightCloud" || currentWeather == "PartlyCloud"
         || currentWeather == "Cloud")
       rain = "Inget regn"; 
-    else if(currentWeather == "Snow")
+    else if(currentWeather == "Snow" || currentWeather == "LightSnow" || currentWeather == "HeavySnow")
       rain = "Snö, " + rainIndex.toString() + "mm";
+    else if(currentWeather == "LightSnowSun" || currentWeather == "HeaveSnowSun")
+      rain = "Sol och snö, " + rainIndex.toString() + "mm";
     else if(currentWeather == "Sleet")
           rain = "Snöblandat Regn, " + rainIndex.toString() + "mm";
     else if(currentWeather == "Rain")
