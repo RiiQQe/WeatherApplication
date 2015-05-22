@@ -35,6 +35,7 @@ class WeatherDataComponent {
   
   Map<String, bool> cityFilterMap;
   String currentParameter = "temp";
+  String navigateValue = "1";
   String currentCity;
   var input, options;
   
@@ -335,10 +336,10 @@ class WeatherDataComponent {
 }
 
 class WeatherSet {
-  double temp;
+  double temp, rainValue, windValue, cloudValue;
   String cloud, rain, wind, time;
   
-  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time);
+  WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue);
   
 }
 

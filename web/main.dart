@@ -29,7 +29,6 @@ class WeatherAppModule extends Module {
 }
 
 main() {
-
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
@@ -48,4 +47,3 @@ removeSplash(){
   weatherapp.style.display = 'block';
   
 }
-
