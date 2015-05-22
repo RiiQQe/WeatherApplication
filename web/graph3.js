@@ -88,7 +88,7 @@ function init(color){
 
 }
 
-function setParameters(smhiData){
+function setParameters(smhiData, currentParameter){
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
   //till en lista med exakt samma objekt
@@ -100,7 +100,7 @@ function setParameters(smhiData){
 
     var time = smhiData.o[i].date.date.toISOString();
     
-    singleObj['temp'] =+ smhiData.o[i].temp;
+    singleObj['temp'] =+ smhiData.o[i].currentParameter;
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
