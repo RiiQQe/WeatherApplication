@@ -39,6 +39,8 @@ class WeatherDataComponent {
   String currentCity;
   var input, options;
   
+  bool ifFirst = true;
+    
   //Explanations of the List of images
   //0: mycket regn
   //1: natt
@@ -51,6 +53,7 @@ class WeatherDataComponent {
   //8: sol + lite moln
   //9: moln
   //10: åska
+  
   List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSVNjM1VzdGJxeUk", 
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
                                "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQTNqLXQ2eVl1cVE",
@@ -64,30 +67,32 @@ class WeatherDataComponent {
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
 
   WeatherDataComponent() {
+
+    smhiData = new LoadSmhi();
+    yrData = new LoadYr();
     
-    findCoords().then((msg) {
-         //Load smhi, then call _loadData
-       smhiData = new LoadSmhi();
-       yrData = new LoadYr();
-       smhiData.loadData(latitude, longitude).then((msg){
-         setSmhiHeader();
-       });
-       yrData.loadData(latitude, longitude).then((msg){
-          setYrHeader();
-       });
-      
-    });
+    findCoords().then((_) => createWeatherData());
+    
+  }
+  
+  
+  void createWeatherData(){
+
+    smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
+    yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
+    if(ifFirst){
+      print("before init call");
+      js.context.callMethod("init", ["orange"]);
+      print("after init call");
+      ifFirst = false;
+    }
     
   }
   
   void findDevicePosision(){
 
-    findCoords().then((coords){
 
-      smhiData.loadData(coords[0], coords[1]);
-      yrData.loadData(coords[0], coords[1]);
-      
-    });
+    findCoords().then((_) => createWeatherData());
     
   }
   
@@ -104,20 +109,20 @@ class WeatherDataComponent {
       latitude = double.parse(citySearch[1]["lat"]);
       longitude = double.parse(citySearch[1]["lon"]);
 
-
-      smhiData.loadData(latitude, longitude).then((msg){
-        setSmhiHeader();
-      });
       
-      yrData.loadData(latitude, longitude).then((msg){
-        setYrHeader();
-      });
+
+      createWeatherData();  
     });    
   
   }
-  
-  //dropdown given search results when typing in the text field 
-  //Google maps api used
+
+
+  void startGraph(){
+    
+    print("from dart: " + smhiData.weatherSets[1].temp.toString());
+    //js.context.callMethod("setParameters", [smhiData.weatherSets]);
+  }
+ 
   void searchDropDown(){ 
     
     final input = querySelector("weather-data::shadow #searchTextField") as InputElement;
@@ -139,6 +144,8 @@ class WeatherDataComponent {
     autocomplete.onPlaceChanged.listen((_) {
      
         final place = autocomplete.place;
+        input.value = "";
+        input.placeholder = place.name;
         
         nameToCoords(place.name);
       });
@@ -148,6 +155,10 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
   {
+    print("before call setParameters ");
+    js.context.callMethod("setParameters", [smhiData.weatherSets]);
+    print("after call setParameters");
+    
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
     print(smhiData.currentWeatherSet.cloud);
@@ -267,10 +278,11 @@ class WeatherDataComponent {
           window.alert("something went wrong");
           currentCity = "Stockholm";
         }
+        var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
         
-    //set currentCity in search field
-    var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-    changePlaceholder.placeholder = currentCity;
+        changePlaceholder.placeholder = currentCity;
+        
+ 
         
       });
       
@@ -278,12 +290,22 @@ class WeatherDataComponent {
 
       return coordinates;
       
-    }, onError: (error) => printError(error));
+    }, onError: (error) {
+          longitude = 16.14752;
+          latitude = 58.58078;
+          var coordinates = [latitude, longitude];
+          
+          return coordinates;
+          
+          
+        });
+       
+
   }
   
   //Function that changes the printed values in the timeline
   String getCurrentParameter(WeatherSet ws){
-    
+
     if(currentParameter == 'rain'){
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
@@ -320,7 +342,7 @@ class WeatherDataComponent {
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.cloud.toString();
       return ws.cloud; 
     }
-    
+
     return "Not found";
       
   }
@@ -335,14 +357,16 @@ class WeatherDataComponent {
   
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
-  }
+  }  
 }
 
 class WeatherSet {
   double temp, rainValue, windValue, cloudValue;
   String cloud, rain, wind, time;
+  DateTime date; 
   
   WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue);
+
   
 }
 

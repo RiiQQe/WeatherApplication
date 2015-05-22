@@ -13,6 +13,8 @@ var stack, nest, area, svg;
 
 var margin, width, height;
 
+
+
 function init(color){
   console.log("init..");
   format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
@@ -25,7 +27,7 @@ function init(color){
 
   //TODO: 
   //When yrData is added, add one color.
-  colorrange = ["#B30000", "#E34A33"];  
+  colorrange = ["#B30000", "#E34A33"];
   strokecolor = colorrange[0];
 
   //TODO: 
@@ -39,21 +41,21 @@ function init(color){
     .style("visibility", "hidden")
     .style("top", "30px")
     .style("left", "55px");
-  //To map temperature values to fit graph
+  
   x = d3.scale.linear()
           .range([0,width]);
-  //To map date values to fit graph
+
   y = d3.time.scale()
           .range([0, height]);
-  
+          
+
   z = d3.scale.ordinal()
           .range(colorrange);
-  //Make x count on temperature values
+
   xAxis = d3.svg.axis()
               .scale(x);
               //.orient("bottom");
 
-  //Tick depending on days, should be hours for today temperature
   yAxis = d3.svg.axis()
               .scale(y)
               //.orient("right")
@@ -70,18 +72,14 @@ function init(color){
   //TODO:
   //Jag tror att x(d.x0) och x(d.x0 + d.x) är de som dummar sig,
   //tror det räcker med att x0 = x0(function(d){return 0;})
-  
-  //Draw graph, from x0 to x1 and where y is
-   area = d3.svg.area()  
+  area = d3.svg.area()  
               .interpolate("cardinal")
-              .x0(function(d){ return x(-d.value) ; }) 
+              .x0(function(d){ return x(0.0) ; })
               .x1(function(d){  return x(d.value) ; })
               .y(function(d){ return y(d.date) ; });
   //TODO:
   //Jag är inte 100% på hur  den funkar, men slår vi våra kloka 
   //huvuden ihop kan vi säkert lösa det.. 
-
-  //Here is were the problem is right now..
   svg = d3.select(".chart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -97,6 +95,10 @@ function setParameters(smhiData){
   //till en lista med exakt samma objekt
   var i = 0;
   smhiDataR = [];
+  console.log("HAAAAAAR");
+  smhiDataR.forEach(function(d){
+    console.log("ifall detta kommer ut flera gånger så funkar de inte så bra... ");
+  });
 
   while(smhiData.o[i] != null){
     var singleObj = {};
@@ -123,13 +125,14 @@ function updateGraph(smhiDataR){
       d.value =+ d.temp;
     });
 
+    console.log(" Temperature : " + smhiDataR[1].temp);
+
     //TODO:
     //Denna ska fungera, men den gör inte riktigt det än.. Av någon anledning blir antingen d.y0 eller d.y noll
     //Just nu är det hårdkodat nedanför..
     //x.domain([0, d3.extent(smhiDataR, function(d) { return d.y0 + d.y ; })]);
 
     var layers = stack(nest.entries(smhiDataR));
-
     x.domain([-30, 30]);
     y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
     //y.domain([0,50]);
@@ -141,8 +144,6 @@ function updateGraph(smhiDataR){
           .attr("d", function(d){ return area(d.values); })
           .style("fill", function(d, i){ return z(i); });
 
-    //TODO:
-    //Fix xAxis
     svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + 0 + ")")
@@ -159,7 +160,7 @@ function updateGraph(smhiDataR){
     //svg.selectAll(".layer")
     //.attr("opacity", 1) osv..
 
-  svg.selectAll(".layer")
+    svg.selectAll(".layer")
   .attr("opacity", 1)
   .on("mouseover", function(d, i) {
     svg.selectAll(".layer").transition()
@@ -178,7 +179,7 @@ function updateGraph(smhiDataR){
       selected = d.values;
       for (var k = 0; k < selected.length; k++) {
         datearray[k] = selected[k].date;
-        //datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
+        datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
       }
 
       mousedate = datearray.indexOf(invertedx);
@@ -200,9 +201,7 @@ function updateGraph(smhiDataR){
       .classed("hover", false)
       .attr("stroke-width", "0px"), tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "hidden");
   })
-  
-    //TODO:
-    //Change this so it horizontal
+
     var vertical = d3.select(".chart")
             .append("div")
             .attr("class", "remove")

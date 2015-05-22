@@ -56,7 +56,7 @@ class LoadSmhi {
   }
 
   void setWeatherParameters() {
-    String cloud, rain, wind, category, timeFormatted;
+    String cloud, rain, wind, timeFormatted;
     int cloudIndex, rainIndex;
     double windIndex, currentTemp, rainValue, cloudValue;
     DateTime currentTime;
@@ -83,6 +83,7 @@ class LoadSmhi {
 
       //Add new WeatherSet to the list weatherSets
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue));
+
     }
   }
 

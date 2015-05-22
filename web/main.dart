@@ -5,25 +5,20 @@ library main;
 
 import 'package:angular/application_factory.dart';
 import 'package:angular/angular.dart';
-import 'package:bootjack/bootjack.dart';
 
 import 'package:weatherapplication/component/weather_data.dart';
 
 import 'dart:html';
 
-//import 'package:weatherapplication/formatter/time_category_filter.dart';
-//import 'package:weatherapplication/decorators/image_decorator.dart';
 
-import 'dart:convert';
+import 'dart:js' as js;
 
 ///Binds all components of the app right now it consists of
 ///[WeatherDataComponent] and [CityFilter]
 class WeatherAppModule extends Module {
   WeatherAppModule() {
-    
+   
     bind(WeatherDataComponent);
-    //bind(CityFilter);
-    //bind(ImageDecorator);
   
   }
 }
@@ -32,9 +27,11 @@ main() {
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
+  
   removeSplash();
  
   Dropdown.use();
+  
   
 }
 //TODO: flytta till weatherData
@@ -47,3 +44,4 @@ removeSplash(){
   weatherapp.style.display = 'block';
   
 }
+

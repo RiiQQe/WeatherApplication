@@ -87,6 +87,7 @@ class LoadYr {
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, currentRain, currentWind, currentCloud));
 
     }    
+
   }
   
   //Primitive way of translating parameters from numbers to Strings
