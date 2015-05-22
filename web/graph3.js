@@ -22,7 +22,7 @@ function init(color){
   //TODO:
   //Make these responsive
   //är dem inte redan det?
-  margin = {top: 20, right: 40, bottom: 30, left: 45};
+  margin = {top: 40, right: 40, bottom: 100, left: 45};
   width = document.body.clientWidth - margin.left - margin.right;
   height = document.body.clientHeight - margin.top - margin.bottom;
 
@@ -210,7 +210,7 @@ function updateGraph(smhiDataR){
             .style("z-index", "19")
             .style("width", "110px")
             .style("height", "2px")
-            .style("top", "300px")
+            .style("top", "50vh")
             .style("bottom", "30px")
             .style("left", "50vw")
             .style("background", "#3c3c3c");
