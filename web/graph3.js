@@ -4,6 +4,8 @@ var smhiDataR = [];
 var strokecolor;
 var format;
 
+var ifFirst = true;
+
 var tooltip, 
   x, xAxis,
   y, yAxis,
@@ -13,9 +15,10 @@ var stack, nest, area, svg;
 
 var margin, width, height;
 
+var layersSmhi0, layersSmhi1, layersYr0, layersYr1;
 
 
-function init(color){
+
 
   format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
   //TODO:
@@ -32,7 +35,7 @@ function init(color){
 
   //TODO: 
   //Uncomment this part, not working right now..
-  tooltip = d3.select("body")
+  tooltip = d3.select(".chart")
     .append("div")
     .attr("class", "remove")
     .attr("id", "removeMe")
@@ -54,17 +57,15 @@ function init(color){
 
   xAxis = d3.svg.axis()
               .scale(x);
-              //.orient("bottom");
 
   yAxis = d3.svg.axis()
               .scale(y)
-              //.orient("right")
               .ticks(d3.time.days);
 
   stack = d3.layout.stack()
     .offset("silhouette")
     .values(function(d) { return d.values; })
-    .x(function(d) { return d.value; })
+    .x(function(d) { return d.value; }) // Something skumt .. 
     .y(function(d) { return d.date; });
 
   nest = d3.nest()
@@ -74,8 +75,8 @@ function init(color){
   //tror det räcker med att x0 = x0(function(d){return 0;})
   area = d3.svg.area()  
               .interpolate("cardinal")
-              .x0(function(d){ return x(0.0) ; })
-              .x1(function(d){  return x(d.value) ; })
+              .x0(function(d){ console.log("inne i area"); return x(0.0) ; })
+              .x1(function(d){ console.log("x(d.value)" + x(d.value)); return x(d.value) ; })
               .y(function(d){ return y(d.date) ; });
   //TODO:
   //Jag är inte 100% på hur  den funkar, men slår vi våra kloka 
@@ -86,7 +87,7 @@ function init(color){
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-}
+
 
 function setParameters(smhiData){
   //TODO: 
@@ -103,39 +104,47 @@ function setParameters(smhiData){
     singleObj['temp'] =+ smhiData.o[i].temp;
     singleObj['date'] = time;
 
+
     smhiDataR.push(singleObj);
     i++;
 
   }
-  updateGraph(smhiDataR);
+  if(ifFirst){
+    createGraph(smhiDataR);  
+    ifFirst = false;
+  }else{
+    updateGraph(smhiDataR);
+  }
 
+  
 }
 
+function createGraph(smhiDataR){
 
-function updateGraph(smhiDataR){
     smhiDataR.forEach(function(d){
       d.date = format.parse(d.date);
       d.value =+ d.temp;
     });
-
 
     //TODO:
     //Denna ska fungera, men den gör inte riktigt det än.. Av någon anledning blir antingen d.y0 eller d.y noll
     //Just nu är det hårdkodat nedanför..
     //x.domain([0, d3.extent(smhiDataR, function(d) { return d.y0 + d.y ; })]);
 
-    var layers = stack(nest.entries(smhiDataR));
+    layersSmhi0 = stack(nest.entries(smhiDataR));
+    
     x.domain([-30, 30]);
     y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
-    //y.domain([0,50]);
+
+    svg.transition();
 
     svg.selectAll(".layer")
-          .data(layers)
+          .data(layersSmhi0)
           .enter().append("path")
           .attr("class","layer")
           .attr("d", function(d){ return area(d.values); })
           .style("fill", function(d, i){ return z(i); });
-
+  
     svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + 0 + ")")
@@ -146,80 +155,39 @@ function updateGraph(smhiDataR){
       .attr("transform", "translate(" + (width) + ", 0)")
       .call(yAxis.orient("left"));
 
+    console.log("HEJSAN DITT FULE FAN");
+
     //TODO: 
     //Här kan man lägga till så att tooltippen uppdateras
     //och startas, dock måste man lägga till var tooltip först
     //svg.selectAll(".layer")
     //.attr("opacity", 1) osv..
+  }
 
-    svg.selectAll(".layer")
-  .attr("opacity", 1)
-  .on("mouseover", function(d, i) {
-    svg.selectAll(".layer").transition()
-    .duration(250)
-    .attr("opacity", function(d, j) {
-      return j != i ? 0.6 : 1;
-  })})
+  function updateGraph(smhiDataR){
+      smhiDataR.forEach(function(d){
+          d.date = format.parse(d.date);
+          d.value =+ d.temp;
+    });
 
-  .on("mousemove", function(d, i) {
-      mousex = d3.mouse(this);
-      mousex = mousex[0];
-      var invertedx = x.invert(mousex);
-      //invertedx = invertedx.getTime();
-      
-      var selected = (d.values);
-      selected = d.values;
-      for (var k = 0; k < selected.length; k++) {
-        datearray[k] = selected[k].date;
-        datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
-      }
+      layersSmhi1 = stack(nest.entries(smhiDataR));
 
-      mousedate = datearray.indexOf(invertedx);
-      pro = d.values[mousedate].value;
+      transition();
+  }
 
-      d3.select(this)
-      .classed("hover", true)
-      .attr("stroke", strokecolor)
-      .attr("stroke-width", "0.5px"), 
-      tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "visible");
-      
-    })
-    .on("mouseout", function(d, i) {
-     svg.selectAll(".layer")
-      .transition()
-      .duration(250)
-      .attr("opacity", "1");
-      d3.select(this)
-      .classed("hover", false)
-      .attr("stroke-width", "0px"), tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "hidden");
-  })
-
-    var vertical = d3.select(".chart")
-            .append("div")
-            .attr("class", "remove")
-            .style("position", "absolute")
-            .style("z-index", "19")
-            .style("width", "1px")
-            .style("height", "380px")
-            .style("top", "10px")
-            .style("bottom", "30px")
-            .style("left", "0px")
-            .style("background", "#fff");
-
-            d3.select(".chart")
-      .on("mousemove", function(){ 
-         mousex = d3.mouse(this);
-         mousex = mousex[0] + 5;
-         vertical.style("left", mousex + "px" )})
-      .on("mouseover", function(){  
-         mousex = d3.mouse(this);
-         mousex = mousex[0] + 5;
-         vertical.style("left", mousex + "px")});
-
-    //TODO:
-    //Här lägger man till om den rör sig över ".chart"-en
-    //d3.select(".chart")
-    //  .on("mousemove", function(){ osv.. 
-
+  function transition(){
+        console.log("hello");
+        d3.selectAll("path")
+        .data(function(){
+          var d = layersSmhi1;
+          layersSmhi1 = layersSmhi0;
+          return layersSmhi0 = d;
+        })
+        .transition()
+        .duration(2500)
+        .attr("d", function(d){ return area(d.values); } );
 
   }
+
+
+ 

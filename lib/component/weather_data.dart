@@ -81,7 +81,7 @@ class WeatherDataComponent {
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
     yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
     if(ifFirst){
-      js.context.callMethod("init", ["orange"]);
+      //js.context.callMethod("init", ["orange"]);
       ifFirst = false;
     }
     
@@ -297,10 +297,13 @@ class WeatherDataComponent {
        
 
   }
-  
+  //TODO: HERE IS WERE OUR GETTEMP PROBLEM COMES IN TO PLAY, SINCE YRDATA TAKES TO LONG
   //Function that changes the printed values in the timeline
   String getCurrentParameter(WeatherSet ws){
-
+    if(smhiData.currentWeatherSet == null || yrData.currentWeatherSet == null){
+      print("Something went wrong..");
+      return "Sorry";
+    }
     if(currentParameter == 'rain'){
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
