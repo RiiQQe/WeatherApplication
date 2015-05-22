@@ -80,10 +80,6 @@ class WeatherDataComponent {
 
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
     yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
-    if(ifFirst){
-      js.context.callMethod("init", ["orange"]);
-      ifFirst = false;
-    }
     
   }
   

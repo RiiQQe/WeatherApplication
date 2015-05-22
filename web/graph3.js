@@ -14,9 +14,6 @@ var stack, nest, area, svg;
 var margin, width, height;
 
 
-
-function init(color){
-
   format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
   //TODO:
   //Make these responsive
@@ -86,8 +83,6 @@ function init(color){
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-}
-
 function setParameters(smhiData, currentParameter){
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
@@ -128,6 +123,11 @@ function updateGraph(smhiDataR){
     x.domain([-30, 30]);
     y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
     //y.domain([0,50]);
+
+    svg.selectAll(".layer")
+        .data(layers)
+        .attr("d", function(d){ return area(0.0) })
+        .style("fill", function(d,i) { return z(i)});
 
     svg.selectAll(".layer")
           .data(layers)
