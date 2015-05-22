@@ -79,19 +79,10 @@ class WeatherDataComponent {
   void createWeatherData(){
 
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
-    yrData.loadData(latitude, longitude).then((msg) => setYrHeader());
-/*<<<<<<< HEAD
-    if(ifFirst){
-      //js.context.callMethod("init", ["orange"]);
-      ifFirst = false;
-    }
-=======
->>>>>>> 287bb46da703b7960ab82fb6afe0df295f84f056*/
-    
+    yrData.loadData(latitude, longitude).then((msg) => setYrHeader());    
   }
   
   void findDevicePosision(){
-
 
     findCoords().then((_) => createWeatherData());
     

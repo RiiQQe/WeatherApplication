@@ -19,7 +19,7 @@ var layersSmhi0, layersSmhi1, layersYr0, layersYr1;
 
 
 format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
-
+  
 
 //TODO:
 //Make these responsive
@@ -130,7 +130,14 @@ function updateGraph(smhiDataR){
   });
 layersSmhi1 = stack(nest.entries(smhiDataR));
 
-transition();
+  var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
+
+  //maxOfCurrentX = 150;
+  
+  x.domain([-maxOfCurrentX, maxOfCurrentX]);
+  y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
+
+transition2();
 
   //TODO: 
   //Här kan man lägga till så att tooltippen uppdateras
@@ -139,18 +146,23 @@ transition();
   //.attr("opacity", 1) osv..
 
   svg.selectAll(".layer")
-.attr("opacity", 1)
-.on("mouseover", function(d, i) {
-  svg.selectAll(".layer").transition()
-  .duration(250)
-  .attr("opacity", function(d, j) {
-    return j != i ? 0.6 : 1;
-})})
+    .attr("opacity", 1)
+    .on("mouseover", function(d, i) {
+      svg.selectAll(".layer").transition()
+      .duration(250)
+      .attr("opacity", function(d, j) {
+        console.log("check me out");
+        return j != i ? 0.6 : 1;
+    })})
 
 .on("mousemove", function(d, i) {
     mousex = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
-    							//The coordinates are returned as a two-element array [x, y].
+    							           //The coordinates are returned as a two-element array [x, y].
+
+    console.log("only once");
     mousex = mousex[1];
+
+
     var invertedx = y.invert(mousex); //ändrade från x till y, hände inget
     //invertedx = invertedx.getTime();
     //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
@@ -187,7 +199,7 @@ var horizontal = d3.select(".chart")
           .style("left", "50vw")
           .style("background", "#3c3c3c");
           
-  var vertical = d3.select(".chart")
+  /*var vertical = d3.select(".chart")
           .append("div")
           .attr("class", "remove")
           .style("position", "absolute")
@@ -198,13 +210,16 @@ var horizontal = d3.select(".chart")
           .style("bottom", "30px")
           .style("left", "0px")
           .style("background", "#fff");
-
+  */
 	//ändra så att pinnen går upp och ner istället för höger och vänster
   d3.select(".chart")
     .on("mousemove", function(){ 
        mousex = d3.mouse(this);
        mousex = mousex[0] + 5;
        horizontal.style("left", mousex + "px" )})
+
+      //
+
     .on("mouseover", function(){  
        mousex = d3.mouse(this);
        mousex = mousex[0] + 5;
@@ -225,11 +240,17 @@ function createGraph(smhiDataR){
     //x.domain([0, d3.extent(smhiDataR, function(d) { return d.y0 + d.y ; })]);
 
     layersSmhi0 = stack(nest.entries(smhiDataR));
+    //TODO: 
+    //this can be used, when it contains YR-data also
+    /*var maxOfCurrentX = d3.max(smhiDataR, function(d){
+      return d3.max(d);
+    });*/
+    var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
     
-    x.domain([-30, 30]);
+    x.domain([-maxOfCurrentX, maxOfCurrentX]);
     y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
 
-    svg.transition();
+    //svg.transition();
 
     svg.selectAll(".layer")
           .data(layersSmhi0)
@@ -255,7 +276,9 @@ function createGraph(smhiDataR){
     //svg.selectAll(".layer")
     //.attr("opacity", 1) osv..
   }
-  function transition(){
+
+
+  function transition2(){
         console.log("hello");
         d3.selectAll("path")
         .data(function(){
