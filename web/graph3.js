@@ -295,7 +295,13 @@ function createGraph(smhiDataR){
     var element = document.getElementById("headerTextSmhi");
     
     if(element == null) console.log("something went wrong");
-    else  element.innerHTML = d.toString();
-    
+    else {
+
+      //d = d.toString();
+
+      if(d >= 10) d = (d.toString()).substring(0,4) + " °C";
+      else d = (d.toString()).substring(0, 3) + " °C"; 
+      element.innerHTML = d.toString();
+    }
 
   }
