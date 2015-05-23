@@ -139,7 +139,77 @@ layersSmhi1 = stack(nest.entries(smhiDataR));
 
 transition2();
 
-  //TODO: 
+}
+
+function createGraph(smhiDataR){
+
+    smhiDataR.forEach(function(d){
+      d.date = format.parse(d.date);
+      d.value =+ d.temp;
+    });
+
+    //TODO:
+    //Denna ska fungera, men den gör inte riktigt det än.. Av någon anledning blir antingen d.y0 eller d.y noll
+    //Just nu är det hårdkodat nedanför..
+    //x.domain([0, d3.extent(smhiDataR, function(d) { return d.y0 + d.y ; })]);
+
+    layersSmhi0 = stack(nest.entries(smhiDataR));
+    //TODO: 
+    //this can be used, when it contains YR-data also
+    /*var maxOfCurrentX = d3.max(smhiDataR, function(d){
+      return d3.max(d);
+    });*/
+    var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
+    
+    x.domain([-maxOfCurrentX, maxOfCurrentX]);
+    y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
+
+    //svg.transition();
+
+    svg.selectAll(".layer")
+          .data(layersSmhi0)
+          .enter().append("path")
+          .attr("class","layer")
+          .attr("d", function(d){ return area(d.values); })
+          .style("fill", function(d, i){ return z(i); });
+  
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + 0 + ")")
+      .call(xAxis.orient("top"));
+
+    svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + 0 + ", 0)")
+      .call(yAxis.orient("left"));
+
+      mouseHandler();
+    //TODO: 
+    //Här kan man lägga till så att tooltippen uppdateras
+    //och startas, dock måste man lägga till var tooltip först
+    //svg.selectAll(".layer")
+    //.attr("opacity", 1) osv..
+  }
+
+
+  function transition2(){
+        console.log("hello");
+        d3.selectAll("path")
+        .data(function(){
+          var d = layersSmhi1;
+          layersSmhi1 = layersSmhi0;
+          return layersSmhi0 = d;
+        })
+        .transition()
+        .duration(2500)
+        .attr("d", function(d){ return area(d.values); } );
+
+        mouseHandler();
+
+  }
+
+  function mouseHandler(){
+    //TODO: 
   //Här kan man lägga till så att tooltippen uppdateras
   //och startas, dock måste man lägga till var tooltip först
   //svg.selectAll(".layer")
@@ -157,9 +227,9 @@ transition2();
 
 .on("mousemove", function(d, i) {
     mousex = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
-    							           //The coordinates are returned as a two-element array [x, y].
+                             //The coordinates are returned as a two-element array [x, y].
 
-    console.log("only once");
+    console.log("Here it is: 1");
     mousex = mousex[1];
 
 
@@ -211,7 +281,7 @@ var horizontal = d3.select(".chart")
           .style("left", "0px")
           .style("background", "#fff");
   */
-	//ändra så att pinnen går upp och ner istället för höger och vänster
+  //ändra så att pinnen går upp och ner istället för höger och vänster
   d3.select(".chart")
     .on("mousemove", function(){ 
        mousex = d3.mouse(this);
@@ -224,70 +294,4 @@ var horizontal = d3.select(".chart")
        mousex = d3.mouse(this);
        mousex = mousex[0] + 5;
        horizontal.style("left", mousex + "px")});
-
-}
-
-function createGraph(smhiDataR){
-
-    smhiDataR.forEach(function(d){
-      d.date = format.parse(d.date);
-      d.value =+ d.temp;
-    });
-
-    //TODO:
-    //Denna ska fungera, men den gör inte riktigt det än.. Av någon anledning blir antingen d.y0 eller d.y noll
-    //Just nu är det hårdkodat nedanför..
-    //x.domain([0, d3.extent(smhiDataR, function(d) { return d.y0 + d.y ; })]);
-
-    layersSmhi0 = stack(nest.entries(smhiDataR));
-    //TODO: 
-    //this can be used, when it contains YR-data also
-    /*var maxOfCurrentX = d3.max(smhiDataR, function(d){
-      return d3.max(d);
-    });*/
-    var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
-    
-    x.domain([-maxOfCurrentX, maxOfCurrentX]);
-    y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
-
-    //svg.transition();
-
-    svg.selectAll(".layer")
-          .data(layersSmhi0)
-          .enter().append("path")
-          .attr("class","layer")
-          .attr("d", function(d){ return area(d.values); })
-          .style("fill", function(d, i){ return z(i); });
-  
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + 0 + ")")
-      .call(xAxis.orient("top"));
-
-    svg.append("g")
-      .attr("class", "y axis")
-      .attr("transform", "translate(" + 0 + ", 0)")
-      .call(yAxis.orient("left"));
-
-
-    //TODO: 
-    //Här kan man lägga till så att tooltippen uppdateras
-    //och startas, dock måste man lägga till var tooltip först
-    //svg.selectAll(".layer")
-    //.attr("opacity", 1) osv..
-  }
-
-
-  function transition2(){
-        console.log("hello");
-        d3.selectAll("path")
-        .data(function(){
-          var d = layersSmhi1;
-          layersSmhi1 = layersSmhi0;
-          return layersSmhi0 = d;
-        })
-        .transition()
-        .duration(2500)
-        .attr("d", function(d){ return area(d.values); } );
-
   }
