@@ -93,6 +93,20 @@ svg = d3.select(".chart").append("svg")
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+//den nya horisontella linjen
+var horizontal = d3.select(".chart")
+          .append("div")
+          .attr("class", "remove")
+          .style("position", "absolute")
+          .style("z-index", "19")
+          .style("width", "110px")
+          .style("height", "2px")
+          .style("top", "50vh")
+          .style("bottom", "30px")
+          .style("left", "50vw")
+          .style("background", "#3c3c3c");
+
 function setParameters(smhiData, currentParameter){
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
@@ -193,7 +207,6 @@ function createGraph(smhiDataR){
 
 
   function transition2(){
-        console.log("hello");
         d3.selectAll("path")
         .data(function(){
           var d = layersSmhi1;
@@ -201,7 +214,7 @@ function createGraph(smhiDataR){
           return layersSmhi0 = d;
         })
         .transition()
-        .duration(2500)
+        .duration(3500)
         .attr("d", function(d){ return area(d.values); } );
 
         mouseHandler();
@@ -225,19 +238,26 @@ function createGraph(smhiDataR){
         return j != i ? 0.6 : 1;
     })})
 
-.on("mousemove", function(d, i) {
-    mousex = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
+.on("click", function(d, i) {
+    mouse = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
                              //The coordinates are returned as a two-element array [x, y].
 
-    console.log("Here it is: 1");
-    mousex = mousex[1];
+    mousex = mouse[0];
+    mousey = mouse[1];
 
 
-    var invertedx = y.invert(mousex); //ändrade från x till y, hände inget
     //invertedx = invertedx.getTime();
     //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
     //Vi vill ha input domain y i corresponding output range x
     
+
+    //These contains our values, depending on where the mouse is..
+    var invertedx = x.invert(mousex); //ändrade från x till y, hände inget
+    var invertedy = y.invert(mousey);
+
+    
+    updateHeader(invertedx);    
+    /*
     var selected = (d.values);
     selected = d.values;
     for (var k = 0; k < selected.length; k++) {
@@ -247,51 +267,35 @@ function createGraph(smhiDataR){
 
     mousedate = datearray.indexOf(invertedx);
     pro = d.values[mousedate].value;
-
+    
     d3.select(this)
     .classed("hover", true)
     .attr("stroke", strokecolor)
     .attr("stroke-width", "0.5px"), 
     tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "visible");
-    
+    */
   })
 
-//den nya horisontella linjen
-var horizontal = d3.select(".chart")
-          .append("div")
-          .attr("class", "remove")
-          .style("position", "absolute")
-          .style("z-index", "19")
-          .style("width", "110px")
-          .style("height", "2px")
-          .style("top", "50vh")
-          .style("bottom", "30px")
-          .style("left", "50vw")
-          .style("background", "#3c3c3c");
-          
-  /*var vertical = d3.select(".chart")
-          .append("div")
-          .attr("class", "remove")
-          .style("position", "absolute")
-          .style("z-index", "19")
-          .style("width", "1px")
-          .style("height", "380px")
-          .style("top", "10px")
-          .style("bottom", "30px")
-          .style("left", "0px")
-          .style("background", "#fff");
-  */
   //ändra så att pinnen går upp och ner istället för höger och vänster
   d3.select(".chart")
     .on("mousemove", function(){ 
-       mousex = d3.mouse(this);
-       mousex = mousex[0] + 5;
-       horizontal.style("left", mousex + "px" )})
+       mouse = d3.mouse(this);
+       mousey = mouse[1] + document.body.clientHeight / 2;
+       horizontal.style("top", mousey + "px" )})
 
       //
 
     .on("mouseover", function(){  
-       mousex = d3.mouse(this);
-       mousex = mousex[0] + 5;
-       horizontal.style("left", mousex + "px")});
+       mouse = d3.mouse(this);
+       mousey = mouse[1] + document.body.clientHeight / 2;
+       horizontal.style("top", mousey + "px")});
+  }
+
+  function updateHeader(d){
+    var element = document.getElementById("headerTextSmhi");
+    
+    if(element == null) console.log("something went wrong");
+    else  element.innerHTML = d.toString();
+    
+
   }
