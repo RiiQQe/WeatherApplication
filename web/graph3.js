@@ -31,7 +31,7 @@ height = document.body.clientHeight - margin.top - margin.bottom;
 
 //TODO: 
 //When yrData is added, add one color.
-colorrange = ["#32acaf", "#353b4f"]; //smhi-color
+colorrange = ["#E36790", "#32ACAF", "#F3C3C3C" ];
 strokecolor = colorrange[0];
 
 //TODO: 
@@ -107,25 +107,46 @@ var horizontal = d3.select(".chart")
           .style("left", "50vw")
           .style("background", "#3c3c3c");
 
-function setParameters(smhiData, currentParameter){
+function setParameters(smhiData, yrData, currentParameter){
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
   //till en lista med exakt samma objekt
   var i = 0;
+  var j = 0;
   smhiDataR = [];
 
-  while(smhiData.o[i] != null){
+  //read in yrData and store in smhiDataR
+  while(yrData.o[i] != null){
     var singleObj = {};
 
-    var time = smhiData.o[i].date.date.toISOString();
+    var time = yrData.o[i].date.date.toISOString();
     
-    singleObj['temp'] =+ smhiData.o[i].currentParameter;
+    singleObj['key'] = "yr";
+    singleObj['temp'] =+ yrData.o[i].currentParameter;
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
+    // console.log(yrData.o[i].currentParameter);
     i++;
 
   }
+
+  //read in smhiData and store in smhiDataR
+  while( j < i ){
+    var singleObj = {};
+
+    var time = smhiData.o[j].date.date.toISOString();
+    
+    singleObj['key'] = "smhi";
+    singleObj['temp'] =+ smhiData.o[j].currentParameter;
+    singleObj['date'] = time;
+
+    smhiDataR.push(singleObj);
+    j++;
+
+  }
+
+
   if(ifFirst){
     createGraph(smhiDataR);
     ifFirst = false;

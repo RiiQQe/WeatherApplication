@@ -146,7 +146,7 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
   {
-    js.context.callMethod("setParameters", [smhiData.weatherSets, currentParameter]);
+    //js.context.callMethod("setParameters", [smhiData.weatherSets, currentParameter]);
 
     
     String time = smhiData.currentWeatherSet.time.substring(0,2);
@@ -199,6 +199,12 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
    void setYrHeader()
    {
+     
+     //call on graph
+     js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
+     
+     //print("currentPara: " + currentParameter);
+     
      String time = yrData.currentWeatherSet.time.substring(0,2);
      int theTime = int.parse(time);
      
