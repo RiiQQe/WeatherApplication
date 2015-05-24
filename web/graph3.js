@@ -75,7 +75,9 @@ stack = d3.layout.stack()
   .y(function(d) { return d.date; });
 
 nest = d3.nest()
-            .key(function(d){ return d.key ; });
+            .key(function(d){ 
+               // console.log(d.key); 
+              return d.key ; });
 //TODO:
 //Jag tror att x(d.x0) och x(d.x0 + d.x) är de som dummar sig,
 //tror det räcker med att x0 = x0(function(d){return 0;})
@@ -267,6 +269,7 @@ function createGraph(smhiDataR){
     mousey = mouse[1];
 
 
+
     //invertedx = invertedx.getTime();
     //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
     //Vi vill ha input domain y i corresponding output range x
@@ -277,7 +280,7 @@ function createGraph(smhiDataR){
     var invertedy = y.invert(mousey);
 
     
-    updateHeader(invertedx);    
+    updateHeader(invertedx, d.key);    
     /*
     var selected = (d.values);
     selected = d.values;
@@ -312,17 +315,36 @@ function createGraph(smhiDataR){
        horizontal.style("top", mousey + "px")});
   }
 
-  function updateHeader(d){
-    var element = document.getElementById("headerTextSmhi");
+  function updateHeader(d, k){
     
-    if(element == null) console.log("something went wrong");
+    // update smhiHeader
+    var smhiElement = document.getElementById("headerTextSmhi");
+    
+    if(smhiElement == null) console.log("something went wrong");
     else {
 
       //d = d.toString();
-
-      if(d >= 10) d = (d.toString()).substring(0,4) + " °C";
-      else d = (d.toString()).substring(0, 3) + " °C"; 
-      element.innerHTML = d.toString();
+      if(k == "smhi"){
+        if(d >= 10) d = (d.toString()).substring(0,4) + " °C";
+        else d = (d.toString()).substring(0, 3) + " °C"; 
+        smhiElement.innerHTML = d.toString();
+      }
     }
+
+    //update yrHeader
+    var yrElement = document.getElementById("headerTextYr");
+    
+    if(yrElement == null) console.log("something went wrong");
+    else {
+
+      //d = d.toString();
+      if(k == "yr"){
+        if(d >= 10) d = (d.toString()).substring(0,4) + " °C";
+        else d = (d.toString()).substring(0, 3) + " °C"; 
+        
+        yrElement.innerHTML = d.toString();
+      }
+    }
+      
 
   }
