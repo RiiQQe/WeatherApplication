@@ -40,13 +40,10 @@
   </li>
 </ul>
 
-<!--div for graph1-->
-<!--div for graph2-->
-<!--div for graph3-->
-
-
-
-
+ <div id="graph" ng-repeat="WeatherSet in yrData.weatherSets">
+    <div id="yrData" value="yrData.weatherSets"></div>
+   <div class="hide">{{getCurrentParameter(WeatherSet)}}</div>
+ </div>
 
 
 

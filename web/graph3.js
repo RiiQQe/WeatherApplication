@@ -99,12 +99,10 @@ var horizontal = d3.select(".chart")
           .attr("class", "remove")
           .style("position", "absolute")
           .style("z-index", "19")
-          .style("width", "75vw") //bredden .style("width", "110px") 
-          .style("height", "4px")
+          .style("width", "400px")
+          .style("height", "2px")
           .style("top", "50vh")
-          .style("bottom", "30px")
-          .style("left", "17vw")
-          .style("postion", "fixed") //the line is fixed
+          .style("left", "10vw")
           .style("background", "#3c3c3c");
 
 function setParameters(smhiData, yrData, currentParameter){
@@ -126,11 +124,10 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
-    
+
     i++;
 
   }
-
   //read in smhiData and store in smhiDataR
   while( j < i ){
     var singleObj = {};
@@ -147,6 +144,7 @@ function setParameters(smhiData, yrData, currentParameter){
 
   }
 
+
   if(ifFirst){
     createGraph(smhiDataR);
     ifFirst = false;
@@ -162,6 +160,7 @@ function updateGraph(smhiDataR){
     d.value =+ d.temp;
   });
 
+  
   layersSmhi1 = stack(nest.entries(smhiDataR));
 
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
@@ -263,43 +262,26 @@ function createGraph(smhiDataR){
   .on("click", function(d, i) {
       mouse = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
                              //The coordinates are returned as a two-element array [x, y].
-
     mousex = mouse[0];
     mousey = mouse[1];
- 
+
     //invertedx = invertedx.getTime();
     //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
     //Vi vill ha input domain y i corresponding output range x
     
-
     //These contains our values, depending on where the mouse is..
     var invertedx = x.invert(mousex); //ändrade från x till y, hände inget
-    var invertedy = y.invert(mousey);
-
+    var invertedy = y.invert(mousey);   
     
-    // var a = smhiDataR.filterByTemp();
-
-
-    // console.log('Filtered Array\n', arrbyTemp); 
-    // var a = arrbyTemp.o[1].temp;
-    // console.log('Number of Invalid Entries = ', notEqual); 
-
-  
-
-
-    // var arrByID = arr.filter(filterByID);
-
-    // console.log('Filtered Array\n', arrByID); 
-    // // [{ id: 15 }, { id: -1 }, { id: 0 }, { id: 3 }, { id: 12.2 }]
-
-    // console.log('Number of Invalid Entries = ', invalidEntries); 
-    // // 4
-
-
+    // var selected = (d.values);
+    // selected = d.values;
+    // for (var k = 0; k < selected.length; k++) {
+    //   datearray[k] = selected[k].date;
+    //   datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
+    // }
     
-    updateHeader(invertedx, invertedy, d.key);    
-    
-    
+    updateHeader(invertedx, invertedy);   
+
     // var selected = (d.values);
     // console.log("selected: " + selected);
     // console.log(d.values);
@@ -320,32 +302,41 @@ function createGraph(smhiDataR){
     // tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "visible");
     
   })
-
-  //ändra så att pinnen går upp och ner istället för höger och vänster
+  
+  //TODO:
+  //ändra så att pinnen hamnar där en klickar
   d3.select(".chart")
     .on("mousemove", function(){ 
        mouse = d3.mouse(this);
-       mousey = mouse[1] + document.body.clientHeight/2;
-       horizontal.style("top", mousey + "px" )})
+       horizontal.style("top", mouse[1] + "px" )})
+
+    .on("mouseover", function(){  
+       mouse = d3.mouse(this);
+       horizontal.style("top", mouse[1] + "px")});
+
 
     // .on("mouseover", function(){  
     //    mouse = d3.mouse(this);
     //    mousey = mouse[1] + document.body.clientHeight / 2;
     //    horizontal.style("top", mousey + "px")});
+ 
 
-    
   }
 
   function updateHeader(d, dy){
     
-
+  
     // change to a function
     var y_time1 = dy.toString().substring(16,18); //hour
     var y1 = dy.toString().substring(0,16);
     var y2 = ":00:00";
     var y3 = dy.toString().substring(24,40);
-    var y_time = y1+y_time+y2+y3;
+    var y_time = y1+y_time1+y2+y3;
 
+    console.log("y_time: " + y_time);
+
+
+    
 
     // update smhiHeader
     var smhiElement = document.getElementById("headerTextSmhi"); 
@@ -354,7 +345,7 @@ function createGraph(smhiDataR){
 
     // finds the corresponding x-value in smhiDataR to the graphs y-axis
     function filterByTemp(obj) {
-      // console.log(obj);
+      
       if(obj.key == "smhi" && obj.date == y_time) {
 
           //update the header
@@ -389,14 +380,6 @@ function createGraph(smhiDataR){
     }
 
     //TODO: felmeddelande om användaren klickar utanför?
-    var arrbyTemp = smhiDataR.filter(filterByTemp);
-
-
-    // var minX = d3.min(d.values, function (ms) {
-    //   return d3.min(ms, function (d) {
-    //       return d.x
-    //   })
-    // });
-      
+    var arrbyTemp = smhiDataR.filter(filterByTemp);    
 
   }
