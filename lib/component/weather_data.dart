@@ -108,11 +108,6 @@ class WeatherDataComponent {
   
   }
 
-
-  void startGraph(){
-    
-    //js.context.callMethod("setParameters", [smhiData.weatherSets]);
-  }
  
   void searchDropDown(){ 
     
@@ -202,9 +197,7 @@ class WeatherDataComponent {
      
      //call on graph
      js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
-     
-     //print("currentPara: " + currentParameter);
-     
+          
      String time = yrData.currentWeatherSet.time.substring(0,2);
      int theTime = int.parse(time);
      
@@ -300,10 +293,14 @@ class WeatherDataComponent {
   //TODO: HERE IS WERE OUR GETTEMP PROBLEM COMES IN TO PLAY, SINCE YRDATA TAKES TO LONG
   //Function that changes the printed values in the timeline
   String getCurrentParameter(WeatherSet ws){
+   
     if(smhiData.currentWeatherSet == null || yrData.currentWeatherSet == null){
       print("Something went wrong..");
       return "Sorry";
     }
+  
+    String value = "Not found";
+    
     if(currentParameter == 'rain'){
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
@@ -312,7 +309,7 @@ class WeatherDataComponent {
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.rain.toString();
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.rain.toString();
       ws.currentParameter = ws.rainValue;
-      return ws.rain; 
+      value = ws.rain; 
     }
     else if(currentParameter == 'temp'){
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
@@ -322,7 +319,7 @@ class WeatherDataComponent {
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString() + "°C";
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
       ws.currentParameter = ws.temp;
-      return "${ws.temp} °C"; 
+      value = "${ws.temp} °C"; 
     }
     else if(currentParameter == 'wind'){
       (querySelector('weather-data::shadow #rainIcon') as DivElement).classes.remove('active');
@@ -332,7 +329,7 @@ class WeatherDataComponent {
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.wind.toString();
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.wind.toString();
       ws.currentParameter = ws.windValue;
-      return ws.wind; 
+      value =  ws.wind; 
     }
     else if(currentParameter == 'cloud'){
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
@@ -342,20 +339,15 @@ class WeatherDataComponent {
       querySelector('#headerTextYr').text = yrData.currentWeatherSet.cloud.toString();
       querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.cloud.toString();
       ws.currentParameter = ws.cloudValue;
-      return ws.cloud; 
+      value = ws.cloud; 
     }
-
-    return "Not found";
+  
+    js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
+ 
+    return value;
       
   }
   
-  String isRainClicked(){
-    print("IsrainChecked??   " + currentParameter);
-    if(currentParameter == 'rain')
-      return 'clicked';
-    else
-      return 'notClicked';
-  }
   
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");

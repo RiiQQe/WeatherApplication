@@ -101,12 +101,10 @@ var horizontal = d3.select(".chart")
           .append("div")
           .attr("class", "remove")
           .style("position", "absolute")
-          .style("z-index", "19")
-          .style("width", "110px")
+          .style("width", "400px")
           .style("height", "2px")
           .style("top", "50vh")
-          .style("bottom", "30px")
-          .style("left", "50vw")
+          .style("left", "10vw")
           .style("background", "#3c3c3c");
 
 function setParameters(smhiData, yrData, currentParameter){
@@ -264,22 +262,17 @@ function createGraph(smhiDataR){
 .on("click", function(d, i) {
     mouse = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
                              //The coordinates are returned as a two-element array [x, y].
-
     mousex = mouse[0];
     mousey = mouse[1];
-
-
 
     //invertedx = invertedx.getTime();
     //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
     //Vi vill ha input domain y i corresponding output range x
     
-
     //These contains our values, depending on where the mouse is..
     var invertedx = x.invert(mousex); //ändrade från x till y, hände inget
     var invertedy = y.invert(mousey);
 
-    
     updateHeader(invertedx, d.key);    
     /*
     var selected = (d.values);
@@ -299,20 +292,17 @@ function createGraph(smhiDataR){
     tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "visible");
     */
   })
-
-  //ändra så att pinnen går upp och ner istället för höger och vänster
+  
+  //TODO:
+  //ändra så att pinnen hamnar där en klickar
   d3.select(".chart")
     .on("mousemove", function(){ 
        mouse = d3.mouse(this);
-       mousey = mouse[1] + document.body.clientHeight / 2;
-       horizontal.style("top", mousey + "px" )})
-
-      //
+       horizontal.style("top", mouse[1] + "px" )})
 
     .on("mouseover", function(){  
        mouse = d3.mouse(this);
-       mousey = mouse[1] + document.body.clientHeight / 2;
-       horizontal.style("top", mousey + "px")});
+       horizontal.style("top", mouse[1] + "px")});
   }
 
   function updateHeader(d, k){
