@@ -124,6 +124,7 @@ function setParameters(smhiData, yrData, currentParameter){
   var i = 0;
   var j = 0;
   smhiDataR = [];
+  console.log("curr: " + currentParameter)
 
   //read in yrData and store in smhiDataR
   while(yrData.o[i] != null){
@@ -136,10 +137,7 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['date'] = time;
     
     smhiDataR.push(singleObj);
-<<<<<<< HEAD
-=======
 
->>>>>>> 0610921b5beeef0ce48d8f49be825f0b9273af28
     i++;
 
   }
@@ -154,6 +152,7 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
+    // console.log(smhiDataR);
 
     j++;
 
@@ -173,8 +172,8 @@ function updateGraph(smhiDataR){
   smhiDataR.forEach(function(d){
     d.date = format.parse(d.date);
     d.value =+ d.temp;
-    d.rain = d.rain;
-    console.log(d.rain);
+    // d.rain = d.rain;
+    // console.log(d.value);
   });
 
   
@@ -340,13 +339,13 @@ function createGraph(smhiDataR){
             	smhiElement.innerHTML = obj.temp.toString();
 
             	//THIS IS NEW. UNCOMMENT IF IT DOESN'T WORK
-            	if(y_time1 > 21 || y_time1 < 05){
-			      	//set to night image
-			      	document.getElementById("#smhiID").src = headerImages[1];
-			      }
-			      else{
-			      	document.getElementById("smhiID").src = headerImages[0];
-			    	}
+        //     	if(y_time1 > 21 || y_time1 < 05){
+			     //  	//set to night image
+			     //  	document.getElementById("#smhiID").src = headerImages[1];
+			     //  }
+			     //  else{
+			     //  	document.getElementById("smhiID").src = headerImages[0];
+			    	// }
 			    //END OF NEW
             } 
           

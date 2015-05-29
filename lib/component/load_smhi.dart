@@ -28,9 +28,12 @@ class LoadSmhi {
 
     //Create URL to SMHI-API with longitude and latitude values
     var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitudeString/lon/$longitudeString/data.json';
-
+  
+    print("innan request");
     //Call SMHI-API
     return HttpRequest.getString(url).then((String responseText) {
+      
+      print("efter request");
 
       //Parse response text
       allData = JSON.decode(responseText);
@@ -44,6 +47,7 @@ class LoadSmhi {
       
     }, onError: (error) => printError(error));
     
+    
   }
 
   int getTimeIndex() {
@@ -56,6 +60,7 @@ class LoadSmhi {
   }
 
   void setWeatherParameters() {
+    print("i setWeather");
     String cloud, rain, wind, timeFormatted;
     int cloudIndex, rainIndex;
     double windIndex, currentTemp, rainValue, cloudValue;
@@ -63,29 +68,33 @@ class LoadSmhi {
 
     weatherSets.clear();
 
+
     for (int i = 0; i < allData["timeseries"].length; i++) {
-      //Get all parameters to initialize a new WeatherSet
-      currentTemp = allData["timeseries"][i]["t"];
-      currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
-      //category = getCategory(currentTime);
-      timeFormatted = formatter.format(currentTime);
+          
+          //Get all parameters to initialize a new WeatherSet
+          currentTemp = allData["timeseries"][i]["t"];
+          currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
+          //category = getCategory(currentTime);
+          timeFormatted = formatter.format(currentTime);
 
-      cloudIndex = allData["timeseries"][i]["tcc"];
-      rainIndex = allData["timeseries"][i]["pcat"];
-      windIndex = allData["timeseries"][i]["gust"];
-      rainValue = allData["timeseries"][i]["pis"];
-      cloudValue = (cloudIndex/8)*10;
-      
-      //Get description of parameters from parameter index
-      cloud = getCloud(cloudIndex);
-      rain = getRain(rainIndex, i);
-      wind = getWind(windIndex);
-      
+          cloudIndex = allData["timeseries"][i]["tcc"];
+          rainIndex = allData["timeseries"][i]["pcat"];
+          windIndex = allData["timeseries"][i]["gust"];
+          rainValue = allData["timeseries"][i]["pis"];
+          cloudValue = (cloudIndex/8)*10;
+          
+          //Get description of parameters from parameter index
+          cloud = getCloud(cloudIndex);
+          rain = getRain(rainIndex, i);
+          wind = getWind(windIndex);
+          
 
-      //Add new WeatherSet to the list
-      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue, currentTime, currentTemp));
+          //Add new WeatherSet to the list
+          weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue, currentTime, currentTemp));
 
-    }
+      }
+       
+    
   }
 
   //Primitive way of translating parameters from numbers to Strings
@@ -148,6 +157,9 @@ class LoadSmhi {
   }
   
   void printError(error) {
-    print("It doesn't work, too bad! Error code: ${error.code}");
+    print("Hallå");
+    setWeatherParameters();
+    //print("It doesn't work, too bad! Error code: " + error); // ${error.code}");
+    
   }
 }
