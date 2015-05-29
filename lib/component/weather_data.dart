@@ -130,7 +130,6 @@ class WeatherDataComponent {
         nameToCoords(place.name);
       });
   }
-
   
   ///Set header for smhi depending on currentWeatherSet in [LoadSmhi]
   void setSmhiHeader()
