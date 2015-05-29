@@ -40,9 +40,6 @@ margin = {top: 40, right: 40, bottom: 100, left: 45};
 width = document.body.clientWidth - margin.left - margin.right;
 height = document.body.clientHeight - margin.top - margin.bottom;
 
-
-//TODO: 
-//When yrData is added, add one color.
 colorrange = ["#E36790", "#32ACAF", "#F3C3C3C" ];
 strokecolor = colorrange[0];
 
@@ -114,11 +111,10 @@ var horizontal = d3.select(".chart")
           .attr("class", "remove")
           .style("position", "absolute")
           .style("z-index", "19")
-          .style("width", "110px")
+          .style("width", "400px")
           .style("height", "2px")
           .style("top", "50vh")
-          .style("bottom", "30px")
-          .style("left", "50vw")
+          .style("left", "10vw")
           .style("background", "#3c3c3c");
 
 function setParameters(smhiData, yrData, currentParameter){
@@ -140,10 +136,13 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['date'] = time;
     
     smhiDataR.push(singleObj);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0610921b5beeef0ce48d8f49be825f0b9273af28
     i++;
 
   }
-
   //read in smhiData and store in smhiDataR
   while( j < i ){
     var singleObj = {};
@@ -155,6 +154,7 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
+
     j++;
 
   }
@@ -163,10 +163,8 @@ function setParameters(smhiData, yrData, currentParameter){
   if(ifFirst){
     createGraph(smhiDataR);
     ifFirst = false;
-  }else{
-    updateGraph(smhiDataR);
   }
-
+  else updateGraph(smhiDataR);
 
 }
 
@@ -178,7 +176,9 @@ function updateGraph(smhiDataR){
     d.rain = d.rain;
     console.log(d.rain);
   });
-layersSmhi1 = stack(nest.entries(smhiDataR));
+
+  
+  layersSmhi1 = stack(nest.entries(smhiDataR));
 
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
 
@@ -187,7 +187,7 @@ layersSmhi1 = stack(nest.entries(smhiDataR));
   x.domain([-maxOfCurrentX, maxOfCurrentX]);
   y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
 
-transition2();
+  transition2();
 
 }
 
@@ -270,119 +270,111 @@ function createGraph(smhiDataR){
     .on("mouseover", function(d, i) {
       svg.selectAll(".layer").transition()
       .duration(250)
+      .attr("stroke", strokecolor)
+      .attr("stroke-width", "0.5px") 
       .attr("opacity", function(d, j) {
         console.log("check me out");
         return j != i ? 0.6 : 1;
     })})
 
-.on("click", function(d, i) {
-    mouse = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
+  .on("click", function(d, i) {
+      mouse = d3.mouse(this); //Returns the x and y coordinates of the current d3.event,
                              //The coordinates are returned as a two-element array [x, y].
-
     mousex = mouse[0];
     mousey = mouse[1];
-
-
 
     //invertedx = invertedx.getTime();
     //scale.invert(y) Returns the date in the input domain x for the corresponding value in the output range y
     //Vi vill ha input domain y i corresponding output range x
     
-
     //These contains our values, depending on where the mouse is..
     var invertedx = x.invert(mousex);
     var invertedy = y.invert(mousey);
 
-    console.log("test" + d.date);
-    updateHeader(invertedx, invertedy, d.key);    
-    /*
-    var selected = (d.values);
-    selected = d.values;
-    for (var k = 0; k < selected.length; k++) {
-      datearray[k] = selected[k].date;
-      datearray[k] = datearray[k].getMonth() + datearray[k].getDate();
-    }
-
-    mousedate = datearray.indexOf(invertedx);
-    pro = d.values[mousedate].value;
     
-    d3.select(this)
-    .classed("hover", true)
-    .attr("stroke", strokecolor)
-    .attr("stroke-width", "0.5px"), 
-    tooltip.html( "<p>" + d.key + "<br>" + pro + "</p>" ).style("visibility", "visible");
-    */
+    updateHeader(invertedx, invertedy);   
+    
   })
-
-  //ändra så att pinnen går upp och ner istället för höger och vänster
+  
+  //TODO:
+  //ändra så att pinnen hamnar där en klickar
   d3.select(".chart")
     .on("mousemove", function(){ 
        mouse = d3.mouse(this);
-       mousey = mouse[1] + document.body.clientHeight / 2;
-       horizontal.style("top", mousey + "px" )})
-
-      //
+       horizontal.style("top", mouse[1] + "px" )})
 
     .on("mouseover", function(){  
        mouse = d3.mouse(this);
-       mousey = mouse[1] + document.body.clientHeight / 2;
-       horizontal.style("top", mousey + "px")});
+       horizontal.style("top", mouse[1] + "px")});
+
   }
 
-  function updateHeader(x, y, k){
+  function updateHeader(d, dy){
+    
+  
+    // change to a function
+    var y_time1 = dy.toString().substring(16,18); //hour
+    var y1 = dy.toString().substring(0,16);
+    var y2 = ":00:00";
+    var y3 = dy.toString().substring(24,40);
+    var y_time = y1+y_time1+y2+y3;
+
+    console.log("y_time: " + y_time);
+
     // update smhiHeader
-    var smhiElement = document.getElementById("headerTextSmhi");
-    
-    if(smhiElement == null) console.log("something went wrong");
-    else {
-
-    //update value
-      //d = d.toString();
-      if(k == "smhi"){
-        if(x >= 10) x = (x.toString()).substring(0,4) + " °C";
-        else x = (x.toString()).substring(0, 3) + " °C"; 
-        smhiElement.innerHTML = x.toString();
-      
-	      //update header image
-	      console.log(y.toString().substring(16,18));
-	      console.log(y);
-
-	      var time = y.toString().substring(16,18);
-	      //var theTime = int.parse(time);
-		
-	      if(time > 21 || time < 05){
-	      	//set to night image
-	      	document.getElementById("#smhiID").src = headerImages[1];
-	      }
-	      else{
-	      	//console.log(r.toString());
-	      	console.log(r);
-	      	document.getElementById("smhiID").src = headerImages[0];
-	    	}
-	        
-      	
-			
-	      }
-
-      }
-      
-
-    
-
+    var smhiElement = document.getElementById("headerTextSmhi"); 
     //update yrHeader
     var yrElement = document.getElementById("headerTextYr");
-    
-    if(yrElement == null) console.log("something went wrong");
-    else {
 
-      //d = d.toString();
-      if(k == "yr"){
-        if(x >= 10) x = (x.toString()).substring(0,4) + " °C";
-        else x = (x.toString()).substring(0, 3) + " °C"; 
-        
-        yrElement.innerHTML = x.toString();
-      }
-    }
+    // finds the corresponding x-value in smhiDataR to the graphs y-axis
+    function filterByTemp(obj) {
       
+      if(obj.key == "smhi" && obj.date == y_time) {
+
+          //update the header
+          if(smhiElement == null) console.log("something went wrong");
+          else {
+            if(obj.temp >= 10) obj.temp = (obj.temp.toString()).substring(0,4) + " °C";
+            else{
+            	obj.temp = (obj.temp.toString()).substring(0, 3) + " °C"; 
+            	smhiElement.innerHTML = obj.temp.toString();
+
+            	//THIS IS NEW. UNCOMMENT IF IT DOESN'T WORK
+            	if(y_time1 > 21 || y_time1 < 05){
+			      	//set to night image
+			      	document.getElementById("#smhiID").src = headerImages[1];
+			      }
+			      else{
+			      	document.getElementById("smhiID").src = headerImages[0];
+			    	}
+			    //END OF NEW
+            } 
+          
+          }
+
+          return true; 
+      } 
+      else if(obj.key == "yr" && obj.date == y_time) {
+
+        //update header
+        if(yrElement == null) console.log("something went wrong");
+        else {
+
+            if(obj.temp >= 10) obj.temp = (obj.temp.toString()).substring(0,4) + " °C";
+            else obj.temp = (obj.temp.toString()).substring(0, 3) + " °C"; 
+            
+            yrElement.innerHTML = obj.temp.toString();
+          
+        }
+
+        return true;
+
+      }
+      else return false;
+
+    }
+
+    //TODO: felmeddelande om användaren klickar utanför?
+    var arrbyTemp = smhiDataR.filter(filterByTemp);    
 
 	}

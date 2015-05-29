@@ -82,7 +82,7 @@ class LoadSmhi {
       wind = getWind(windIndex);
       
 
-      //Add new WeatherSet to the list weatherSets
+      //Add new WeatherSet to the list
       weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue, currentTime, currentTemp));
 
     }
