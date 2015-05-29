@@ -17,6 +17,18 @@ var margin, width, height;
   
 var layersSmhi0, layersSmhi1, layersYr0, layersYr1;
 
+var headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSVNjM1VzdGJxeUk", 
+                           "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQTNqLXQ2eVl1cVE",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeUk2YmJCM2FnRlk",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQUR3UXh3UTJJME0",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkS3BGbjFFRXZHaEE",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeGd0b2Jpc01UU0E",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkOHhwV3lxM2c0a2s",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkVTlXenJvVUx0ZzQ",
+                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkdVpoMlV5VDlPRHM",
+                           "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
+
 
 format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
   
@@ -126,9 +138,8 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['key'] = "yr";
     singleObj['temp'] =+ yrData.o[i].currentParameter;
     singleObj['date'] = time;
-
+    
     smhiDataR.push(singleObj);
-    // console.log(yrData.o[i].currentParameter);
     i++;
 
   }
@@ -164,6 +175,8 @@ function updateGraph(smhiDataR){
   smhiDataR.forEach(function(d){
     d.date = format.parse(d.date);
     d.value =+ d.temp;
+    d.rain = d.rain;
+    console.log(d.rain);
   });
 layersSmhi1 = stack(nest.entries(smhiDataR));
 
@@ -183,6 +196,7 @@ function createGraph(smhiDataR){
     smhiDataR.forEach(function(d){
       d.date = format.parse(d.date);
       d.value =+ d.temp;
+
     });
 
     //TODO:
@@ -225,8 +239,8 @@ function createGraph(smhiDataR){
     //Här kan man lägga till så att tooltippen uppdateras
     //och startas, dock måste man lägga till var tooltip först
     //svg.selectAll(".layer")
-    //.attr("opacity", 1) osv..
-  }
+    //.attr("opacity", 1) osv..  
+}
 
 
   function transition2(){
@@ -276,11 +290,11 @@ function createGraph(smhiDataR){
     
 
     //These contains our values, depending on where the mouse is..
-    var invertedx = x.invert(mousex); //ändrade från x till y, hände inget
+    var invertedx = x.invert(mousex);
     var invertedy = y.invert(mousey);
 
-    
-    updateHeader(invertedx, d.key);    
+    console.log("test" + d.date);
+    updateHeader(invertedx, invertedy, d.key);    
     /*
     var selected = (d.values);
     selected = d.values;
@@ -315,21 +329,45 @@ function createGraph(smhiDataR){
        horizontal.style("top", mousey + "px")});
   }
 
-  function updateHeader(d, k){
-    
+  function updateHeader(x, y, k){
     // update smhiHeader
     var smhiElement = document.getElementById("headerTextSmhi");
     
     if(smhiElement == null) console.log("something went wrong");
     else {
 
+    //update value
       //d = d.toString();
       if(k == "smhi"){
-        if(d >= 10) d = (d.toString()).substring(0,4) + " °C";
-        else d = (d.toString()).substring(0, 3) + " °C"; 
-        smhiElement.innerHTML = d.toString();
+        if(x >= 10) x = (x.toString()).substring(0,4) + " °C";
+        else x = (x.toString()).substring(0, 3) + " °C"; 
+        smhiElement.innerHTML = x.toString();
+      
+	      //update header image
+	      console.log(y.toString().substring(16,18));
+	      console.log(y);
+
+	      var time = y.toString().substring(16,18);
+	      //var theTime = int.parse(time);
+		
+	      if(time > 21 || time < 05){
+	      	//set to night image
+	      	document.getElementById("#smhiID").src = headerImages[1];
+	      }
+	      else{
+	      	//console.log(r.toString());
+	      	console.log(r);
+	      	document.getElementById("smhiID").src = headerImages[0];
+	    	}
+	        
+      	
+			
+	      }
+
       }
-    }
+      
+
+    
 
     //update yrHeader
     var yrElement = document.getElementById("headerTextYr");
@@ -339,12 +377,12 @@ function createGraph(smhiDataR){
 
       //d = d.toString();
       if(k == "yr"){
-        if(d >= 10) d = (d.toString()).substring(0,4) + " °C";
-        else d = (d.toString()).substring(0, 3) + " °C"; 
+        if(x >= 10) x = (x.toString()).substring(0,4) + " °C";
+        else x = (x.toString()).substring(0, 3) + " °C"; 
         
-        yrElement.innerHTML = d.toString();
+        yrElement.innerHTML = x.toString();
       }
     }
       
 
-  }
+	}

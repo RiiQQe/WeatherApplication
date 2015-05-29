@@ -141,7 +141,6 @@ class WeatherDataComponent {
         nameToCoords(place.name);
       });
   }
-
   
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
