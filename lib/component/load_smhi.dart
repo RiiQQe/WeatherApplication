@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:weatherapplication/component/weather_data.dart';
 
 import 'dart:async';
-
+//ojoj här måste det fixas
 class LoadSmhi {
   List<WeatherSet> weatherSets = [];
   Map allData;
