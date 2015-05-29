@@ -127,23 +127,8 @@ function setParameters(smhiData, yrData, currentParameter){
   smhiDataR = [];
   console.log("curr: " + currentParameter)
 
-  //read in yrData and store in smhiDataR
-  while(yrData.o[i] != null){
-    var singleObj = {};
-
-    var time = yrData.o[i].date.date.toISOString();
-    
-    singleObj['key'] = "yr";
-    singleObj['temp'] =+ yrData.o[i].currentParameter;
-    singleObj['date'] = time;
-    
-    smhiDataR.push(singleObj);
-
-    i++;
-
-  }
-  //read in smhiData and store in smhiDataR
-  while( j < i ){
+    //read in smhiData and store in smhiDataR
+  while( smhiData.o[j] != null ){
     var singleObj = {};
 
     var time = smhiData.o[j].date.date.toISOString();
@@ -158,6 +143,23 @@ function setParameters(smhiData, yrData, currentParameter){
     j++;
 
   }
+
+  //read in yrData and store in smhiDataR
+  while(i < j){
+    var singleObj = {};
+
+    var time = yrData.o[i].date.date.toISOString();
+    
+    singleObj['key'] = "yr";
+    singleObj['temp'] =+ yrData.o[i].currentParameter;
+    singleObj['date'] = time;
+    
+    smhiDataR.push(singleObj);
+
+    i++;
+
+  }
+
 
 
   if(ifFirst){
@@ -304,10 +306,7 @@ function createGraph(smhiDataR){
        mousey = (height+scrollTop)/2 + mouse[1];
        horizontal.style("top", mousey + "px" )})
 
-<<<<<<< HEAD
 
-=======
->>>>>>> f72f7a313b78a6cfa3fc3d74bb66c0d46382c535
     .on("mouseover", function(){  
        mouse = d3.mouse(this);
 
