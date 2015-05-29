@@ -16,7 +16,7 @@ import 'dart:html';
 import 'dart:js' as js;
 
 ///Binds all components of the app right now it consists of
-///[WeatherDataComponent] and [CityFilter]
+///[WeatherDataComponent]
 class WeatherAppModule extends Module {
   WeatherAppModule() {
    
@@ -29,7 +29,6 @@ main() {
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
-  
   removeSplash();
  
   Dropdown.use();
@@ -37,6 +36,7 @@ main() {
   
 }
 //TODO: flytta till weatherData
+///Removes the splash screen after the data are loaded and display the app
 removeSplash(){
   
   var splashscreen = querySelector("#splashscreen");

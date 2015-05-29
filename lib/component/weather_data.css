@@ -1,21 +1,8 @@
  /*Needed to import bootstrap into weather_data.html*/
  @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"); 
 
-.right{
-  width:33%;
-  float:right;
-  text-align:right;
-}
-
-.left{
-  width:33%;
-  float:left;
-  
-}
-.timeline{
-  width:33%;
-  height: 10vh;
-  float:center;
+.hide{
+  display: none;
 }
 
 .outter{

@@ -2,7 +2,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-html, body {
+html{
   height: 100%;
   width: 100%;
 }
@@ -25,6 +25,8 @@ h3 {
 }
 
 body {
+  height: 100%;
+  width: 100%;
   padding-top:7%;
   font-family: 'Open Sans', sans-serif;
   position: relative;
@@ -156,6 +158,20 @@ div.imgYr {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
 }*/
+
+
+.chart { 
+  background: #fff;
+  margin-top: 4vh;
+}
+
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #3c3c3c;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
 
 #footer {
    text-align: center;

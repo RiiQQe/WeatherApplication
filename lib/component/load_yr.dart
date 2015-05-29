@@ -12,13 +12,14 @@ import 'dart:async';
 
 import 'package:weatherapplication/component/weather_data.dart';
 
+///Loads the smhi data and creates a [List] of [WeatherSet]
 class LoadYr {
   List<WeatherSet> weatherSets = [];
   var allData;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH:mm');
   
-
+  ///Load function that calls [yr api](http://api.yr.no/weatherapi/locationforecast/1.9/documentation)
   Future loadData(double latitude, double longitude) {
     print("Loading YR2-data");
 
@@ -46,7 +47,7 @@ class LoadYr {
     }, onError: (error) => printError(error));
   }
 
-
+  ///Convert all parameters from the [api](http://api.yr.no/weatherapi/locationforecast/1.9/documentation) to [String] and puts them in a [List] of [WeatherSet]
   void setWeatherParameters() {
     var cloud, rain, wind, timeFormatted, currentWeather;
     var currentTemp, currentWind, currentCloud, currentRain;
@@ -117,7 +118,7 @@ class LoadYr {
       
   }
   
-  //Primitive way of translating parameters from numbers to Strings
+  ///Primitive way of translating the cloud parameter from [int] to [String]
   String getCloud(double cloudIndex) {
     String cloud;
 
@@ -131,6 +132,7 @@ class LoadYr {
   }
 
   //TODO: Make a default alternative with a new image
+  ///Primitive way of translating the rain parameter from [int] to [String]
   String getRain(double rainIndex, String currentWeather) {
 
     String rain;
@@ -150,6 +152,7 @@ class LoadYr {
     return rain;
   }
 
+  ///Primitive way of translating the wind parameter from [int] to [String]
   String getWind(double windIndex) {
     String wind = "";
 
@@ -162,6 +165,7 @@ class LoadYr {
     return wind;
   }
   
+  ///Primitive way of displaying an error message
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
   }
