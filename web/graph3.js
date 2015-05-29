@@ -257,7 +257,6 @@ function createGraph(smhiDataR){
       svg.selectAll(".layer").transition()
       .duration(250)
       .attr("opacity", function(d, j) {
-        console.log("check me out");
         return j != i ? 0.6 : 1;
     })})
 
@@ -307,7 +306,6 @@ function createGraph(smhiDataR){
        mousey = mouse[1] + document.body.clientHeight / 2;
        horizontal.style("top", mousey + "px" )})
 
-      //
 
     .on("mouseover", function(){  
        mouse = d3.mouse(this);
