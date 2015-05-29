@@ -14,13 +14,14 @@ import 'package:weatherapplication/component/weather_data.dart';
 
 import 'dart:async';
 
+///Loads the smhi data and creates a [List] of [WeatherSet]
 class LoadSmhi {
   List<WeatherSet> weatherSets = [];
   Map allData;
   WeatherSet currentWeatherSet;
   final DateFormat formatter = new DateFormat('HH.mm');//HH:mm d/M
  
-
+  ///Load function that calls [smhi api](http://www.smhi.se/klimatdata/oppna-data/meteorologiska-data)
   Future loadData(double latitude, double longitude) {
     print("Loading SMHI-data");
     String latitudeString = latitude.toStringAsPrecision(6);
@@ -45,7 +46,8 @@ class LoadSmhi {
     }, onError: (error) => printError(error));
     
   }
-
+  
+  ///Returns the index of the Map generated in [loadData] that correspond to the weather right now
   int getTimeIndex() {
     DateTime referenceTime = DateTime.parse(allData["referenceTime"]);
     DateTime now = new DateTime.now();
@@ -55,6 +57,7 @@ class LoadSmhi {
     return difference.inHours;
   }
 
+  ///Convert all parameters from the [api](http://www.smhi.se/klimatdata/oppna-data/meteorologiska-data) to [String] and puts them in a [List] of [WeatherSet]
   void setWeatherParameters() {
     String cloud, rain, wind, timeFormatted;
     int cloudIndex, rainIndex;
@@ -88,7 +91,7 @@ class LoadSmhi {
     }
   }
 
-  //Primitive way of translating parameters from numbers to Strings
+  ///Primitive way of translating the cloud parameter from [int] to [String]
   String getCloud(int cloudIndex) {
     String cloud;
 
@@ -102,6 +105,7 @@ class LoadSmhi {
   }
 
 
+  ///Primitive way of translating the rain parameter from [int] to [String]
   String getRain(int rainIndex, int timeIndex) {
 
     String rain;
@@ -139,6 +143,8 @@ class LoadSmhi {
     return rain;
   }
 
+
+  ///Primitive way of translating the wind parameter from [int] to [String]
   String getWind(double windIndex) {
     String wind = "";
 
@@ -146,7 +152,8 @@ class LoadSmhi {
 
     return wind;
   }
-  
+
+  ///Primitive way of displaying an error message
   void printError(error) {
     print("It doesn't work, too bad! Error code: ${error.code}");
   }

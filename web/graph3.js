@@ -17,13 +17,14 @@ var margin, width, height;
   
 var layersSmhi0, layersSmhi1, layersYr0, layersYr1;
 
-
 format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
   
 
 //TODO:
 //Make these responsive
 //är dem inte redan det?
+//nej, grafen ändrar inte size när fönstret gör det.
+//inte hög prio dock..
 margin = {top: 40, right: 40, bottom: 100, left: 45};
 width = document.body.clientWidth - margin.left - margin.right;
 height = document.body.clientHeight - margin.top - margin.bottom;
@@ -99,12 +100,11 @@ svg = d3.select(".chart").append("svg")
 //den nya horisontella linjen
 var horizontal = d3.select(".chart")
           .append("div")
-          .attr("class", "remove")
-          .style("position", "absolute")
-          .style("width", "400px")
+          .style("position", "fixed")
+          .style("width", "80vw")
           .style("height", "2px")
           .style("top", "50vh")
-          .style("left", "10vw")
+          .style("left", "15vw")
           .style("background", "#3c3c3c");
 
 function setParameters(smhiData, yrData, currentParameter){
@@ -255,7 +255,6 @@ function createGraph(smhiDataR){
       svg.selectAll(".layer").transition()
       .duration(250)
       .attr("opacity", function(d, j) {
-        console.log("check me out");
         return j != i ? 0.6 : 1;
     })})
 
@@ -298,11 +297,16 @@ function createGraph(smhiDataR){
   d3.select(".chart")
     .on("mousemove", function(){ 
        mouse = d3.mouse(this);
-       horizontal.style("top", mouse[1] + "px" )})
+       var scrollTop = (document.body.parentNode).scrollTop;
+       mousey = (height+scrollTop)/2 + mouse[1];
+       horizontal.style("top", mousey + "px" )})
 
     .on("mouseover", function(){  
        mouse = d3.mouse(this);
-       horizontal.style("top", mouse[1] + "px")});
+       var scrollTop = (document.body.parentNode).scrollTop;
+       //var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+       mousey = (height+scrollTop)/2 + mouse[1];
+       horizontal.style("top", mousey + "px")});
   }
 
   function updateHeader(d, k){
