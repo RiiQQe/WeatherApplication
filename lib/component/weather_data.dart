@@ -1,9 +1,3 @@
-/*
- * Handles printing of weather data from SMHI and YR (comming soon)
- */
-
-
-
 library weatherdata_component;
 
 import 'package:angular/angular.dart';
@@ -25,17 +19,16 @@ import 'package:weatherapplication/component/load_yr.dart';
     cssUrl: 'packages/weatherapplication/component/weather_data.css'    
 )
   
-    
+
+/// Handles printing of weather data from SMHI and YR
 class WeatherDataComponent {
     
   double latitude, longitude;
-  List<WeatherSet> smhiWeatherSets = [];
   LoadSmhi smhiData;
   LoadYr yrData;
   
-  Map<String, bool> cityFilterMap;
+  ///Stores the current [WeatherSet], default is temperature
   String currentParameter = "temp";
-  String navigateValue = "1";
   String currentCity;
   var input, options;
   
@@ -53,7 +46,6 @@ class WeatherDataComponent {
   //8: sol + lite moln
   //9: moln
   //10: åska
-  
   List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSVNjM1VzdGJxeUk", 
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
                                "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQTNqLXQ2eVl1cVE",
@@ -65,7 +57,8 @@ class WeatherDataComponent {
                                "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkVTlXenJvVUx0ZzQ",
                                "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkdVpoMlV5VDlPRHM",
                                "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
-
+  
+  ///Declare [LoadSmhi] and [LoadYr] objects and calls [createWeatherData]
   WeatherDataComponent() {
 
     smhiData = new LoadSmhi();
@@ -75,7 +68,7 @@ class WeatherDataComponent {
     
   }
   
-  
+  ///Calls load functions for [LoadSmhi] and [LoadYr]
   void createWeatherData(){
 
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
@@ -88,7 +81,7 @@ class WeatherDataComponent {
     
   }
   
-  //Translate city names to coordinates 
+  ///Translate city names to coordinates 
   void nameToCoords(String cityName){
   
     cityName = cityName.toLowerCase();
@@ -108,7 +101,8 @@ class WeatherDataComponent {
   
   }
 
- 
+  ///Handles the input of the search drop down
+  ///The input is restricted to Sweden
   void searchDropDown(){ 
     
     final input = querySelector("weather-data::shadow #searchTextField") as InputElement;
@@ -121,9 +115,9 @@ class WeatherDataComponent {
     
     //TODO: fixa städer
     //försök att begränsa till städerx
-   // ao.$unsafe['GeocoderComponentRestrictions'] = new js.JsObject.jsify({
-  //    'locality': ['(cities)']
-//    }); 
+    //ao.$unsafe['GeocoderComponentRestrictions'] = new js.JsObject.jsify({
+    //  'locality': ['(cities)']
+    //}); 
         
     final autocomplete = new Autocomplete(input, ao);
     
@@ -137,11 +131,9 @@ class WeatherDataComponent {
       });
   }
   
-  //Set header image and parameters depending on currentWeatherSet
+  ///Set header for smhi depending on currentWeatherSet in [LoadSmhi]
   void setSmhiHeader()
   {
-    //js.context.callMethod("setParameters", [smhiData.weatherSets, currentParameter]);
-
     
     String time = smhiData.currentWeatherSet.time.substring(0,2);
     int theTime = int.parse(time);
@@ -189,13 +181,11 @@ class WeatherDataComponent {
 
     querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
   }
-  
-  //Set header image and parameters depending on currentWeatherSet
+
+   ///Set header for yr depending on currentWeatherSet in [LoadYr]
    void setYrHeader()
    {
-     
-    // print(smhiData.weatherSets);
-     //call on graph
+     //call method in js file that creates the graph
      js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
           
      String time = yrData.currentWeatherSet.time.substring(0,2);
@@ -240,7 +230,7 @@ class WeatherDataComponent {
      querySelector('#headerTextYr').text = yrData.currentWeatherSet.temp.toString() + "°C";
    }
   
-  //Function to set the device's geocoordinates with the api Nominatim 
+  ///Function to set the device's geocoordinates with the api [Nominatim](http://wiki.openstreetmap.org/wiki/Nominatim) 
   Future findCoords() {
 
     //Get the location of the device
@@ -270,8 +260,6 @@ class WeatherDataComponent {
         
         changePlaceholder.placeholder = currentCity;
         
- 
-        
       });
       
       
@@ -291,7 +279,7 @@ class WeatherDataComponent {
 
   }
   //TODO: HERE IS WERE OUR GETTEMP PROBLEM COMES IN TO PLAY, SINCE YRDATA TAKES TO LONG
-  //Function that changes the printed values in the timeline
+  ///Function that changes the values in the graph depending on chosen paramter, returns the [currentParameter]
   String getCurrentParameter(WeatherSet ws){
    
     if(smhiData.currentWeatherSet == null || yrData.currentWeatherSet == null){
@@ -354,13 +342,13 @@ class WeatherDataComponent {
   }  
 }
 
+///Used to create the same weather objects for both smhi and yr
 class WeatherSet {
   double temp, rainValue, windValue, cloudValue, currentParameter;
   String cloud, rain, wind, time;
   DateTime date; 
   
   WeatherSet(this.temp, this.cloud, this.rain, this.wind, this.time, this.rainValue, this.windValue, this.cloudValue, this.date, this.currentParameter);
-
   
 }
 

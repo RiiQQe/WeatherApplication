@@ -29,13 +29,14 @@ var headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQ
                            "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkdVpoMlV5VDlPRHM",
                            "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
 
-
 format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
   
 
 //TODO:
 //Make these responsive
 //är dem inte redan det?
+//nej, grafen ändrar inte size när fönstret gör det.
+//inte hög prio dock..
 margin = {top: 40, right: 40, bottom: 100, left: 45};
 width = document.body.clientWidth - margin.left - margin.right;
 height = document.body.clientHeight - margin.top - margin.bottom;
@@ -114,7 +115,7 @@ var horizontal = d3.select(".chart")
           .style("width", "400px")
           .style("height", "2px")
           .style("top", "50vh")
-          .style("left", "10vw")
+          .style("left", "15vw")
           .style("background", "#3c3c3c");
 
 function setParameters(smhiData, yrData, currentParameter){
@@ -272,7 +273,6 @@ function createGraph(smhiDataR){
       .attr("stroke", strokecolor)
       .attr("stroke-width", "0.5px") 
       .attr("opacity", function(d, j) {
-        console.log("check me out");
         return j != i ? 0.6 : 1;
     })})
 
@@ -300,11 +300,21 @@ function createGraph(smhiDataR){
   d3.select(".chart")
     .on("mousemove", function(){ 
        mouse = d3.mouse(this);
-       horizontal.style("top", mouse[1] + "px" )})
+       var scrollTop = (document.body.parentNode).scrollTop;
+       mousey = (height+scrollTop)/2 + mouse[1];
+       horizontal.style("top", mousey + "px" )})
 
     .on("mouseover", function(){  
        mouse = d3.mouse(this);
+
+       //TODO: Take away this if it works
+       //var scrollTop = (document.body.parentNode).scrollTop;
+       //var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+       //mousey = (height+scrollTop)/2 + mouse[1];
+       //horizontal.style("top", mousey + "px")});
+
        horizontal.style("top", mouse[1] + "px")});
+
 
   }
 

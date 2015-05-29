@@ -5,6 +5,7 @@ environment:
 dependencies:
   angular: any
   bootjack: any
+  dartdoc: any
   google_maps: any
   web_components: '>=0.8.0 <0.9.0'
   xml: any
