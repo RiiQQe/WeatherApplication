@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:weatherapplication/component/weather_data.dart';
 
 import 'dart:async';
-//ojoj här måste det fixas
+
 class LoadSmhi {
   List<WeatherSet> weatherSets = [];
   Map allData;
@@ -30,6 +30,7 @@ class LoadSmhi {
     var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitudeString/lon/$longitudeString/data.json';
 
     //Call SMHI-API
+    print("innan request");
     return HttpRequest.getString(url).then((String responseText) {
 
       //Parse response text
@@ -62,35 +63,61 @@ class LoadSmhi {
     DateTime currentTime;
 
     weatherSets.clear();
-
-    for (int i = 0; i < allData["timeseries"].length; i++) {
-      //Get all parameters to initialize a new WeatherSet
-      currentTemp = allData["timeseries"][i]["t"];
-      currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
-      //category = getCategory(currentTime);
-      timeFormatted = formatter.format(currentTime);
-
-      cloudIndex = allData["timeseries"][i]["tcc"];
-      rainIndex = allData["timeseries"][i]["pcat"];
-      windIndex = allData["timeseries"][i]["gust"];
-      rainValue = allData["timeseries"][i]["pis"];
-      cloudValue = (cloudIndex/8)*10;
+    //print(allData);
+    //If Smhi cannot be read
+    if(allData == null){
+      print("Cannot load SMHI data!");
+      currentTemp = 0.0;
+      //currentTime = DateTime.parse("null");
+      //timeFormatted = formatter.format(currentTime);
+      
+      cloudIndex = -1;
+      windIndex = -1.0;
+      rainIndex = 7;
+      cloudValue = 0.0;
+      rainValue = 0.0;
       
       //Get description of parameters from parameter index
       cloud = getCloud(cloudIndex);
-      rain = getRain(rainIndex, i);
+      rain = getRain(rainIndex, 0);
+      //print(rain);
       wind = getWind(windIndex);
 
       //Add new WeatherSet to the list weatherSets
-      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue));
+      weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue));  
     }
+    
+    else{
+      for (int i = 0; i < allData["timeseries"].length; i++) {
+            //Get all parameters to initialize a new WeatherSet
+            currentTemp = allData["timeseries"][i]["t"];
+            currentTime = DateTime.parse(allData["timeseries"][i]["validTime"]);
+            //category = getCategory(currentTime);
+            timeFormatted = formatter.format(currentTime);
+            print(timeFormatted);
+            cloudIndex = allData["timeseries"][i]["tcc"];
+            rainIndex = allData["timeseries"][i]["pcat"];
+            windIndex = allData["timeseries"][i]["gust"];
+            rainValue = allData["timeseries"][i]["pis"];
+            cloudValue = (cloudIndex/8)*10;
+            
+            //Get description of parameters from parameter index
+            cloud = getCloud(cloudIndex);
+            rain = getRain(rainIndex, i);
+            wind = getWind(windIndex);
+
+            //Add new WeatherSet to the list weatherSets
+            weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue));
+          }
+    }
+    
   }
 
   //Primitive way of translating parameters from numbers to Strings
   String getCloud(int cloudIndex) {
     String cloud;
-
-    if (cloudIndex <= 1) cloud = "Sol"; 
+    if(cloudIndex == -1) cloud = "Error";
+    else if (cloudIndex <= 1 && cloudIndex > -1) cloud = "Sol"; 
     else if (cloudIndex <= 3 && cloudIndex > 1) cloud = "Lite moln"; 
     else if (cloudIndex <= 6 && cloudIndex > 3) cloud = "Växlande molnighet"; 
     else cloud = "Mulet";
@@ -129,6 +156,9 @@ class LoadSmhi {
       case 6:
         rain = "Smått hagel, $howMuch mm";
         break;
+      case 7:
+        rain = "Error";
+        break;
       default:
         rain = "";
     }
@@ -138,13 +168,19 @@ class LoadSmhi {
 
   String getWind(double windIndex) {
     String wind = "";
-
-    if (windIndex <= 0.3) wind = "Vindstilla"; else if (windIndex > 0.3 && windIndex <= 3.3) wind = "Svag vind"; else if (windIndex > 3.3 && windIndex <= 13.8) wind = "Blåsigt"; else if (windIndex > 13.8 && windIndex <= 24.4) wind = "Mycket blåsigt"; else if (windIndex > 24.4 && windIndex < 60) wind = "Storm";
+    if(windIndex == -1) wind = "Error";
+    else if (windIndex <= 0.3 && windIndex > -1) wind = "Vindstilla";
+    else if (windIndex > 0.3 && windIndex <= 3.3) wind = "Svag vind";
+    else if (windIndex > 3.3 && windIndex <= 13.8) wind = "Blåsigt";
+    else if (windIndex > 13.8 && windIndex <= 24.4) wind = "Mycket blåsigt";
+    else if (windIndex > 24.4 && windIndex < 60) wind = "Storm";
 
     return wind;
   }
   
   void printError(error) {
-    print("It doesn't work, too bad! Error code: ${error.code}");
+    print("i Error");
+    setWeatherParameters();
+   // print("It doesn't work, too bad! Error code: ${error.code}");
   }
 }

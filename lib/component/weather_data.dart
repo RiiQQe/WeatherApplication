@@ -147,52 +147,63 @@ class WeatherDataComponent {
   //Set header image and parameters depending on currentWeatherSet
   void setSmhiHeader()
   {
-    String time = smhiData.currentWeatherSet.time.substring(0,2);
-    int theTime = int.parse(time);
-    
-    if(theTime > 21 || theTime < 05){
-      (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
-    }
-   
-    else{
-      //TODO lägg till vindstyrka och bedöm åskväder och om det är natt
-      if(smhiData.currentWeatherSet.rain == "Inget regn"){
-        if(smhiData.currentWeatherSet.cloud == "Sol"){
-           (querySelector('#smhiID') as ImageElement).src = headerImages[2];//sol + fåglar
-        }
-        else if(smhiData.currentWeatherSet.cloud == "Lite moln"){
-          (querySelector('#smhiID') as ImageElement).src = headerImages[6]; //sol + lite moln + fåglar
-        }
-        else if(smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
-          (querySelector('#smhiID') as ImageElement).src = headerImages[7];
-        }
-        else if(smhiData.currentWeatherSet.cloud == "Mulet"){
-          (querySelector('#smhiID') as ImageElement).src = headerImages[9]; //moln
-        }
-      }
-    
-      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Duggregn"){
-        (querySelector('#smhiID') as ImageElement).src = headerImages[3]; //lite regn
-      }
-      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Regn"){
-        (querySelector('#smhiID') as ImageElement).src = headerImages[0]; //mycket regn
-      }
-      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Snö" && smhiData.currentWeatherSet.cloud == "Mulet"){
-        (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö
-      } 
-      if(smhiData.currentWeatherSet.rain.substring(0,4) == "Snö" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
-        (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
-      } 
-      if(smhiData.currentWeatherSet.rain == "Hagel" && smhiData.currentWeatherSet.cloud == "Mulet"){
-        (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö   
-      }
-      if(smhiData.currentWeatherSet.rain == "Hagel" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
-        (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
-      }
-    }
-
-    querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
+//Error check
+  if(smhiData.currentWeatherSet.rain == "Error")
+  {
+    (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt BYT UT TILL ANNAN BILD
+    querySelector('#headerTextSmhi').text = "Error";
   }
+
+  else
+  {
+    String time = smhiData.currentWeatherSet.time.substring(0,2);
+        int theTime = int.parse(time);
+        
+        if(theTime > 21 || theTime < 05){
+          (querySelector('#smhiID') as ImageElement).src = headerImages[1];//natt
+        }
+       
+        else{
+          //TODO lägg till vindstyrka och bedöm åskväder och om det är natt
+          if(smhiData.currentWeatherSet.rain == "Inget regn"){
+            if(smhiData.currentWeatherSet.cloud == "Sol"){
+               (querySelector('#smhiID') as ImageElement).src = headerImages[2];//sol + fåglar
+            }
+            else if(smhiData.currentWeatherSet.cloud == "Lite moln"){
+              (querySelector('#smhiID') as ImageElement).src = headerImages[6]; //sol + lite moln + fåglar
+            }
+            else if(smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+              (querySelector('#smhiID') as ImageElement).src = headerImages[7];
+            }
+            else if(smhiData.currentWeatherSet.cloud == "Mulet"){
+              (querySelector('#smhiID') as ImageElement).src = headerImages[9]; //moln
+            }
+          }
+        
+          if(smhiData.currentWeatherSet.rain.substring(0,4) == "Duggregn"){
+            (querySelector('#smhiID') as ImageElement).src = headerImages[3]; //lite regn
+          }
+          if(smhiData.currentWeatherSet.rain.substring(0,4) == "Regn"){
+            (querySelector('#smhiID') as ImageElement).src = headerImages[0]; //mycket regn
+          }
+          if(smhiData.currentWeatherSet.rain.substring(0,4) == "Snö" && smhiData.currentWeatherSet.cloud == "Mulet"){
+            (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö
+          } 
+          if(smhiData.currentWeatherSet.rain.substring(0,4) == "Snö" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+            (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
+          } 
+          if(smhiData.currentWeatherSet.rain == "Hagel" && smhiData.currentWeatherSet.cloud == "Mulet"){
+            (querySelector('#smhiID') as ImageElement).src = headerImages[5];//snö   
+          }
+          if(smhiData.currentWeatherSet.rain == "Hagel" && smhiData.currentWeatherSet.cloud == "Växlande molnighet"){
+            (querySelector('#smhiID') as ImageElement).src = headerImages[4];//snö och sol 
+          }
+        }
+
+        querySelector('#headerTextSmhi').text = smhiData.currentWeatherSet.temp.toString() + "°C";
+     
+  }
+     }
   
   //Set header image and parameters depending on currentWeatherSet
    void setYrHeader()
