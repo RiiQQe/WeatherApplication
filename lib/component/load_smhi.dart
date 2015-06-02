@@ -30,11 +30,8 @@ class LoadSmhi {
     //Create URL to SMHI-API with longitude and latitude values
     var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitudeString/lon/$longitudeString/data.json';
   
-    print("innan request");
     //Call SMHI-API
     return HttpRequest.getString(url).then((String responseText) {
-      
-      print("efter request");
 
       //Parse response text
       allData = JSON.decode(responseText);
@@ -63,7 +60,6 @@ class LoadSmhi {
 
   ///Convert all parameters from the [api](http://www.smhi.se/klimatdata/oppna-data/meteorologiska-data) to [String] and puts them in a [List] of [WeatherSet]
   void setWeatherParameters() {
-    print("i setWeather");
     String cloud, rain, wind, timeFormatted;
     int cloudIndex, rainIndex;
     double windIndex, currentTemp, rainValue, cloudValue;
@@ -83,7 +79,7 @@ class LoadSmhi {
           cloudIndex = allData["timeseries"][i]["tcc"];
           rainIndex = allData["timeseries"][i]["pcat"];
           windIndex = allData["timeseries"][i]["gust"];
-          rainValue = allData["timeseries"][i]["pis"];
+          rainValue = allData["timeseries"][i]["pit"];
           cloudValue = (cloudIndex/8)*10;
           
           //Get description of parameters from parameter index
@@ -126,24 +122,24 @@ class LoadSmhi {
         break;
       case 1:
         howMuch = allData["timeseries"][timeIndex]["pis"];
-        rain = "Snö, $howMuch mm";
+        rain = "Snö";
         break;
       case 2:
         howMuch = allData["timeseries"][timeIndex]["pis"] + allData["timeseries"][timeIndex]["pit"];
-        rain = "Snöblandat regn, $howMuch mm";
+        rain = "Snöblandat regn";
         break;
       case 3:
         howMuch = allData["timeseries"][timeIndex]["pit"];
-        rain = "Regn, $howMuch mm";
+        rain = "Regn";
         break;
       case 4:
-        rain = "Duggregn, $howMuch mm";
+        rain = "Duggregn";
         break;
       case 5:
-        rain = "Hagel, $howMuch mm";
+        rain = "Hagel";
         break;
       case 6:
-        rain = "Smått hagel, $howMuch mm";
+        rain = "Smått hagel";
         break;
       default:
         rain = "";
@@ -164,7 +160,6 @@ class LoadSmhi {
 
   ///Primitive way of displaying an error message
   void printError(error) {
-    print("Hallå");
     setWeatherParameters();
     //print("It doesn't work, too bad! Error code: " + error); // ${error.code}");
     

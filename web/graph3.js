@@ -86,7 +86,6 @@ stack = d3.layout.stack()
 
 nest = d3.nest()
             .key(function(d){ 
-               // console.log(d.key); 
               return d.key ; });
 //TODO:
 //Jag tror att x(d.x0) och x(d.x0 + d.x) är de som dummar sig,
@@ -125,16 +124,20 @@ function setParameters(smhiData, yrData, currentParameter){
   var i = 0;
   var j = 0;
   smhiDataR = [];
-  console.log("curr: " + currentParameter)
+  
 
   //read in yrData and store in smhiDataR
   while(yrData.o[i] != null){
     var singleObj = {};
 
     var time = yrData.o[i].date.date.toISOString();
+    //var rain = yrData.o[i].rain.rain.toISOString();
     
     singleObj['key'] = "yr";
-    singleObj['temp'] =+ yrData.o[i].currentParameter;
+    singleObj['parameter'] =+ yrData.o[i].currentParameter;
+    singleObj['rainString'] = yrData.o[i].rain;
+    singleObj['cloudString'] = yrData.o[j].cloud;
+    singleObj['windString'] = yrData.o[j].wind;
     singleObj['date'] = time;
     
     smhiDataR.push(singleObj);
@@ -145,58 +148,55 @@ function setParameters(smhiData, yrData, currentParameter){
   //read in smhiData and store in smhiDataR
   while( j < i ){
     var singleObj = {};
-
     var time = smhiData.o[j].date.date.toISOString();
-    
+    //var rain = smhiData.o[j].rain.rain.toISOString();
+    //console.log("curr: " + currentParameter)
+
     singleObj['key'] = "smhi";
-    singleObj['temp'] =+ smhiData.o[j].currentParameter;
+    singleObj['parameter'] =+ smhiData.o[j].currentParameter;
+    singleObj['rainString'] = smhiData.o[j].rain;
+    singleObj['cloudString'] = smhiData.o[j].cloud;
+    singleObj['windString'] = smhiData.o[j].wind;
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
-    // console.log(smhiDataR);
 
     j++;
 
   }
 
-
   if(ifFirst){
-    createGraph(smhiDataR);
+    createGraph(smhiDataR, currentParameter);
     ifFirst = false;
   }
-  else updateGraph(smhiDataR);
+  else updateGraph(smhiDataR, currentParameter);
 
 }
 
 
-function updateGraph(smhiDataR){
+function updateGraph(smhiDataR, currentParameter){
   smhiDataR.forEach(function(d){
     d.date = format.parse(d.date);
-    d.value =+ d.temp;
-    // d.rain = d.rain;
-    // console.log(d.value);
+    d.value =+ d.parameter;
   });
-
   
   layersSmhi1 = stack(nest.entries(smhiDataR));
 
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
 
-  //maxOfCurrentX = 150;
-  
   x.domain([-maxOfCurrentX, maxOfCurrentX]);
+
   y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
 
-  transition2();
+  transition2(currentParameter);
 
 }
 
-function createGraph(smhiDataR){
+function createGraph(smhiDataR, currentParameter){
 
     smhiDataR.forEach(function(d){
-      d.date = format.parse(d.date);
-      d.value =+ d.temp;
-
+      		d.date = format.parse(d.date);
+      			d.value =+ d.parameter;
     });
 
     //TODO:
@@ -210,7 +210,7 @@ function createGraph(smhiDataR){
     /*var maxOfCurrentX = d3.max(smhiDataR, function(d){
       return d3.max(d);
     });*/
-    var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
+    var maxOfCurrentX = d3.max(smhiDataR, function(d){ return d.value; }); 
     
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
     y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
@@ -243,7 +243,7 @@ function createGraph(smhiDataR){
 }
 
 
-  function transition2(){
+  function transition2(currentParameter){
         d3.selectAll("path")
         .data(function(){
           var d = layersSmhi1;
@@ -254,11 +254,11 @@ function createGraph(smhiDataR){
         .duration(3500)
         .attr("d", function(d){ return area(d.values); } );
 
-        mouseHandler();
+        mouseHandler(currentParameter);
 
   }
 
-  function mouseHandler(){
+  function mouseHandler(currentParameter){
     //TODO: 
   //Här kan man lägga till så att tooltippen uppdateras
   //och startas, dock måste man lägga till var tooltip först
@@ -291,7 +291,7 @@ function createGraph(smhiDataR){
     var invertedy = y.invert(mousey);
 
     
-    updateHeader(invertedx, invertedy);   
+    updateHeader(invertedx, invertedy, currentParameter);   
     
   })
   
@@ -318,7 +318,7 @@ function createGraph(smhiDataR){
 
   }
 
-  function updateHeader(d, dy){
+  function updateHeader(d, dy, currentParameter){
     
   
     // change to a function
@@ -328,7 +328,6 @@ function createGraph(smhiDataR){
     var y3 = dy.toString().substring(24,40);
     var y_time = y1+y_time1+y2+y3;
 
-    console.log("y_time: " + y_time);
 
     // update smhiHeader
     var smhiElement = document.getElementById("headerTextSmhi"); 
@@ -337,43 +336,141 @@ function createGraph(smhiDataR){
 
     // finds the corresponding x-value in smhiDataR to the graphs y-axis
     function filterByTemp(obj) {
-      
+    	     
       if(obj.key == "smhi" && obj.date == y_time) {
-
+      	console.log("key: " + obj.key);
+      	console.log("date: " + obj.date);
+     	console.log("parameterString: " + obj.rainString);
+		console.log("time: " + y_time1); 
           //update the header
+
           if(smhiElement == null) console.log("something went wrong");
           else {
-            if(obj.temp >= 10) obj.temp = (obj.temp.toString()).substring(0,4) + " °C";
-            else{
-            	obj.temp = (obj.temp.toString()).substring(0, 3) + " °C"; 
-            	smhiElement.innerHTML = obj.temp.toString();
 
-            	//THIS IS NEW. UNCOMMENT IF IT DOESN'T WORK
-        //     	if(y_time1 > 21 || y_time1 < 05){
-			     //  	//set to night image
-			     //  	document.getElementById("#smhiID").src = headerImages[1];
-			     //  }
-			     //  else{
-			     //  	document.getElementById("smhiID").src = headerImages[0];
-			    	// }
-			    //END OF NEW
-            } 
+          	if(currentParameter == "temp")
+          	{
+          		if(obj.parameter >= 10) obj.parameter = obj.parameter.toString().substring(0,4) + " °C";//RIQQUES
+            	else obj.parameter = obj.parameter.toString().substring(0,3) + " °C";
+            }
+            else if(currentParameter == "rain"){
+            	obj.parameter = obj.rainString ;
+            }
+            else if(currentParameter == "wind"){
+            	obj.parameter = obj.windString;
+            }
+            else if(currentParameter == "cloud"){
+            	obj.parameter = obj.cloudString;
+            }
+
+            
+            smhiElement.innerHTML = obj.parameter;//.toString();
+
+            if(y_time1 > 21 || y_time1 < 05) document.getElementById('smhiID').src = headerImages[1]; //set to night image
+
+            else{
+            	if(obj.rainString == "Inget regn"){
+		        if(obj.cloudString == "Sol"){
+		           document.getElementById('smhiID').src = headerImages[2];//sol + fåglar
+		        }
+		        else if(obj.cloudString == "Lite moln"){
+		          document.getElementById('smhiID').src = headerImages[6]; //sol + lite moln + fåglar
+		        }
+		        else if(obj.cloudString == "Växlande molnighet"){
+		          document.getElementById('smhiID').src = headerImages[7];
+		        }
+		        else if(obj.cloudString == "Mulet"){
+		          document.getElementById('smhiID').src = headerImages[9]; //moln
+		        }
+		      }
+
+		     if(obj.rainString.substring(0,4) == "Duggregn"){
+        		document.getElementById('smhiID').src = headerImages[3]; //lite regn
+		      }
+		      if(obj.rainString.substring(0,4) == "Regn"){
+		        document.getElementById('smhiID').src = headerImages[0]; //mycket regn
+		      }
+		      if(obj.rainString.substring(0,4) == "Snö" && obj.cloudString == "Mulet"){
+		        document.getElementById('smhiID').src = headerImages[5];//snö
+		      } 
+		      if(obj.rainString.substring(0,4) == "Snö" && obj.cloudString == "Växlande molnighet"){
+		        document.getElementById('smhiID').src = headerImages[4];//snö och sol 
+		      } 
+		      if(obj.rainString == "Hagel" && obj.cloudString == "Mulet"){
+		        document.getElementById('smhiID').src = headerImages[5];//snö   
+		      }
+		      if(obj.rainString == "Hagel" && obj.cloudString == "Växlande molnighet"){
+		        document.getElementById('smhiID').src = headerImages[4];//snö och sol 
+		      }
+		    } 
           
           }
 
           return true; 
       } 
       else if(obj.key == "yr" && obj.date == y_time) {
+      	console.log("key: " + obj.key);
+      	console.log("parameter: " + obj.parameter);
+     	console.log("parameterString: " + obj.rainString);
+		console.log("time: " + y_time1);
 
         //update header
         if(yrElement == null) console.log("something went wrong");
         else {
-
-            if(obj.temp >= 10) obj.temp = (obj.temp.toString()).substring(0,4) + " °C";
-            else obj.temp = (obj.temp.toString()).substring(0, 3) + " °C"; 
+        	if(currentParameter == "temp")
+          	{
+          		if(obj.parameter >= 10) obj.parameter = obj.parameter.toString().substring(0,4) + " °C";//.toString()).substring(0,4)
+            	else obj.parameter = obj.parameter.toString().substring(0,3) + " °C"; //.toString()).substring(0, 3) 
+            }
+            else if(currentParameter == "rain"){
+            	obj.parameter = obj.rainString;
+            }
+            else if(currentParameter == "wind"){
+            	obj.parameter = obj.windString;
+            }
+            else if(currentParameter == "cloud"){
+            	obj.parameter = obj.cloudString;
+            }
             
-            yrElement.innerHTML = obj.temp.toString();
-          
+            yrElement.innerHTML = obj.parameter;//.toString();
+
+            if(y_time1 > 21 || y_time1 < 05) document.getElementById('yrID').src = headerImages[1]; //set to night image
+
+            else{
+            	if(obj.rainString == "Inget regn"){
+			        if(obj.cloudString == "Sol"){
+			           document.getElementById('yrID').src = headerImages[2];//sol + fåglar
+			        }
+			        else if(obj.cloudString == "Lite moln"){
+			          document.getElementById('yrID').src = headerImages[6]; //sol + lite moln + fåglar
+			        }
+			        else if(obj.cloudString == "Växlande molnighet"){
+			          document.getElementById('yrID').src = headerImages[7];
+			        }
+			        else if(obj.cloudString == "Mulet"){
+			          document.getElementById('yrID').src = headerImages[9]; //moln
+			        }
+		      }
+
+		     if(obj.rainString.substring(0,4) == "Duggregn"){
+        		document.getElementById('yrID').src = headerImages[3]; //lite regn
+		      }
+		      if(obj.rainString.substring(0,4) == "Regn"){
+		        document.getElementById('yrID').src = headerImages[0]; //mycket regn
+		      }
+		      if(obj.rainString.substring(0,4) == "Snö" && obj.cloudString == "Mulet"){
+		        document.getElementById('yrID').src = headerImages[5];//snö
+		      } 
+		      if(obj.rainString.substring(0,4) == "Snö" && obj.cloudString == "Växlande molnighet"){
+		        document.getElementById('yrID').src = headerImages[4];//snö och sol 
+		      } 
+		      if(obj.rainString == "Hagel" && obj.cloudString == "Mulet"){
+		        document.getElementById('yrID').src = headerImages[5];//snö   
+		      }
+		      if(obj.rainString == "Hagel" && obj.cloudString == "Växlande molnighet"){
+		        document.getElementById('yrID').src = headerImages[4];//snö och sol 
+		      }
+		    } 
+         
         }
 
         return true;
