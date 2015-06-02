@@ -33,6 +33,8 @@ class WeatherDataComponent {
   var input, options;
   
   bool ifFirst = true;
+  bool smhiDone = false, 
+      yrDone = false;
     
   //Explanations of the List of images
   //0: mycket regn
@@ -64,60 +66,56 @@ class WeatherDataComponent {
     smhiData = new LoadSmhi();
     yrData = new LoadYr();
     
-    findCoords().then((_) => createWeatherData()).then((_){
-            int i = 0;
-            print("before smhi..");
-            
-            int smhiLength = smhiData.weatherSets.length;
-            int yrLength = yrData.weatherSets.length;
-            while(i < smhiLength){
-              getCurrentParameter(smhiData.weatherSets[i]);
-              i++;
-            }
-            i = 0;
-            print("before yr..");
-            while( i < yrLength){
-              getCurrentParameter(yrData.weatherSets[i]);
-              i++;
-            }
-            print("all done..");
-
-           //call method in js file that creates the graph
-           js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
-              });
+    findCoords().then((_) => createWeatherData());
     
   }
   
   ///Calls load functions for [LoadSmhi] and [LoadYr]
-  Future createWeatherData(){
+  void createWeatherData(){
+    yrDone = smhiDone = false;
+    smhiData.loadData(latitude, longitude).then((msg) { 
+      smhiDone = true;
+      setSmhiHeader();
+      if(yrDone) {
+        setCurrentParameters();
+      }
 
-    smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
-    return yrData.loadData(latitude, longitude).then((msg) => setYrHeader());    
+    });
+    yrData.loadData(latitude, longitude).then((msg) { 
+      yrDone = true;
+      setYrHeader();
+      if(smhiDone) {
+        setCurrentParameters();
+      }
+      
+    });     
+    
+  }
+
+  void setCurrentParameters(){
+
+    int i = 0;
+            
+    int smhiLength = smhiData.weatherSets.length;
+    int yrLength = yrData.weatherSets.length;
+    while(i < smhiLength){
+      getCurrentParameter(smhiData.weatherSets[i]);
+      i++;
+    }
+    i = 0;
+    while( i < yrLength){
+      getCurrentParameter(yrData.weatherSets[i]);
+      i++;
+    }
+    
+   //call method in js file that creates the graph
+   js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
+
   }
   
   void findDevicePosision(){
 
-    findCoords().then((_) => createWeatherData()).then((_){
-            int i = 0;
-            print("before smhi..");
-            
-            int smhiLength = smhiData.weatherSets.length;
-            int yrLength = yrData.weatherSets.length;
-            while(i < smhiLength){
-              getCurrentParameter(smhiData.weatherSets[i]);
-              i++;
-            }
-            i = 0;
-            print("before yr..");
-            while( i < yrLength){
-              getCurrentParameter(yrData.weatherSets[i]);
-              i++;
-            }
-            print("all done..");
-
-           //call method in js file that creates the graph
-           js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
-              });
+    findCoords().then((_) => createWeatherData());
     
   }
   
@@ -136,27 +134,7 @@ class WeatherDataComponent {
 
       
 
-      createWeatherData().then((_){
-            int i = 0;
-            print("before smhi..");
-            
-            int smhiLength = smhiData.weatherSets.length;
-            int yrLength = yrData.weatherSets.length;
-            while(i < smhiLength){
-              getCurrentParameter(smhiData.weatherSets[i]);
-              i++;
-            }
-            i = 0;
-            print("before yr..");
-            while( i < yrLength){
-              getCurrentParameter(yrData.weatherSets[i]);
-              i++;
-            }
-            print("all done..");
-
-           //call method in js file that creates the graph
-           js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
-              });
+      createWeatherData();
     });    
   
   }
@@ -340,10 +318,21 @@ class WeatherDataComponent {
   ///Function that changes the values in the graph depending on chosen paramter, returns the [currentParameter]
  String getCurrentParameter(WeatherSet ws){
    
-    if(smhiData.currentWeatherSet == null || yrData.currentWeatherSet == null){
+    /*if(smhiData.currentWeatherSet == null || yrData.currentWeatherSet == null){
       print("Something went wrong @ here..");
       return "Sorry";
+    }*/
+    bool notTrue = false;
+    if(smhiData.currentWeatherSet == null){
+      print("smhi is not loaded yet");
+      notTrue = true;
     }
+
+    if(yrData.currentWeatherSet == null){
+      print("YR is not loaded yet");
+      notTrue = true;
+    }
+    if(notTrue) return "Sorry";
   
     String value = "Not found";
     if(currentParameter == 'rain'){

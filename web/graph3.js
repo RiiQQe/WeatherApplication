@@ -185,6 +185,8 @@ function updateGraph(smhiDataR, currentParameter){
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
 
   //maxOfCurrentX = 150;
+
+  console.log(" !!!!!!!!!!!!!! max of current : " + maxOfCurrentX.toString());
   
   x.domain([-maxOfCurrentX, maxOfCurrentX]);
   y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));

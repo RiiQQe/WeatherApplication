@@ -29,7 +29,7 @@ class LoadSmhi {
 
     //Create URL to SMHI-API with longitude and latitude values
     var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitudeString/lon/$longitudeString/data.json';
-    url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/60.10/lon/9.58/data.json';
+    //url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/60.10/lon/9.58/data.json';
     print("innan request");
     //Call SMHI-API
     return HttpRequest.getString(url).then((String responseText) {
