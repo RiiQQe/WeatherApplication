@@ -181,6 +181,10 @@ function updateGraph(smhiDataR, currentParameter){
 
   x.domain([-maxOfCurrentX, maxOfCurrentX]);
 
+  svg.select(".x.axis")
+                    .transition().duration(1500).ease("sin-in-out")  // https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_ease
+                    .call(xAxis);  
+
   y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
 
   transition2(currentParameter);
