@@ -148,7 +148,7 @@ function setParameters(smhiData, yrData, currentParameter){
   }
 
   //read in yrData and store in smhiDataR
-  while( i < j){
+  while( yrData.o[i] != null){
     var singleObj = {};
 
     var time = yrData.o[i].date.date.toISOString();
