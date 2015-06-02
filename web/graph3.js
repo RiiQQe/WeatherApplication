@@ -8,8 +8,8 @@ var format;
 
 var ifFirst = true;
 
-var tooltip, 
-  x, xAxis,
+var x, 
+  xAxis,
   y, yAxis,
   z;
 
@@ -36,27 +36,13 @@ format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
 
 //TODO:
 //Make these responsive
-//är dem inte redan det?
-//nej, grafen ändrar inte size när fönstret gör det.
-//inte hög prio dock..
+
 margin = {top: 40, right: 40, bottom: 100, left: 45};
 width = document.body.clientWidth - margin.left - margin.right;
 height = document.body.clientHeight - margin.top - margin.bottom;
 
 colorrange = ["#32ACAF", "#E36790", "#F3C3C3C" ];
 strokecolor = colorrange[0];
-
-//TODO: 
-//Uncomment this part, not working right now..
-tooltip = d3.select("body")
-  .append("div")
-  .attr("class", "remove")
-  .attr("id", "removeMe")
-  .style("position", "absolute")
-  .style("z-index", "20")
-  .style("visibility", "hidden")
-  .style("top", "30px")
-  .style("left", "55px");
 
 x = d3.scale.linear()
         .range([0,width]);
@@ -87,17 +73,13 @@ stack = d3.layout.stack()
 nest = d3.nest()
             .key(function(d){ 
               return d.key ; });
-//TODO:
-//Jag tror att x(d.x0) och x(d.x0 + d.x) är de som dummar sig,
-//tror det räcker med att x0 = x0(function(d){return 0;})
+
 area = d3.svg.area()  
             .interpolate("cardinal")
             .x0(function(d){ return x(0.0) ; })
             .x1(function(d){  return x(d.value) ; })
             .y(function(d){ return y(d.date) ; });
-//TODO:
-//Jag är inte 100% på hur  den funkar, men slår vi våra kloka 
-//huvuden ihop kan vi säkert lösa det.. 
+
 svg = d3.select(".chart").append("svg")
           .attr("width", width + margin.left + margin.right) // här kan man ändra bredden
           .attr("height", height + margin.top + margin.bottom)
@@ -105,6 +87,7 @@ svg = d3.select(".chart").append("svg")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 console.log("size: " + width.toString());
+
 //den nya horisontella linjen
 var horizontal = d3.select(".chart")
           .append("div")
@@ -116,17 +99,6 @@ var horizontal = d3.select(".chart")
           .style("top", "50vh")
           .style("left", "15vw")
           .style("background", "#3c3c3c");
-
-          /*
-          svg.append("line")
-      .attr("x1", 0)  //<<== change your code here
-      .attr("y1", y(today))
-      .attr("x2", width)  //<<== and here
-      .attr("y2", y(today))
-      .style("stroke-width", 2)
-      .style("stroke", "red")
-      .style("fill", "none"); 
-*/
 
 //puts both smhi and yr to an array, where they are divided in different parameters
 function setParameters(smhiData, yrData, currentParameter){
@@ -221,17 +193,8 @@ function createGraph(smhiDataR, currentParameter){
 
     });
 
-    //TODO:
-    //Denna ska fungera, men den gör inte riktigt det än.. Av någon anledning blir antingen d.y0 eller d.y noll
-    //Just nu är det hårdkodat nedanför..
-    //x.domain([0, d3.extent(smhiDataR, function(d) { return d.y0 + d.y ; })]);
-
     layersSmhi0 = stack(nest.entries(smhiDataR));
-    //TODO: 
-    //this can be used, when it contains YR-data also
-    /*var maxOfCurrentX = d3.max(smhiDataR, function(d){
-      return d3.max(d);
-    });*/
+
     var maxOfCurrentX = d3.max(smhiDataR, function(d){ return d.value; }); 
     
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
@@ -270,11 +233,8 @@ function createGraph(smhiDataR, currentParameter){
 
     mouseHandler(currentParameter);
 
-    //TODO: 
-    //Här kan man lägga till så att tooltippen uppdateras
-    //och startas, dock måste man lägga till var tooltip först
-    //svg.selectAll(".layer")
-    //.attr("opacity", 1) osv..  
+
+ 
 }
 
 
@@ -294,11 +254,6 @@ function createGraph(smhiDataR, currentParameter){
   }
 
   function mouseHandler(currentParameter){
-    //TODO: 
-  //Här kan man lägga till så att tooltippen uppdateras
-  //och startas, dock måste man lägga till var tooltip först
-  //svg.selectAll(".layer")
-  //.attr("opacity", 1) osv..
 
   svg.selectAll(".layer")
     .attr("opacity", 0.5)
