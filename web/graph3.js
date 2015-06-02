@@ -190,7 +190,8 @@ function updateGraph(smhiDataR, currentParameter){
   
   layersSmhi1 = stack(nest.entries(smhiDataR));
 
-  var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
+  var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; });
+
   if(currentParameter == "wind"){
     x.domain([0,100]);
   }else if(currentParameter == "rain"){
@@ -200,6 +201,7 @@ function updateGraph(smhiDataR, currentParameter){
   }else{
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
   }
+
   svg.select(".x.axis")
                     .transition().duration(3500).ease("sin-in-out")  // https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_ease
                     .call(xAxis);  
@@ -255,7 +257,7 @@ function createGraph(smhiDataR, currentParameter){
       .call(yAxis.orient("left"));
 
     var today = new Date();
-    console.log("today: " + today.toString());
+    
     svg.append("line")
       .attr("x1", 0)  //<<== change your code here
       .attr("y1", y(today))
@@ -264,6 +266,9 @@ function createGraph(smhiDataR, currentParameter){
       .style("stroke-width", 2)
       .style("stroke", "red")
       .style("fill", "none");
+
+
+    mouseHandler(currentParameter);
 
     //TODO: 
     //Här kan man lägga till så att tooltippen uppdateras

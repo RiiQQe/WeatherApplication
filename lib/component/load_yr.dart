@@ -21,7 +21,7 @@ class LoadYr {
   
   ///Load function that calls [yr api](http://api.yr.no/weatherapi/locationforecast/1.9/documentation)
   Future loadData(double latitude, double longitude) {
-    print("Loading YR2-data");
+    print("Loading YR-data");
 
     String latitudeString = latitude.toStringAsPrecision(4);
     String longitudeString = longitude.toStringAsPrecision(4);
@@ -42,8 +42,6 @@ class LoadYr {
 
       currentWeatherSet = weatherSets[1];
         
-      print("Loading YR done");
-      
     }, onError: (error) => printError(error));
   }
 
@@ -114,10 +112,8 @@ class LoadYr {
             
         }
     });
-    print("loading YR done2!");
-      print("before yr");
-      print("length of YR: " + weatherSets.length.toString());
-      print("after yr");
+    print("loading YR done!");
+    
   }
   
   ///Primitive way of translating the cloud parameter from [int] to [String]
