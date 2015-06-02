@@ -115,7 +115,9 @@ class LoadYr {
         }
     });
     print("loading YR done2!");
-      
+      print("before yr");
+      print("length of YR: " + weatherSets.length.toString());
+      print("after yr");
   }
   
   ///Primitive way of translating the cloud parameter from [int] to [String]
@@ -141,13 +143,14 @@ class LoadYr {
         || currentWeather == "Cloud")
       rain = "Inget regn"; 
     else if(currentWeather == "Snow")
-      rain = "Snö, " + rainIndex.toString() + "mm";
+      rain = "Snö, ";// + rainIndex.toString() + "mm"
     else if(currentWeather == "Sleet")
-          rain = "Snöblandat Regn, " + rainIndex.toString() + "mm";
+          rain = "Snöblandat Regn";
     else if(currentWeather == "Rain")
-      rain = "Regn, "+ rainIndex.toString() + "mm"; 
+      rain = "Regn"; 
     else if(currentWeather == "Drizzle")
-           rain = "Duggregn, "+ rainIndex.toString() + "mm"; 
+           rain = "Duggregn"; 
+    else rain = "Odefinierad"; // utveckla denna!
 
     return rain;
   }
