@@ -163,7 +163,7 @@ function updateGraph(smhiDataR, currentParameter){
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; });
 
   if(currentParameter == "wind"){
-    x.domain([0,100]);
+    x.domain([0,maxOfCurrentX]);
   }else if(currentParameter == "rain"){
     x.domain([0,100]);
   }else if(currentParameter == "cloud"){
