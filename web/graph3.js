@@ -102,18 +102,29 @@ svg = d3.select(".chart").append("svg")
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-
+console.log("size: " + width.toString());
 //den nya horisontella linjen
 var horizontal = d3.select(".chart")
           .append("div")
           .attr("class", "remove")
           .style("position", "absolute")
           .style("z-index", "19")
-          .style("width", "400px")
+          .style("width", width.toString() + "px")
           .style("height", "2px")
           .style("top", "50vh")
           .style("left", "15vw")
           .style("background", "#3c3c3c");
+
+          /*
+          svg.append("line")
+      .attr("x1", 0)  //<<== change your code here
+      .attr("y1", y(today))
+      .attr("x2", width)  //<<== and here
+      .attr("y2", y(today))
+      .style("stroke-width", 2)
+      .style("stroke", "red")
+      .style("fill", "none"); 
+*/
 
 function setParameters(smhiData, yrData, currentParameter){
   //TODO: 
@@ -236,6 +247,7 @@ function createGraph(smhiDataR, currentParameter){
       .call(yAxis.orient("left"));
 
     var today = new Date();
+    console.log("today: " + today.toString());
     svg.append("line")
       .attr("x1", 0)  //<<== change your code here
       .attr("y1", y(today))
