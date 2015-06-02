@@ -81,10 +81,6 @@ class LoadSmhi {
           rainValue = allData["timeseries"][i]["pit"];
           cloudValue = (cloudIndex/8)*100;
 
-
-          
-          print("cloud: " + cloudValue.toString());
-
           //Get description of parameters from parameter index
           cloud = getCloud(cloudIndex);
           rain = getRain(rainIndex, i);

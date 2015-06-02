@@ -189,9 +189,15 @@ function updateGraph(smhiDataR, currentParameter){
   layersSmhi1 = stack(nest.entries(smhiDataR));
 
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; }); 
-
-  x.domain([-maxOfCurrentX, maxOfCurrentX]);
-
+  if(currentParameter == "wind"){
+    x.domain([0,100]);
+  }else if(currentParameter == "rain"){
+    x.domain([0,100]);
+  }else if(currentParameter == "cloud"){
+    x.domain([0,100]);
+  }else{
+    x.domain([-maxOfCurrentX, maxOfCurrentX]);
+  }
   svg.select(".x.axis")
                     .transition().duration(3500).ease("sin-in-out")  // https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_ease
                     .call(xAxis);  
@@ -289,7 +295,7 @@ function createGraph(smhiDataR, currentParameter){
   //.attr("opacity", 1) osv..
 
   svg.selectAll(".layer")
-    .attr("opacity", 1)
+    .attr("opacity", 0.5)
     .on("mouseover", function(d, i) {
       svg.selectAll(".layer").transition()
       .duration(250)
