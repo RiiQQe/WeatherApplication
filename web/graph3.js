@@ -41,7 +41,7 @@ margin = {top: 40, right: 40, bottom: 100, left: 45};
 width = document.body.clientWidth - margin.left - margin.right;
 height = document.body.clientHeight - margin.top - margin.bottom;
 
-colorrange = ["#E36790", "#32ACAF", "#F3C3C3C" ];
+colorrange = ["#32ACAF", "#E36790", "#F3C3C3C" ];
 strokecolor = colorrange[0];
 
 //TODO: 
@@ -119,13 +119,14 @@ var horizontal = d3.select(".chart")
           .style("background", "#3c3c3c");
 
 function setParameters(smhiData, yrData, currentParameter){
+  console.log("inne i setParameters");
   //TODO: 
   //Denna delen känns lite konstig, översätter från en list med obj
   //till en lista med exakt samma objekt
   var i = 0;
   var j = 0;
   smhiDataR = [];
-  console.log("curr: " + currentParameter)
+  //console.log("curr: " + currentParameter)
 
     //read in smhiData and store in smhiDataR
   while( smhiData.o[j] != null ){
@@ -134,27 +135,33 @@ function setParameters(smhiData, yrData, currentParameter){
     var time = smhiData.o[j].date.date.toISOString();
     
     singleObj['key'] = "smhi";
-    singleObj['temp'] =+ smhiData.o[j].currentParameter;
+    singleObj['parameter'] =+ smhiData.o[j].currentParameter;
     singleObj['date'] = time;
 
+    console.log("smhidate: " + time.toString());
+
     smhiDataR.push(singleObj);
-    // console.log(smhiDataR);
+   //con console.log(singleObj);
 
     j++;
 
   }
 
   //read in yrData and store in smhiDataR
-  while(i < j){
+  while( i < j){
     var singleObj = {};
 
     var time = yrData.o[i].date.date.toISOString();
     
     singleObj['key'] = "yr";
-    singleObj['temp'] =+ yrData.o[i].currentParameter;
+    singleObj['parameter'] =+ yrData.o[i].currentParameter;
     singleObj['date'] = time;
+
+
+    console.log("Yrdate: " + time.toString());
     
     smhiDataR.push(singleObj);
+    // console.log(singleObj);
 
     i++;
 
@@ -163,20 +170,18 @@ function setParameters(smhiData, yrData, currentParameter){
 
 
   if(ifFirst){
-    createGraph(smhiDataR);
+    createGraph(smhiDataR, currentParameter);
     ifFirst = false;
   }
-  else updateGraph(smhiDataR);
+  else updateGraph(smhiDataR, currentParameter);
 
 }
 
 
-function updateGraph(smhiDataR){
+function updateGraph(smhiDataR, currentParameter){
   smhiDataR.forEach(function(d){
     d.date = format.parse(d.date);
-    d.value =+ d.temp;
-    // d.rain = d.rain;
-    // console.log(d.value);
+    d.value =+ d.parameter;
   });
 
   
@@ -189,15 +194,15 @@ function updateGraph(smhiDataR){
   x.domain([-maxOfCurrentX, maxOfCurrentX]);
   y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
 
-  transition2();
+  transition2(currentParameter);
 
 }
 
-function createGraph(smhiDataR){
+function createGraph(smhiDataR, currentParameter){
 
     smhiDataR.forEach(function(d){
       d.date = format.parse(d.date);
-      d.value =+ d.temp;
+      d.value =+ d.parameter;
 
     });
 
@@ -236,7 +241,7 @@ function createGraph(smhiDataR){
       .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
-      mouseHandler();
+      mouseHandler(currentParameter);
     //TODO: 
     //Här kan man lägga till så att tooltippen uppdateras
     //och startas, dock måste man lägga till var tooltip först
@@ -245,7 +250,7 @@ function createGraph(smhiDataR){
 }
 
 
-  function transition2(){
+  function transition2(currentParameter){
         d3.selectAll("path")
         .data(function(){
           var d = layersSmhi1;
@@ -256,11 +261,11 @@ function createGraph(smhiDataR){
         .duration(3500)
         .attr("d", function(d){ return area(d.values); } );
 
-        mouseHandler();
+        mouseHandler(currentParameter);
 
   }
 
-  function mouseHandler(){
+  function mouseHandler(currentParameter){
     //TODO: 
   //Här kan man lägga till så att tooltippen uppdateras
   //och startas, dock måste man lägga till var tooltip först
@@ -293,7 +298,7 @@ function createGraph(smhiDataR){
     var invertedy = y.invert(mousey);
 
     
-    updateHeader(invertedx, invertedy);   
+    updateHeader(invertedx, invertedy, currentParameter);   
     
   })
   
@@ -321,9 +326,11 @@ function createGraph(smhiDataR){
 
   }
 
-  function updateHeader(d, dy){
+  function updateHeader(d, dy, currentParameter){
     
-  
+   // console.log("currentParameter: " + currentParameter);
+    // console.log("d: " + d);
+    
     // change to a function
     var y_time1 = dy.toString().substring(16,18); //hour
     var y1 = dy.toString().substring(0,16);
@@ -331,7 +338,21 @@ function createGraph(smhiDataR){
     var y3 = dy.toString().substring(24,40);
     var y_time = y1+y_time1+y2+y3;
 
-    console.log("y_time: " + y_time);
+    // console.log("y_time: " + y_time);
+   // console.log("dy: " + dy);
+
+  // y_time = Thu Jun 04 2015 22:00:00 GMT+0200 (CEST)    
+
+    // 2015-05-30T04:00:00.000Z
+
+    var date = dy.toString().substring(8, 10); //dag
+    var year = dy.toString().substring(11, 15); //år
+    var month = "06";
+
+    var y_value = year + "-" + month + "-" + date + "T" + y_time1 + y2 + ".000Z";
+    var hej = y_value.toString;
+
+  //  console.log("y_value: " + y_value);
 
     // update smhiHeader
     var smhiElement = document.getElementById("headerTextSmhi"); 
@@ -340,36 +361,38 @@ function createGraph(smhiDataR){
 
     // finds the corresponding x-value in smhiDataR to the graphs y-axis
     function filterByTemp(obj) {
-      
-      if(obj.key == "smhi" && obj.date == y_time) {
+    //  console.log("obj.key = " + obj.key);
 
+      // console.log("obj.date: " + obj.date);
+      if(obj.key == "smhi" && currentParameter == "temp" && d.date == hej) {
+      //    console.log("i if smhi: " + obj.key);
           //update the header
-          if(smhiElement == null) console.log("something went wrong");
+          if(smhiElement == null) console.log("something went wrong with smhi");
           else {
             if(obj.temp >= 10) obj.temp = (obj.temp.toString()).substring(0,4) + " °C";
             else{
-            	obj.temp = (obj.temp.toString()).substring(0, 3) + " °C"; 
-            	smhiElement.innerHTML = obj.temp.toString();
+              obj.temp = (obj.temp.toString()).substring(0, 3) + " °C"; 
+              smhiElement.innerHTML = obj.temp.toString();
 
-            	//THIS IS NEW. UNCOMMENT IF IT DOESN'T WORK
-        //     	if(y_time1 > 21 || y_time1 < 05){
-			     //  	//set to night image
-			     //  	document.getElementById("#smhiID").src = headerImages[1];
-			     //  }
-			     //  else{
-			     //  	document.getElementById("smhiID").src = headerImages[0];
-			    	// }
-			    //END OF NEW
+              //THIS IS NEW. UNCOMMENT IF IT DOESN'T WORK
+        //      if(y_time1 > 21 || y_time1 < 05){
+           //   //set to night image
+           //   document.getElementById("#smhiID").src = headerImages[1];
+           //  }
+           //  else{
+           //   document.getElementById("smhiID").src = headerImages[0];
+            // }
+          //END OF NEW
             } 
           
           }
 
           return true; 
       } 
-      else if(obj.key == "yr" && obj.date == y_time) {
-
+      else if(obj.key == "yr" && obj.date == y_value) {
+      //  console.log("i if yr: " + obj.key);
         //update header
-        if(yrElement == null) console.log("something went wrong");
+        if(yrElement == null) console.log("something went wrong with yr");
         else {
 
             if(obj.temp >= 10) obj.temp = (obj.temp.toString()).substring(0,4) + " °C";
@@ -389,4 +412,4 @@ function createGraph(smhiDataR){
     //TODO: felmeddelande om användaren klickar utanför?
     var arrbyTemp = smhiDataR.filter(filterByTemp);    
 
-	}
+  }

@@ -28,7 +28,7 @@ class LoadYr {
     
     //Url to proxy server that calls yr API with passed parameters
     var url = 'http://xn--petrahlin-47a.se/proxy.php?lon=$longitudeString&lat=$latitudeString';
-    //url = 'http://xn--petrahlin-47a.se/proxy.php?lon=9.58&lat=60.10';
+    url = 'http://xn--petrahlin-47a.se/proxy.php?lon=9.58&lat=60.10';
     
 
     
@@ -115,7 +115,9 @@ class LoadYr {
         }
     });
     print("loading YR done2!");
-      
+      print("before yr");
+      print("length of YR: " + weatherSets.length.toString());
+      print("after yr");
   }
   
   ///Primitive way of translating the cloud parameter from [int] to [String]

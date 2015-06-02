@@ -64,20 +64,60 @@ class WeatherDataComponent {
     smhiData = new LoadSmhi();
     yrData = new LoadYr();
     
-    findCoords().then((_) => createWeatherData());
+    findCoords().then((_) => createWeatherData()).then((_){
+            int i = 0;
+            print("before smhi..");
+            
+            int smhiLength = smhiData.weatherSets.length;
+            int yrLength = yrData.weatherSets.length;
+            while(i < smhiLength){
+              getCurrentParameter(smhiData.weatherSets[i]);
+              i++;
+            }
+            i = 0;
+            print("before yr..");
+            while( i < yrLength){
+              getCurrentParameter(yrData.weatherSets[i]);
+              i++;
+            }
+            print("all done..");
+
+           //call method in js file that creates the graph
+           js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
+              });
     
   }
   
   ///Calls load functions for [LoadSmhi] and [LoadYr]
-  void createWeatherData(){
+  Future createWeatherData(){
 
     smhiData.loadData(latitude, longitude).then((msg) => setSmhiHeader());
-    yrData.loadData(latitude, longitude).then((msg) => setYrHeader());    
+    return yrData.loadData(latitude, longitude).then((msg) => setYrHeader());    
   }
   
   void findDevicePosision(){
 
-    findCoords().then((_) => createWeatherData());
+    findCoords().then((_) => createWeatherData()).then((_){
+            int i = 0;
+            print("before smhi..");
+            
+            int smhiLength = smhiData.weatherSets.length;
+            int yrLength = yrData.weatherSets.length;
+            while(i < smhiLength){
+              getCurrentParameter(smhiData.weatherSets[i]);
+              i++;
+            }
+            i = 0;
+            print("before yr..");
+            while( i < yrLength){
+              getCurrentParameter(yrData.weatherSets[i]);
+              i++;
+            }
+            print("all done..");
+
+           //call method in js file that creates the graph
+           js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
+              });
     
   }
   
@@ -96,7 +136,27 @@ class WeatherDataComponent {
 
       
 
-      createWeatherData();  
+      createWeatherData().then((_){
+            int i = 0;
+            print("before smhi..");
+            
+            int smhiLength = smhiData.weatherSets.length;
+            int yrLength = yrData.weatherSets.length;
+            while(i < smhiLength){
+              getCurrentParameter(smhiData.weatherSets[i]);
+              i++;
+            }
+            i = 0;
+            print("before yr..");
+            while( i < yrLength){
+              getCurrentParameter(yrData.weatherSets[i]);
+              i++;
+            }
+            print("all done..");
+
+           //call method in js file that creates the graph
+           js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
+              });
     });    
   
   }
@@ -185,8 +245,6 @@ class WeatherDataComponent {
    ///Set header for yr depending on currentWeatherSet in [LoadYr]
    void setYrHeader()
    {
-     //call method in js file that creates the graph
-     js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
           
      String time = yrData.currentWeatherSet.time.substring(0,2);
      int theTime = int.parse(time);
@@ -280,15 +338,14 @@ class WeatherDataComponent {
   }
   //TODO: HERE IS WERE OUR GETTEMP PROBLEM COMES IN TO PLAY, SINCE YRDATA TAKES TO LONG
   ///Function that changes the values in the graph depending on chosen paramter, returns the [currentParameter]
-  String getCurrentParameter(WeatherSet ws){
+ String getCurrentParameter(WeatherSet ws){
    
     if(smhiData.currentWeatherSet == null || yrData.currentWeatherSet == null){
-      print("Something went wrong..");
+      print("Something went wrong @ here..");
       return "Sorry";
     }
   
     String value = "Not found";
-    
     if(currentParameter == 'rain'){
       (querySelector('weather-data::shadow #windIcon') as DivElement).classes.remove('active');
       (querySelector('weather-data::shadow #tempIcon') as DivElement).classes.remove('active');
@@ -329,9 +386,8 @@ class WeatherDataComponent {
       ws.currentParameter = ws.cloudValue;
       value = ws.cloud; 
     }
-  
-    js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
- 
+    //js.context.callMethod("setParameters", [smhiData.weatherSets, yrData.weatherSets, currentParameter]);
+
     return value;
       
   }
