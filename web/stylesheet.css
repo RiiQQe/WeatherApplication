@@ -2,7 +2,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-html, body {
+html{
   height: 100%;
   width: 100%;
 }
@@ -25,6 +25,8 @@ h3 {
 }
 
 body {
+  height: 100%;
+  width: 100%;
   padding-top:7%;
   font-family: 'Open Sans', sans-serif;
   position: relative;
@@ -82,7 +84,7 @@ body {
 
 div.imgSmhi {
     float: left;
-    width:50vw;
+    width:49vw;
     height: 24vh;
     background-color: #32acaf;
     border-bottom: 2px solid;
@@ -91,7 +93,7 @@ div.imgSmhi {
 
 div.imgYr {
     float: right;
-    width: 50vw;
+    width: 49vw;
     height: 24vh;
     background-color: #e36790;
     border-bottom: 2px solid;
@@ -146,13 +148,26 @@ div.imgYr {
   z-index: -1;
 }
 
+.chart { 
+  background: #fff;
+  margin-top: 4vh;
+}
+
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #3c3c3c;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
 #footer {
    text-align: center;
    position:absolute;
    bottom:0;
+   height: 50px;
    width:100vw;
    background:#D8D7D7;
-   display: table-row;
 }
 
 
@@ -194,10 +209,13 @@ div.imgYr {
     height: 55px;
     position: relative;
     -webkit-animation-name: example1; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    -webkit-animation-delay: 0s; /* Chrome, Safari, Opera */
     animation-name: example1;
     animation-duration: 15s;
     animation-delay: 0.5s;
     animation-iteration-count: infinite;
+
 }
 
 /* Chrome, Safari, Opera */
@@ -214,6 +232,8 @@ div.imgYr {
     height: 170px;
     position: relative;
     -webkit-animation-name: example3; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    -webkit-animation-delay: 2s; /* Chrome, Safari, Opera */
     animation-name: example3;
     animation-duration: 10s;
     animation-delay: 0.2s;
@@ -235,10 +255,13 @@ div.imgYr {
     height: 200px;
     position: relative;
     -webkit-animation-name: example4; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    -webkit-animation-delay: 2s; /* Chrome, Safari, Opera */
     animation-name: example4;
     animation-duration: 20s;
     animation-delay: 0s;
     animation-iteration-count: infinite;
+
 }
 
 /* Chrome, Safari, Opera */

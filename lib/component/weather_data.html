@@ -1,4 +1,6 @@
 <!-- Draw everythin in a weather-data tag -->
+<!--<script src="graph3.js"></script>-->  
+
 
 <!-- Navigation buttons to be added
 <div class="navigation">
@@ -18,31 +20,25 @@
 <ul class="list-group row">
   <li class="list-group-item col-xs-3 col-sm-3">
     <div id="rainIcon" class="parameterButton">
-        <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'"  ng-init="currentParameter = 'rain'"/>
+        <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkWFYxb2p4c2xvOTQ" ng-click="currentParameter = 'rain'; setCurrentParameters()"  ng-init="currentParameter = 'rain'"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3 col-sm-3">
     <div id="tempIcon" class="parameterButton active">
-      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkT0EyZVF2MktIeW8" ng-click="currentParameter = 'temp'"/>
+      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkT0EyZVF2MktIeW8" ng-click="currentParameter = 'temp'; setCurrentParameters()"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3 col-sm-3">
     <div id="windIcon" class="parameterButton">
-      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSTlBWFpGOUxMZUU" ng-click="currentParameter = 'wind'"/>
+      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSTlBWFpGOUxMZUU" ng-click="currentParameter = 'wind'; setCurrentParameters()"/>
     </div>
   </li>
   <li class="list-group-item col-xs-3 col-sm-3">
     <div id="cloudIcon" class="parameterButton">
-      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeVFkRXh6UktsV0k" ng-click="currentParameter = 'cloud'"/>
+      <img class="parameterButtonImg" src="https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeVFkRXh6UktsV0k" ng-click="currentParameter = 'cloud'; setCurrentParameters()"/>
     </div>
   </li>
 </ul>
 
 
-<div id="graph" ng-repeat="WeatherSet in yrData.weatherSets">
-    <div class="left">{{WeatherSet.time}}</div>
-    <svg class="timeline">
-      <line x1="50%" y1="0" x2="50%" y2="100%" style="stroke:#3d3d3d;stroke-width:2" />
-    </svg>
-    <div class="right">{{getCurrentParameter(WeatherSet)}}</div>
-</div>
+

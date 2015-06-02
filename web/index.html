@@ -3,19 +3,23 @@
 
 <head>
     <title>WeatherApplication</title>
-
-    
+    <!--<script src="http://d3js.org/d3.v2.js"></script>-->
+    	
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="packages/bootjack/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheet.css">
-    <script src="packages/web_components/platform.js"></script>
+    <!--<script src="packages/web_components/platform.js"></script-->
     <script src="packages/web_components/dart_support.js"></script>  
+    
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
       
 </head>
 
 <body>
+
 
 <div id="splashscreen">
   <div id="innersplash">
@@ -29,7 +33,6 @@
     </div>
     
     <div id="splashText">
-      <!--span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span-->
       Kuling
     </div>
     
@@ -68,7 +71,9 @@
   
   <div class="container-fluid" id="container_1">
     <weather-data></weather-data>
+    <div class="chart"></div>
   </div>
+  
   
   <div id="footer">
     <div class="dropup">
@@ -94,6 +99,7 @@
   </div>
 
 </div>
+  <script src="graph3.js"></script>
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
   <script type="application/dart" src="main.dart"></script>
   <script type="text/javascript" src="packages/browser/dart.js"></script> 
