@@ -29,7 +29,7 @@ class LoadSmhi {
 
     //Create URL to SMHI-API with longitude and latitude values
     var url = 'http://opendata-download-metfcst.smhi.se/api/category/pmp1.5g/version/1/geopoint/lat/$latitudeString/lon/$longitudeString/data.json';
-  
+
     //Call SMHI-API
     return HttpRequest.getString(url).then((String responseText) {
 
@@ -38,14 +38,13 @@ class LoadSmhi {
 
       setWeatherParameters();
 
-      int timeIndex = getTimeIndex();
+      int timeIndex = getTimeIndex() + 1;
       currentWeatherSet = weatherSets[timeIndex];
         
       print("Loading SMHI done");
       
     }, onError: (error) => printError(error));
-    
-    
+
   }
   
   ///Returns the index of the Map generated in [loadData] that correspond to the weather right now
@@ -92,7 +91,6 @@ class LoadSmhi {
           weatherSets.add(new WeatherSet(currentTemp, cloud, rain, wind, timeFormatted, rainValue, windIndex, cloudValue, currentTime, currentTemp));
 
       }
-       
     
   }
 

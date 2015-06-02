@@ -41,7 +41,7 @@ margin = {top: 40, right: 40, bottom: 100, left: 45};
 width = document.body.clientWidth - margin.left - margin.right;
 height = document.body.clientHeight - margin.top - margin.bottom;
 
-colorrange = ["#E36790", "#32ACAF", "#F3C3C3C" ];
+colorrange = ["#32ACAF", "#E36790", "#F3C3C3C" ];
 strokecolor = colorrange[0];
 
 //TODO: 
@@ -75,8 +75,6 @@ yAxis = d3.svg.axis()
             //.orient("right")
             .ticks(d3.time.days)
             .tickFormat(d3.time.format('%a'));
-           // console.log(d3.time.days);
-           //d.date = format.parse(d.date)
 
 stack = d3.layout.stack()
   .offset("silhouette")
@@ -124,35 +122,14 @@ function setParameters(smhiData, yrData, currentParameter){
   var i = 0;
   var j = 0;
   smhiDataR = [];
-  
 
-  //read in yrData and store in smhiDataR
-  while(yrData.o[i] != null){
+    //read in smhiData and store in smhiDataR
+  while( smhiData.o[j] != null ){
     var singleObj = {};
 
-    var time = yrData.o[i].date.date.toISOString();
-    //var rain = yrData.o[i].rain.rain.toISOString();
+    var time = smhiData.o[j].date.date.toISOString();
     
     singleObj['key'] = "yr";
-    singleObj['parameter'] =+ yrData.o[i].currentParameter;
-    singleObj['rainString'] = yrData.o[i].rain;
-    singleObj['cloudString'] = yrData.o[j].cloud;
-    singleObj['windString'] = yrData.o[j].wind;
-    singleObj['date'] = time;
-    
-    smhiDataR.push(singleObj);
-
-    i++;
-
-  }
-  //read in smhiData and store in smhiDataR
-  while( j < i ){
-    var singleObj = {};
-    var time = smhiData.o[j].date.date.toISOString();
-    //var rain = smhiData.o[j].rain.rain.toISOString();
-    //console.log("curr: " + currentParameter)
-
-    singleObj['key'] = "smhi";
     singleObj['parameter'] =+ smhiData.o[j].currentParameter;
     singleObj['rainString'] = smhiData.o[j].rain;
     singleObj['cloudString'] = smhiData.o[j].cloud;
@@ -162,6 +139,24 @@ function setParameters(smhiData, yrData, currentParameter){
     smhiDataR.push(singleObj);
 
     j++;
+
+  }
+
+  //read in yrData and store in smhiDataR
+  while( yrData.o[i] != null){
+    var singleObj = {};
+    var time = yrData.o[i].date.date.toISOString();
+
+    singleObj['key'] = "smhi";
+    singleObj['parameter'] =+ yrData.o[i].currentParameter;
+    singleObj['rainString'] = yrData.o[i].rain;
+    singleObj['cloudString'] = yrData.o[i].cloud;
+    singleObj['windString'] = yrData.o[i].wind;
+    singleObj['date'] = time;
+
+    smhiDataR.push(singleObj);
+
+    i++;
 
   }
 
@@ -195,8 +190,10 @@ function updateGraph(smhiDataR, currentParameter){
 function createGraph(smhiDataR, currentParameter){
 
     smhiDataR.forEach(function(d){
-      		d.date = format.parse(d.date);
-      			d.value =+ d.parameter;
+
+      d.date = format.parse(d.date);
+      d.value =+ d.parameter;
+
     });
 
     //TODO:
@@ -234,7 +231,7 @@ function createGraph(smhiDataR, currentParameter){
       .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
-      mouseHandler();
+      mouseHandler(currentParameter);
     //TODO: 
     //Här kan man lägga till så att tooltippen uppdateras
     //och startas, dock måste man lägga till var tooltip först
@@ -304,6 +301,7 @@ function createGraph(smhiDataR, currentParameter){
        mousey = (height+scrollTop)/2 + mouse[1];
        horizontal.style("top", mousey + "px" )})
 
+
     .on("mouseover", function(){  
        mouse = d3.mouse(this);
 
@@ -320,7 +318,6 @@ function createGraph(smhiDataR, currentParameter){
 
   function updateHeader(d, dy, currentParameter){
     
-  
     // change to a function
     var y_time1 = dy.toString().substring(16,18); //hour
     var y1 = dy.toString().substring(0,16);
@@ -328,6 +325,16 @@ function createGraph(smhiDataR, currentParameter){
     var y3 = dy.toString().substring(24,40);
     var y_time = y1+y_time1+y2+y3;
 
+  // y_time = Thu Jun 04 2015 22:00:00 GMT+0200 (CEST)    
+
+    // 2015-05-30T04:00:00.000Z
+
+    var date = dy.toString().substring(8, 10); //dag
+    var year = dy.toString().substring(11, 15); //år
+    var month = "06";
+
+    var y_value = year + "-" + month + "-" + date + "T" + y_time1 + y2 + ".000Z";
+    var hej = y_value.toString;
 
     // update smhiHeader
     var smhiElement = document.getElementById("headerTextSmhi"); 
@@ -338,13 +345,9 @@ function createGraph(smhiDataR, currentParameter){
     function filterByTemp(obj) {
     	     
       if(obj.key == "smhi" && obj.date == y_time) {
-      	console.log("key: " + obj.key);
-      	console.log("date: " + obj.date);
-     	console.log("parameterString: " + obj.rainString);
-		console.log("time: " + y_time1); 
           //update the header
-
           if(smhiElement == null) console.log("something went wrong");
+
           else {
 
           	if(currentParameter == "temp")
@@ -361,9 +364,9 @@ function createGraph(smhiDataR, currentParameter){
             else if(currentParameter == "cloud"){
             	obj.parameter = obj.cloudString;
             }
-
             
             smhiElement.innerHTML = obj.parameter;//.toString();
+            //obj.temp = (obj.temp.toString()).substring(0, 3) + " °C"; 
 
             if(y_time1 > 21 || y_time1 < 05) document.getElementById('smhiID').src = headerImages[1]; //set to night image
 
@@ -407,14 +410,10 @@ function createGraph(smhiDataR, currentParameter){
 
           return true; 
       } 
-      else if(obj.key == "yr" && obj.date == y_time) {
-      	console.log("key: " + obj.key);
-      	console.log("parameter: " + obj.parameter);
-     	console.log("parameterString: " + obj.rainString);
-		console.log("time: " + y_time1);
 
+      else if(obj.key == "yr" && obj.date == y_time) {
         //update header
-        if(yrElement == null) console.log("something went wrong");
+        if(yrElement == null) console.log("something went wrong with yr");
         else {
         	if(currentParameter == "temp")
           	{
@@ -483,4 +482,4 @@ function createGraph(smhiDataR, currentParameter){
     //TODO: felmeddelande om användaren klickar utanför?
     var arrbyTemp = smhiDataR.filter(filterByTemp);    
 
-	}
+  }
