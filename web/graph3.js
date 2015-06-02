@@ -138,8 +138,6 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['parameter'] =+ smhiData.o[j].currentParameter;
     singleObj['date'] = time;
 
-    console.log("smhidate: " + time.toString());
-
     smhiDataR.push(singleObj);
    //con console.log(singleObj);
 
@@ -157,9 +155,6 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['parameter'] =+ yrData.o[i].currentParameter;
     singleObj['date'] = time;
 
-
-    console.log("Yrdate: " + time.toString());
-    
     smhiDataR.push(singleObj);
     // console.log(singleObj);
 
