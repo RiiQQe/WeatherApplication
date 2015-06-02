@@ -235,6 +235,16 @@ function createGraph(smhiDataR, currentParameter){
       .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
+    var today = new Date();
+    svg.append("line")
+      .attr("x1", 0)  //<<== change your code here
+      .attr("y1", y(today))
+      .attr("x2", width)  //<<== and here
+      .attr("y2", y(today))
+      .style("stroke-width", 2)
+      .style("stroke", "red")
+      .style("fill", "none");
+
       mouseHandler(currentParameter);
     //TODO: 
     //Här kan man lägga till så att tooltippen uppdateras
