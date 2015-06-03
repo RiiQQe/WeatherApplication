@@ -293,13 +293,14 @@ class WeatherDataComponent {
           currentCity = "Stockholm";
         }
         var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-        
+        if(changePlaceholder != null)
         changePlaceholder.placeholder = currentCity;
         
       });
       
       //set currentCity in search field
       var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
+      if(changePlaceholder != null)
       changePlaceholder.placeholder = currentCity;
 
       return coordinates;

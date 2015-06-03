@@ -161,16 +161,29 @@ function updateGraph(smhiDataR, currentParameter){
   layersSmhi1 = stack(nest.entries(smhiDataR));
 
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; });
-
+  var measure;
   if(currentParameter == "wind"){
     x.domain([0,maxOfCurrentX]);
+    measure = "m/s";
+
+     
   }else if(currentParameter == "rain"){
-    x.domain([0,100]);
+    x.domain([0,maxOfCurrentX]);
+    measure = "mm";
   }else if(currentParameter == "cloud"){
     x.domain([0,100]);
+    measure = "%";      
   }else{
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
+    
+    measure = "°C";
   }
+
+  svg.select(".text")
+      .transition().duration(3500).ease("left")
+      .text(measure);
+
+     
 
   svg.select(".x.axis")
                     .transition().duration(3500).ease("sin-in-out")  // https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_ease
@@ -217,6 +230,13 @@ function createGraph(smhiDataR, currentParameter){
       .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
+    svg.append("text")
+      .attr("class", "text")
+      .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+      .attr("transform", "translate("+ (width/2) +","+(-20)+")")  // centre below axis
+      .text("°C");
+  
+
     var today = new Date();
     
     svg.append("line")
@@ -227,7 +247,6 @@ function createGraph(smhiDataR, currentParameter){
       .style("stroke-width", 2)
       .style("stroke", "red")
       .style("fill", "none");
-
 
     mouseHandler(currentParameter);
 
