@@ -32,7 +32,23 @@ var headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQ
                            "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
 
 format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
-  
+
+var myFormatters = d3.locale({
+  "decimal": ".",
+  "thousands": ",",
+  "grouping": [3],
+  "currency": ["$", ""],
+  "dateTime": "%a %b %e %X %Y",
+  "date": "%m/%d/%Y",
+  "time": "%Y-%m-%dT%H:%M:%S.%LZ",
+  "periods": ["AM", "PM"],
+  "days": ["Söndag", "Mondag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"],
+  "shortDays": ["Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"],
+  "months": ["January", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Agusti", "September", "Oktober", "November", "December"],
+  "shortMonths": ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Dec"]
+});
+
+d3.time.format = myFormatters.timeFormat;   
 
 //TODO:
 //Make these responsive
@@ -56,7 +72,7 @@ z = d3.scale.ordinal()
 
 xAxis = d3.svg.axis()
             .scale(x);
-            
+
 yAxis = d3.svg.axis()
             .scale(y)
             .ticks(d3.time.days)
@@ -95,6 +111,13 @@ var horizontal = d3.select(".chart")
           .style("top", "50vh")
           .style("left", "15vw")
           .style("background", "#3c3c3c");
+          var text = horizontal.append("text");
+
+var currentdate = new Date(); 
+
+//Default time = right now
+var textLabels = text
+        .text(currentdate.getHours() + ".00");
 
 //puts both smhi and yr to an array, where they are divided in different parameters
 function setParameters(smhiData, yrData, currentParameter){
@@ -158,18 +181,17 @@ function updateGraph(smhiDataR, currentParameter){
   
   layersSmhi1 = stack(nest.entries(smhiDataR));
 
-  var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; });
+  var maxOfCurrentX = d3.max(smhiDataR, function(d){ return d.value; });
+  var minOfCurrentX = d3.min(smhiDataR, function(d){ return d.value; });
   var measure;
   if(currentParameter == "wind"){
-    x.domain([0,maxOfCurrentX]);
+    x.domain([minOfCurrentX,maxOfCurrentX]);
     measure = "m/s";
-
-     
   }else if(currentParameter == "rain"){
-    x.domain([0,maxOfCurrentX]);
+    x.domain([minOfCurrentX,maxOfCurrentX]);
     measure = "mm";
   }else if(currentParameter == "cloud"){
-    x.domain([0,100]);
+    x.domain([minOfCurrentX,100]);
     measure = "%";      
   }else{
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
@@ -336,6 +358,8 @@ function createGraph(smhiDataR, currentParameter){
     var today = new Date();
     today = today.getDate();
 
+    var textLabels = text
+        .text(y_time1 + ".00");
 
     //TODO: fix so the difference also works during two months
     // ta ut hela datumet och ej bara dagen
