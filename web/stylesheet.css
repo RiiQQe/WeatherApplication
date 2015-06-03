@@ -84,7 +84,7 @@ body {
 
 div.imgSmhi {
     float: left;
-    width:49vw;
+    width:50vw;
     height: 24vh;
     background-color: #32acaf;
     border-bottom: 2px solid;
@@ -93,7 +93,7 @@ div.imgSmhi {
 
 div.imgYr {
     float: right;
-    width: 49vw;
+    width: 50vw;
     height: 24vh;
     background-color: #e36790;
     border-bottom: 2px solid;

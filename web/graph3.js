@@ -185,17 +185,17 @@ function updateGraph(smhiDataR, currentParameter){
   var measure;
   if(currentParameter == "wind"){
     x.domain([minOfCurrentX,maxOfCurrentX]);
-    measure = "m/s";
+    measure = "(m/s)";
   }else if(currentParameter == "rain"){
     x.domain([minOfCurrentX,maxOfCurrentX]);
-    measure = "mm";
+    measure = "(mm)";
   }else if(currentParameter == "cloud"){
     x.domain([minOfCurrentX,100]);
-    measure = "%";      
+    measure = "(%)";      
   }else{
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
     
-    measure = "°C";
+    measure = "(°C)";
   }
 
   svg.select(".text")
@@ -252,8 +252,8 @@ function createGraph(smhiDataR, currentParameter){
     svg.append("text")
       .attr("class", "text")
       .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
-      .attr("transform", "translate("+ (width/2) +","+(-20)+")")  // centre below axis
-      .text("°C");
+      .attr("transform", "translate("+ (width) +","+(-30)+")")  // centre below axis
+      .text("(°C)");
   
 
     var today = new Date();
