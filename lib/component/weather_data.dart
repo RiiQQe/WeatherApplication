@@ -48,17 +48,19 @@ class WeatherDataComponent {
   //8: sol + lite moln
   //9: moln
   //10: åska
-  List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSVNjM1VzdGJxeUk", 
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQTNqLXQ2eVl1cVE",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeUk2YmJCM2FnRlk",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQUR3UXh3UTJJME0",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkS3BGbjFFRXZHaEE",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeGd0b2Jpc01UU0E",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkOHhwV3lxM2c0a2s",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkVTlXenJvVUx0ZzQ",
-                               "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkdVpoMlV5VDlPRHM",
-                               "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
+  List<String> headerImages = ["https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpVldSSTBmUFYzZzA", 
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpZ1JBeUxrMnQtWFE",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpdjRCSkczd1lEOHM",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpUFp6SEJKdXA0ajA",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpM3Z1TjVuMVM4dGs",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpc2NBQWdRMWJNSms",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpZ2VZV3FHT2ZHc2M",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpRzBDaWpNUW9oemc",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpdEU2UHR1RGwtNU0",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpTnpUeU4tOWYyaVE",
+                                "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpOFJaUm11XzdzTVk"];
+  
+
   
   ///Declare [LoadSmhi] and [LoadYr] objects and calls [createWeatherData]
   WeatherDataComponent() {

@@ -101,11 +101,13 @@ div.imgYr {
 }
 
 #yrID{
-  height: 10vh;
+  height: 24vh;
+  margin-top: -6vw;
 }
 
 #smhiID{
-  height: 10vh;
+  height: 24vh;
+  margin-top: -6vw;
 }
 
 .logo{
@@ -188,8 +190,9 @@ div.imgYr {
     height: 140px;
     position: relative;
     -webkit-animation-name: example; /* Chrome, Safari, Opera */
-    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
-    -webkit-animation-delay: 0s; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 10s; /* Chrome, Safari, Opera */
+    -webkit-animation-delay: 3s; /* Chrome, Safari, Opera */
+    -webkit-animation-iteration-count: infinite;
     animation-name: example;
     animation-duration: 17s;
     animation-delay: 0s;
@@ -199,8 +202,8 @@ div.imgYr {
 /* Chrome, Safari, Opera */
 @-webkit-keyframes example {
     0%   {left:0px; top:0px;}
-    25%  {left:100px; top:200px;}
-    50%  {left:135px; top:50px;}
+    25%  {left:10vh; top:34vw;}
+    50%  {left:14vh; top:74vw;}
     75%  {left:70px; top:130px;}
     100% {left:0px; top:0px;}
 }
@@ -208,7 +211,7 @@ div.imgYr {
     width: 200px;
     height: 55px;
     position: relative;
-    -webkit-animation-name: example1; /* Chrome, Safari, Opera */
+    -webkit-animation-name: example1;  /*Chrome, Safari, Opera */
     -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
     -webkit-animation-delay: 0s; /* Chrome, Safari, Opera */
     animation-name: example1;

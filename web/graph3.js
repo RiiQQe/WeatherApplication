@@ -19,17 +19,18 @@ var margin, width, height;
   
 var layersSmhi0, layersSmhi1, layersYr0, layersYr1;
 
-var headerImages = ["https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkSVNjM1VzdGJxeUk", 
-                           "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_d185SXd5UzNkcTA",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQTNqLXQ2eVl1cVE",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeUk2YmJCM2FnRlk",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkQUR3UXh3UTJJME0",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkS3BGbjFFRXZHaEE",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkeGd0b2Jpc01UU0E",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkOHhwV3lxM2c0a2s",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkVTlXenJvVUx0ZzQ",
-                           "https://drive.google.com/uc?export=download&id=0B9P7aDjkYEQkdVpoMlV5VDlPRHM",
-                           "https://drive.google.com/uc?export=download&id=0ByV6jLc-sJc_TUFQSlNMdHE3SzA"];
+                                                                                                    //Explanations of the List of images
+var headerImages = ["https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpVldSSTBmUFYzZzA",  //0: mycket regn 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpZ1JBeUxrMnQtWFE",  //1: natt 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpdjRCSkczd1lEOHM",  //2: sol + fåglar 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpUFp6SEJKdXA0ajA",  //3: lite regn 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpM3Z1TjVuMVM4dGs",  //4: snö och sol 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpc2NBQWdRMWJNSms",  //5: snö 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpZ2VZV3FHT2ZHc2M", //6: sol + lite moln + fåglar 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpRzBDaWpNUW9oemc",  //7: sol + moln 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpdEU2UHR1RGwtNU0",  //8: sol + lite moln 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpTnpUeU4tOWYyaVE",  //9: moln 
+                    "https://drive.google.com/uc?export=download&id=0B6W-hMInlbwpOFJaUm11XzdzTVk"]; //10: åska 
 
 format = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
 
