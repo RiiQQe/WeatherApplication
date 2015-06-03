@@ -293,14 +293,15 @@ class WeatherDataComponent {
           currentCity = "Stockholm";
         }
         var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-        
-        changePlaceholder.placeholder = currentCity;
+        if(changePlaceholder!=null)
+          changePlaceholder.placeholder = currentCity;
         
       });
-      
+      //TODO: this is done twice, why?
       //set currentCity in search field
       var changePlaceholder = querySelector('weather-data::shadow #searchTextField') as InputElement;
-      changePlaceholder.placeholder = currentCity;
+      if(changePlaceholder != null)
+        changePlaceholder.placeholder = currentCity;
 
       return coordinates;
       

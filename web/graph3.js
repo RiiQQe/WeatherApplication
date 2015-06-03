@@ -1,6 +1,9 @@
 var datearray = [];
 var colorrange = [];
 var smhiDataR = [];
+var today3 = [];
+var tomorrow = [];
+var week = [];
 var strokecolor;
 var format;
 
@@ -56,11 +59,9 @@ z = d3.scale.ordinal()
 
 xAxis = d3.svg.axis()
             .scale(x);
-            //.orient("bottom");
 
 yAxis = d3.svg.axis()
             .scale(y)
-            //.orient("right")
             .ticks(d3.time.days)
             .tickFormat(d3.time.format('%a'));
 
@@ -86,6 +87,12 @@ svg = d3.select(".chart").append("svg")
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+svg1 = d3.select(".chart2").append("svg")
+          .attr("width", width + margin.left + margin.right) // här kan man ändra bredden
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 //den nya horisontella linjen
 var horizontal = d3.select(".chart")
           .append("div")
@@ -104,7 +111,17 @@ function setParameters(smhiData, yrData, currentParameter){
   var i = 0;
   var j = 0;
   smhiDataR = [];
+  today3 = [];
+  tomorrow = [];
+  week=[];
 
+  var today2 = new Date();
+  today2 = today2.toISOString().substring(0,10);
+  var nextDay = parseFloat(today2.substring(8,10));
+  nextDay++;
+  nextDay = nextDay.toString();
+  if(nextDay < 10) nextDay = today2.substring(0,8) + "0" + nextDay;
+  else nextDay = today2.substring(0,8) + nextDay;
 
   //read in smhiData and store in smhiDataR
   while( smhiData.o[j] != null ){
@@ -120,6 +137,13 @@ function setParameters(smhiData, yrData, currentParameter){
     singleObj['date'] = time;
 
     smhiDataR.push(singleObj);
+
+    time = time.substring(0,10);
+  
+
+    if(time == today2) today3.push(singleObj);
+    if(time == nextDay) tomorrow.push(singleObj);
+    else week.push(singleObj);
 
     j++;
 
@@ -139,12 +163,20 @@ function setParameters(smhiData, yrData, currentParameter){
 
     smhiDataR.push(singleObj);
 
+    time = time.substring(0,10);
+  
+
+    if(time == today2) today3.push(singleObj);
+    if(time == nextDay) tomorrow.push(singleObj);
+    else week.push(singleObj);
     i++;
 
   }
 
   if(ifFirst){
-    createGraph(smhiDataR, currentParameter);
+    //createGraph(smhiDataR, currentParameter);
+    createGraph(today3, currentParameter, "0");
+    //createGraph(tomorrow, currentParameter, "1");
     ifFirst = false;
   }
   else updateGraph(smhiDataR, currentParameter);
@@ -153,6 +185,8 @@ function setParameters(smhiData, yrData, currentParameter){
 
 
 function updateGraph(smhiDataR, currentParameter){
+  //if(dagens graf: d.date.toString(). == dagens datum)
+
   smhiDataR.forEach(function(d){
     d.date = format.parse(d.date);
     d.value =+ d.parameter;
@@ -160,10 +194,13 @@ function updateGraph(smhiDataR, currentParameter){
   
   layersSmhi1 = stack(nest.entries(smhiDataR));
 
+
   var maxOfCurrentX = d3.max(smhiDataR, function(d){return d.value; });
 
   if(currentParameter == "wind"){
     x.domain([0,maxOfCurrentX]);
+    svg.text("m/s");
+
   }else if(currentParameter == "rain"){
     x.domain([0,100]);
   }else if(currentParameter == "cloud"){
@@ -173,8 +210,8 @@ function updateGraph(smhiDataR, currentParameter){
   }
 
   svg.select(".x.axis")
-                    .transition().duration(3500).ease("sin-in-out")  // https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_ease
-                    .call(xAxis);  
+        .transition().duration(3500).ease("sin-in-out")  // https://github.com/mbostock/d3/wiki/Transitions#wiki-d3_ease
+        .call(xAxis);  
 
   y.domain(d3.extent(smhiDataR, function(d){ return d.date; }));
 
@@ -182,7 +219,7 @@ function updateGraph(smhiDataR, currentParameter){
 
 }
 
-function createGraph(smhiDataR, currentParameter){
+function createGraph(smhiDataR, currentParameter, graphId){
 
     smhiDataR.forEach(function(d){
 
@@ -190,9 +227,9 @@ function createGraph(smhiDataR, currentParameter){
       d.value =+ d.parameter;
 
     });
-
+    console.log("hello");
     layersSmhi0 = stack(nest.entries(smhiDataR));
-
+    console.log("hello2");
     var maxOfCurrentX = d3.max(smhiDataR, function(d){ return d.value; }); 
     
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
@@ -200,41 +237,62 @@ function createGraph(smhiDataR, currentParameter){
 
     //svg.transition();
 
-    svg.selectAll(".layer")
-          .data(layersSmhi0)
-          .enter().append("path")
-          .attr("class","layer")
-          .attr("d", function(d){ return area(d.values); })
-          .style("fill", function(d, i){ return z(i); });
-  
-    svg.append("g")
+    if(graphId == "0") {
+      svg.selectAll(".layer")
+        .data(layersSmhi0)
+        .enter().append("path")
+        .attr("class","layer")
+        .attr("d", function(d){ return area(d.values); })
+        .style("fill", function(d, i){ return z(i); });
+
+      svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + 0 + ")")
+        .call(xAxis.orient("top"));
+
+      svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + 0 + ", 0)")
+        .call(yAxis.orient("left"));
+
+      var today = new Date();
+      
+      svg.append("line")
+        .attr("x1", 0)  
+        .attr("y1", y(today))
+        .attr("x2", width)
+        .attr("y2", y(today))
+        .style("stroke-width", 2)
+        .style("stroke", "red")
+        .style("fill", "none");
+    }
+    else if(graphId == "1") {
+      //This is the second graph
+     svg1.selectAll(".layer")
+      .data(layersSmhi0)
+      .enter().append("path")
+      .attr("class","layer")
+      .attr("d", function(d){ return area(d.values); })
+      .style("fill", function(d, i){ return z(i); });
+
+    svg1.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + 0 + ")")
       .call(xAxis.orient("top"));
 
-    svg.append("g")
+    svg1.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
-    var today = new Date();
-    
-    svg.append("line")
-      .attr("x1", 0)  //<<== change your code here
-      .attr("y1", y(today))
-      .attr("x2", width)  //<<== and here
-      .attr("y2", y(today))
-      .style("stroke-width", 2)
-      .style("stroke", "red")
-      .style("fill", "none");
+    }
 
+    
+
+      
 
     mouseHandler(currentParameter);
-
-
- 
 }
-
 
   function transition2(currentParameter){
         d3.selectAll("path")
