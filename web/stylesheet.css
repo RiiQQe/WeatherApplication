@@ -27,7 +27,7 @@ h3 {
 body {
   height: 100%;
   width: 100%;
-  padding-top:7%;
+  /*padding-top:7%;*/
   font-family: 'Open Sans', sans-serif;
   position: relative;
   width: 100%;
@@ -149,8 +149,8 @@ div.imgYr {
 }
 
 .chart { 
+
   background: #fff;
-  margin-top: 4vh;
 }
 
 

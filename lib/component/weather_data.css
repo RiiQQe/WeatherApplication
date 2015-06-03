@@ -12,7 +12,7 @@
 
 #searchDiv{
   width:100%;
-  margin-top: 22vh;
+  margin-top: 160px;
 }
 
 #searchTextField{
@@ -53,12 +53,13 @@
 #compass{
   float:left;
   width: 10%;
-  marign: 1% 2%;
+  margin: 1% 2%;
 }
 
 
 .list-group{
   margin: 7%;
+  margin-bottom: 45px;
 }
 
 .list-group-item{

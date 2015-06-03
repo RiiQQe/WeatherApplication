@@ -108,10 +108,9 @@ var horizontal = d3.select(".chart")
           .style("z-index", "19")
           .style("width", width.toString() + "px")
           .style("height", "2px")
-          .style("top", "50vh")
-          .style("left", "15vw")
+          .style("left", "19vw")
           .style("background", "#3c3c3c");
-          var text = horizontal.append("text");
+var text = horizontal.append("text");
 
 var currentdate = new Date(); 
 
@@ -259,14 +258,20 @@ function createGraph(smhiDataR, currentParameter){
 
     var today = new Date();
     
-    svg.append("line")
+    /*svg.append("line")
       .attr("x1", 0)  //<<== change your code here
       .attr("y1", y(today))
       .attr("x2", width)  //<<== and here
       .attr("y2", y(today))
       .style("stroke-width", 2)
       .style("stroke", "red")
-      .style("fill", "none");
+      .style("fill", "none");*/
+
+      var circle = svg.append("circle")
+                         .attr("cx", 0)
+                         .attr("cy", y(today))
+                         .attr("r", 5)
+                         .style("fill", "#3c3c3c");
 
     mouseHandler(currentParameter);
 
@@ -324,12 +329,20 @@ function createGraph(smhiDataR, currentParameter){
   
   //TODO:
   //ändra så att pinnen hamnar där en klickar
+  var mousey;/*
+  d3.select("html")
+        .on("mousemove", function(){
+          mousey = d3.mouse(this);
+          mousey = mousey[1];
+          console.log(mousey);
+        })*/
+
   d3.select(".chart")
     .on("mousemove", function(){ 
        mouse = d3.mouse(this);
        var scrollTop = (document.body.parentNode).scrollTop;
        mousey = (height+scrollTop)/2 + mouse[1];
-       horizontal.style("top", mousey + "px" )})
+       horizontal.style("top", mousey + 45 + "px" )})
 
 
     .on("mouseover", function(){  
@@ -341,7 +354,7 @@ function createGraph(smhiDataR, currentParameter){
        //mousey = (height+scrollTop)/2 + mouse[1];
        //horizontal.style("top", mousey + "px")});
 
-       horizontal.style("top", mouse[1] + "px")});
+       horizontal.style("top", mousey + 160 + 45 + "px")});
 
 
   }
