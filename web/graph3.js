@@ -56,11 +56,9 @@ z = d3.scale.ordinal()
 
 xAxis = d3.svg.axis()
             .scale(x);
-            //.orient("bottom");
-
+            
 yAxis = d3.svg.axis()
             .scale(y)
-            //.orient("right")
             .ticks(d3.time.days)
             .tickFormat(d3.time.format('%a'));
 
