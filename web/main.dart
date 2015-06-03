@@ -29,7 +29,6 @@ main() {
   
   applicationFactory().addModule(new WeatherAppModule()).run();
   
-  removeSplash();
  
   Dropdown.use();
   
@@ -37,13 +36,5 @@ main() {
 }
 //TODO: flytta till weatherData
 ///Removes the splash screen after the data are loaded and display the app
-removeSplash(){
-  
-  var splashscreen = querySelector("#splashscreen");
-  splashscreen.style.display = 'none';
-  
-  var weatherapp = querySelector('#whenloaded');
-  weatherapp.style.display = 'block';
-  
-}
+
 

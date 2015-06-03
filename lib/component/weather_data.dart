@@ -85,6 +85,7 @@ class WeatherDataComponent {
       yrDone = true;
       setYrHeader();
       if(smhiDone) {
+        removeSplash();
         setCurrentParameters();
       }
       
@@ -383,6 +384,18 @@ class WeatherDataComponent {
     return value;
       
   }
+  removeSplash(){
+    
+         var splashscreen = querySelector('#splashscreen');
+         if(splashscreen != null)
+         splashscreen.style.display = 'none';
+         else window.alert("shixe");
+           
+         var weatherapp = querySelector('#whenloaded');
+         if(weatherapp == null) window.alert("kuk");
+         weatherapp.style.display = 'block';
+           
+   }
   
   
   void printError(error) {

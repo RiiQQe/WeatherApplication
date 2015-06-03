@@ -95,7 +95,7 @@ area = d3.svg.area()
             .y(function(d){ return y(d.date) ; });
 
 svg = d3.select(".chart").append("svg")
-          .attr("width", width + margin.left + margin.right) // här kan man ändra bredden
+          .attr("width", "102%" ) // här kan man ändra bredden
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
