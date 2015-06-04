@@ -378,14 +378,14 @@ function createGraph(smhiDataR, currentParameter){
     //TODO: fix so the difference also works during two months
     // ta ut hela datumet och ej bara dagen
     var dateDiff = dy.toString().substring(8,10) - today;
-
+   
     //find the right day and time to compare with
     var smhiTime = findCorrectDate(dateDiff, "smhi");
     var yrTime = findCorrectDate(dateDiff, "yr");
 
     //finds the nearest parameter in date 
     function findCorrectDate(difference, key){
-      console.log("hejsan");
+
       //find right y-sampel from smhi
       if(key == "smhi"){
         if(difference == 0 || difference == 1) return (y1 + y_time1 + y2 + y3);

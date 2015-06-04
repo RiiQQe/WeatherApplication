@@ -120,7 +120,7 @@ class LoadYr {
   String getCloud(double cloudIndex) {
     String cloud;
 
-    if (cloudIndex == 12.5) cloud = "Sol"; 
+    if (cloudIndex < 12.5) cloud = "Sol"; 
     else if (cloudIndex <= 37.5 && cloudIndex > 12.5) cloud = "Lite moln"; 
     else if (cloudIndex < 75 && cloudIndex > 37.5) cloud = "Växlande molnighet"; 
     else cloud = "Mulet";
