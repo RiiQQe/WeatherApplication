@@ -185,13 +185,13 @@ function updateGraph(smhiDataR, currentParameter){
   var minOfCurrentX = d3.min(smhiDataR, function(d){ return d.value; });
   var measure;
   if(currentParameter == "wind"){
-    x.domain([minOfCurrentX,maxOfCurrentX]);
+    x.domain([0,maxOfCurrentX]);
     measure = "(m/s)";
   }else if(currentParameter == "rain"){
-    x.domain([minOfCurrentX,maxOfCurrentX]);
+    x.domain([0,maxOfCurrentX]);
     measure = "(mm)";
   }else if(currentParameter == "cloud"){
-    x.domain([minOfCurrentX,100]);
+    x.domain([0,100]);
     measure = "(%)";      
   }else{
     x.domain([-maxOfCurrentX, maxOfCurrentX]);
