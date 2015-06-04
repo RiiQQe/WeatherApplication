@@ -79,6 +79,7 @@ class WeatherDataComponent {
       smhiDone = true;
       setSmhiHeader();
       if(yrDone) {
+        removeSplash();
         setCurrentParameters();
       }
 
@@ -387,15 +388,13 @@ class WeatherDataComponent {
       
   }
   removeSplash(){
-    
-         var splashscreen = querySelector('#splashscreen');
-         if(splashscreen != null)
-         splashscreen.style.display = 'none';
-         else window.alert("shixe");
-           
-         var weatherapp = querySelector('#whenloaded');
-         if(weatherapp == null) window.alert("kuk");
-         weatherapp.style.display = 'block';
+     var splashscreen = querySelector('#splashscreen');
+     
+     splashscreen.style.display = 'none';
+       
+     var weatherapp = querySelector('#whenloaded');
+     
+     weatherapp.style.display = 'block';
            
    }
   
