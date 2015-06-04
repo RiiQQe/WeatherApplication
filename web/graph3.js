@@ -95,13 +95,13 @@ area = d3.svg.area()
             .x1(function(d){  return x(d.value) ; })
             .y(function(d){ return y(d.date) ; });
 
-svg = d3.select(".chart").append("svg")
+svg = d3.select(".chart1").append("svg")
           .attr("width", "102%" ) // här kan man ändra bredden
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-svg1 = d3.select(".chart").append("svg")
+svg2 = d3.select(".chart2").append("svg")
           .attr("width", "102%" ) // här kan man ändra bredden
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
@@ -311,24 +311,24 @@ function createGraph(smhiDataR, tomorrow, currentParameter, graphId){
 
       // second graph
     if(graphId == "1"){
-    svg1.selectAll(".layer")
+    svg2.selectAll(".layer")
           .data(layersSmhi0)
           .enter().append("path")
           .attr("class","layer")
           .attr("d", function(d){ return area(d.values); })
           .style("fill", function(d, i){ return z(i); });
   
-    svg1.append("g")
+    svg2.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + 0 + ")")
       .call(xAxis.orient("top"));
 
-    svg1.append("g")
+    svg2.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(" + 0 + ", 0)")
       .call(yAxis.orient("left"));
 
-    svg1.append("text")
+    svg2.append("text")
       .attr("class", "text")
       .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
       .attr("transform", "translate("+ (width) +","+(-30)+")")  // centre below axis
